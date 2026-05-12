@@ -1,0 +1,31 @@
+{
+  "captured_ts": "2026-05-06T14:41:47.838656+00:00",
+  "row_count": 53,
+  "date_range": [
+    "2026-04-04",
+    "2026-05-06"
+  ],
+  "days_covered": 33,
+  "models_seen": [
+    "claude-haiku-4-5-20251001",
+    "claude-opus-4-7",
+    "claude-sonnet-4-5-20250929",
+    "claude-sonnet-4-6"
+  ],
+  "api_keys_seen": [
+    "cipher-n8n"
+  ],
+  "projects_seen": [
+    "cipher"
+  ],
+  "totals": {
+    "input_no_cache": 209280,
+    "cache_write_5m": 1130245,
+    "cache_write_1h": 0,
+    "cache_read": 8255801,
+    "output": 184798,
+    "total_input": 9595326,
+    "total_billed": 9780124
+  },
+  "cache_read_share": 0.8603981771958555
+}

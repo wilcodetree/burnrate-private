@@ -1,0 +1,3 @@
+# Phase 1 (Cowork estimator) — minimal deps. Stdlib does most of it.
+# tiktoken is optional; if installed we use it for sharper char->token estimates.
+tiktoken>=0.7.0

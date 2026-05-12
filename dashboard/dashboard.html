@@ -1,0 +1,2076 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>BurnRate - Token Burn Dashboard</title>
+<style>
+  :root { color-scheme: light }
+  * { box-sizing: border-box }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+         background: #f7f7f5; color: #1a1a1a; margin: 0; padding: 24px; line-height: 1.5 }
+  header { margin-bottom: 24px }
+  h1 { margin: 0 0 4px; font-size: 24px; font-weight: 600 }
+  .subtitle { color: #666; font-size: 13px }
+  .uncertainty { background: #fff8e1; border-left: 3px solid #f5a623; padding: 10px 14px;
+                 margin: 16px 0; font-size: 13px; color: #5d4a17; border-radius: 2px }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+          gap: 16px; margin-bottom: 24px }
+  .card { background: white; border: 1px solid #e5e5e3; border-radius: 6px; padding: 16px 20px }
+  .card h2 { margin: 0 0 12px; font-size: 13px; font-weight: 600;
+             text-transform: uppercase; letter-spacing: 0.05em; color: #666 }
+  .stat-big { font-size: 28px; font-weight: 600 }
+  .stat-sub { font-size: 12px; color: #888; margin-top: 4px }
+  table { width: 100%; border-collapse: collapse; font-size: 13px }
+  th, td { padding: 8px 6px; text-align: left; border-bottom: 1px solid #f0f0ee }
+  th { font-weight: 600; color: #555; font-size: 11px;
+       text-transform: uppercase; letter-spacing: 0.04em }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums }
+  .pill { display: inline-block; padding: 2px 8px; border-radius: 10px;
+          font-size: 11px; font-weight: 500; background: #eef0f3; color: #555 }
+  .pill-cipher   { background: #fde9cc; color: #8a4a00 }
+  .pill-jarvis   { background: #d6eaff; color: #0a3d72 }
+  .pill-dsi      { background: #d8f0d4; color: #1f5f17 }
+  .pill-gha      { background: #f0d4f0; color: #6a1f6a }
+  .pill-hub      { background: #ffd9e0; color: #8a1530 }
+  .pill-burnrate { background: #ffe4b3; color: #a64500 }
+  .pill-work     { background: #e0e0e0; color: #444 }
+  .pill-other    { background: #eef0f3; color: #555 }
+  .bar-track { background: #f0f0ee; height: 6px; border-radius: 3px;
+               overflow: hidden; margin-top: 4px }
+  .bar-fill { height: 100%; background: #d9534f; border-radius: 3px }
+  .small { font-size: 11px; color: #888 }
+  details { margin-top: 8px }
+  summary { cursor: pointer; font-size: 12px; color: #666; padding: 4px 0 }
+  details[open] summary { font-weight: 600 }
+  footer { margin-top: 32px; font-size: 12px; color: #888; text-align: center }
+  .empty { color: #999; font-style: italic; padding: 12px 0 }
+  .opinion { background: #f0f7f4; border-left: 3px solid #2d8a5f;
+             padding: 12px 16px; margin: 12px 0; font-size: 13px; border-radius: 2px }
+  .opinion strong { color: #1a5a3f }
+  canvas { display: block }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>BurnRate - Token Burn Dashboard</h1>
+  <div class="subtitle" id="subtitle">Loading...</div>
+</header>
+
+<div class="uncertainty">
+  <strong>Three data streams.</strong>
+  <em>Cowork sections</em> are estimates from session-transcript heuristics (&plusmn;25% expected).
+  <em>API actual</em> sections are measurements straight from Anthropic console (exact).
+  <em>claude.ai snapshots</em> are manual entries from the Pro/Team Settings -> Usage page
+  (the only data Anthropic exposes for subscription chats).
+  Cowork chats, API calls and claude.ai are separate billing streams; don't sum them.
+</div>
+
+<div id="api-summary-banner"></div>
+
+<div class="grid">
+  <div class="card"><h2>Total estimated burn (Cowork)</h2>
+    <div class="stat-big" id="stat-total">-</div>
+    <div class="stat-sub" id="stat-total-sub">across all ingested sessions</div></div>
+  <div class="card"><h2>Sessions ingested</h2>
+    <div class="stat-big" id="stat-sessions">-</div>
+    <div class="stat-sub" id="stat-sessions-sub">turns counted</div></div>
+  <div class="card"><h2>Avg history overhead</h2>
+    <div class="stat-big" id="stat-overhead">-</div>
+    <div class="stat-sub">% of input spent re-reading prior context</div></div>
+  <div class="card"><h2>Top burner</h2>
+    <div class="stat-big" id="stat-top">-</div>
+    <div class="stat-sub" id="stat-top-sub">single highest-burn session</div></div>
+</div>
+
+<div class="card" style="margin-bottom:16px;">
+  <h2>Tokens by project (Cowork est.)</h2>
+  <table id="tbl-projects">
+    <thead><tr>
+      <th>Project</th><th class="num">Sessions</th><th class="num">Turns</th>
+      <th class="num">Input</th><th class="num">Output</th><th class="num">Total</th><th>Share</th>
+    </tr></thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<div class="card" style="margin-bottom:16px;">
+  <h2>Top burner sessions (Cowork est.)</h2>
+  <table id="tbl-top">
+    <thead><tr>
+      <th>Session</th><th>Project</th><th class="num">Turns</th>
+      <th class="num">Tokens</th><th class="num">History overhead</th><th>Title</th>
+    </tr></thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<div class="card" style="margin-bottom:16px;">
+  <h2>Tool burn breakdown</h2>
+  <p class="small" style="margin-top:0;">Which tool calls account for the most estimated token I/O.</p>
+  <table id="tbl-tools">
+    <thead><tr>
+      <th>Tool</th><th class="num">Calls</th><th class="num">Sessions</th>
+      <th class="num">Est. tokens</th><th>Share of tool I/O</th>
+    </tr></thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<div class="card" style="margin-bottom:16px;">
+  <h2>Session shard simulator - "what if I'd ended at turn N?"</h2>
+  <p class="small" style="margin-top:0;">Upper-bound savings (re-priming cost not subtracted).</p>
+  <table id="tbl-shard">
+    <thead><tr>
+      <th>Session</th><th>Project</th><th class="num">Actual turns</th>
+      <th class="num">Total burn</th><th class="num">Cut at 25</th>
+      <th class="num">Cut at 15</th><th class="num">Cut at 10</th>
+    </tr></thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<div class="card" style="margin-bottom:16px;">
+  <h2>Daily totals (Cowork est.)</h2>
+  <table id="tbl-daily">
+    <thead><tr>
+      <th>Date</th><th>Project</th><th class="num">Sessions</th>
+      <th class="num">Turns</th><th class="num">Total tokens</th><th class="num">vs Anthropic console</th>
+    </tr></thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<div class="card" style="margin-bottom:16px; border-top: 3px solid #2d8a5f;">
+  <h2>API actual usage (measured, from Anthropic console)</h2>
+  <p class="small" style="margin-top:0;">Imported from CSVs in <code>db/api_usage/</code>. Cache reads billed at ~10% base price.</p>
+  <div id="api-stats-grid" class="grid"></div>
+  <table id="tbl-api-daily" style="margin-top:16px;">
+    <thead><tr>
+      <th>Date</th><th>Project</th><th>Model</th>
+      <th class="num">Input (no cache)</th><th class="num">Cache write</th>
+      <th class="num">Cache read</th><th class="num">Output</th>
+      <th class="num">Total billed</th><th>Cache hit %</th>
+    </tr></thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<div class="card" style="margin-bottom:16px; border-top: 3px solid #d9534f;">
+  <h2>claude.ai (Pro/Team) snapshots - manual capture</h2>
+  <p class="small" style="margin-top:0;">
+    Anthropic does not expose token-level usage for Pro/Team subscribers. Open
+    <code>claude.ai/settings/usage</code>, read the four numbers, run
+    <code>python src/claude_ai_tracker.py add --weekly-pct N --eur N --balance N</code>.
+    Token-equivalent is for the overflow portion only.
+  </p>
+  <div id="claude-ai-latest"></div>
+  <table id="tbl-claude-ai" style="margin-top:16px;">
+    <thead><tr>
+      <th>Snapshot ts</th><th>Plan</th><th class="num">Weekly %</th>
+      <th class="num">Extra usage (EUR)</th><th class="num">Cap (EUR)</th>
+      <th class="num">Balance</th><th class="num">Token-equiv (overflow)</th><th>Note</th>
+    </tr></thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<div class="card">
+  <h2>Calibration</h2>
+  <div id="cal-body"></div>
+  <details><summary>How calibration works</summary>
+    <p class="small">Append daily totals to <code>docs/calibration_local.md</code> as
+    <code>2026-05-06: 1,250,000 tokens</code>, then run
+    <code>python src/cowork_estimator.py calibrate</code>.</p>
+  </details>
+</div>
+
+<footer>
+  Rendered <span id="rendered-ts">-</span> - BurnRate Phase 1 (JSON store)
+</footer>
+
+<script>
+window.BURNRATE_DATA = {
+  "rendered_ts": "2026-05-06T15:20:05.767002+00:00",
+  "sessions": [
+    {
+      "session_id": "local_6c4f875e-484d-4b17-a142-316b2ab9e2c2",
+      "title": "Internal UI architecture for Claude automation",
+      "cwd": "C:\\Users\\wilco.de.tree\\AppData\\Roaming\\Claude\\local-agent-mode-sessions\\5fb0ce67-f764-4f11-af50-dc3b98ad2b52\\9731d067-95c4-4ebc-9edb-3dce64fb2678\\local_6c4f875e-484d-4b17-a142-316b2ab9e2c2\\outputs",
+      "project": "other",
+      "project_confidence": 0.0,
+      "first_seen_ts": "2026-05-06T09:43:49.428530+00:00",
+      "last_ingest_ts": "2026-05-06T09:43:49.428530+00:00",
+      "turn_count": 2,
+      "is_active": false,
+      "est_input_tokens": 25140,
+      "est_output_tokens": 932,
+      "est_total_tokens": 26072,
+      "est_unique_content_tokens": 1852,
+      "history_overhead_tokens": 23288,
+      "history_overhead_share": 0.9263,
+      "shard_sim": {
+        "full_total": 26072,
+        "actual_turns": 2,
+        "cuts": {
+          "turn_10": {
+            "applies": false,
+            "would_save": 0,
+            "saved_share": 0.0
+          },
+          "turn_15": {
+            "applies": false,
+            "would_save": 0,
+            "saved_share": 0.0
+          },
+          "turn_20": {
+            "applies": false,
+            "would_save": 0,
+            "saved_share": 0.0
+          },
+          "turn_25": {
+            "applies": false,
+            "would_save": 0,
+            "saved_share": 0.0
+          },
+          "turn_30": {
+            "applies": false,
+            "would_save": 0,
+            "saved_share": 0.0
+          }
+        }
+      }
+    },
+    {
+      "session_id": "local_ce9679e6-6d41-46de-b0ec-52ce7f67ad42",
+      "title": "Write work anniversary book message",
+      "cwd": "C:\\Users\\wilco.de.tree\\AppData\\Roaming\\Claude\\local-agent-mode-sessions\\5fb0ce67-f764-4f11-af50-dc3b98ad2b52\\9731d067-95c4-4ebc-9edb-3dce64fb2678\\local_ce9679e6-6d41-46de-b0ec-52ce7f67ad42\\outputs",
+      "project": "other",
+      "project_confidence": 0.0,
+      "first_seen_ts": "2026-05-06T09:43:15.526234+00:00",
+      "last_ingest_ts": "2026-05-06T09:43:15.526234+00:00",
+      "turn_count": 4,
+      "is_active": false,
+      "est_input_tokens": 51604,
+      "est_output_tokens": 461,
+      "est_total_tokens": 52065,
+      "est_unique_content_tokens": 1503,
+      "history_overhead_tokens": 50101,
+      "history_overhead_share": 0.9709,
+      "shard_sim": {
+        "full_total": 52065,
+        "actual_turns": 4,
+        "cuts": {
+          "turn_10": {
+            "applies": false,
+            "would_save": 0,
+            "saved_share": 0.0
+          },
+          "turn_15": {
+            "applies": false,
+            "would_save": 0,
+            "saved_share": 0.0
+          },
+          "turn_20": {
+            "applies": false,
+            "would_save": 0,
+            "saved_share": 0.0
+          },
+          "turn_25": {
+            "applies": false,
+            "would_save": 0,
+            "saved_share": 0.0
+          },
+          "turn_30": {
+            "applies": false,
+            "would_save": 0,
+            "saved_share": 0.0
+          }
+        }
+      }
+    },
+    {
+      "session_id": "local_341194dc-508a-46b1-bda0-3a51094a26d2",
+      "title": "CIPHER project tasks (Cheaper)",
+      "cwd": "C:\\Users\\wilco.de.tree\\AppData\\Roaming\\Claude\\local-agent-mode-sessions\\5fb0ce67-f764-4f11-af50-dc3b98ad2b52\\9731d067-95c4-4ebc-9edb-3dce64fb2678\\local_341194dc-508a-46b1-bda0-3a51094a26d2\\outputs",
+      "project": "cipher",
+      "project_confidence": 0.8,
+      "first_seen_ts": "2026-05-06T10:06:09.979179+00:00",
+      "last_ingest_ts": "2026-05-06T10:06:09.979179+00:00",
+      "turn_count": 13,
+      "is_active": false,
+      "est_input_tokens": 366574,
+      "est_output_tokens": 548,
+      "est_total_tokens": 367122,
+      "est_unique_content_tokens": 23515,
+      "history_overhead_tokens": 343059,
+      "history_overhead_share": 0.9359,
+      "shard_sim": {
+        "full_total": 367122,
+        "actual_turns": 13,
+        "cuts": {
+          "turn_10": {
+            "applies": true,
+            "would_save": 101115,
+            "saved_share": 0.2754261526141174
+          },
+          "turn_15": {
+            "applies": false,
+            "would_save": 0,
+            "saved_share": 0.0
+          },
+          "turn_20": {
+            "applies": false,
+            "would_save": 0,
+            "saved_share": 0.0
+          },
+          "turn_25": {
+            "applies": false,
+            "would_save": 0,
+            "saved_share": 0.0
+          },
+          "turn_30": {
+            "applies": false,
+            "would_save": 0,
+            "saved_share": 0.0
+          }
+        }
+      }
+    },
+    {
+      "session_id": "local_ee58736f-0fa8-455b-b33d-38d1fdd4e651",
+      "title": "JARVIS project tasks (Cheaper)",
+      "cwd": "C:\\Users\\wilco.de.tree\\AppData\\Roaming\\Claude\\local-agent-mode-sessions\\5fb0ce67-f764-4f11-af50-dc3b98ad2b52\\9731d067-95c4-4ebc-9edb-3dce64fb2678\\local_ee58736f-0fa8-455b-b33d-38d1fdd4e651\\outputs",
+      "project": "jarvis",
+      "project_confidence": 0.8,
+      "first_seen_ts": "2026-05-06T10:05:30.113685+00:00",
+      "last_ingest_ts": "2026-05-06T10:05:30.113685+00:00",
+      "turn_count": 7,
+      "is_active": false,
+      "est_input_tokens": 152952,
+      "est_output_tokens": 378,
+      "est_total_tokens": 153330,
+      "est_unique_content_tokens": 20691,
+      "history_overhead_tokens": 132261,
+      "history_overhead_share": 0.8647,
+      "shard_sim": {
+        "full_total": 153330,
+        "actual_turns": 7,
+        "cuts": {
+          "turn_10": {
+            "applies": false,
+            "would_save": 0,
+            "saved_share": 0.0
+          },
+          "turn_15": {
+            "applies": false,
+            "would_save": 0,
+            "saved_share": 0.0
+          },
+          "turn_20": {
+            "applies": false,
+            "would_save": 0,
+            "saved_share": 0.0
+          },
+          "turn_25": {
+            "applies": false,
+            "would_save": 0,
+            "saved_share": 0.0
+          },
+          "turn_30": {
+            "applies": false,
+            "would_save": 0,
+            "saved_share": 0.0
+          }
+        }
+      }
+    }
+  ],
+  "turns": [
+    {
+      "session_id": "local_341194dc-508a-46b1-bda0-3a51094a26d2",
+      "turn_index": 0,
+      "turn_ts": "2026-05-06T10:06:09.979179+00:00",
+      "role": "assistant",
+      "user_msg_chars": 0,
+      "assistant_msg_chars": 495,
+      "tool_call_count": 12,
+      "tool_calls": [
+        "mcp__workspace__bash",
+        "mcp__workspace__bash",
+        "mcp__workspace__bash",
+        "Glob",
+        "Read",
+        "Glob",
+        "Read",
+        "Read",
+        "Edit",
+        "Edit",
+        "Edit",
+        "Read"
+      ],
+      "est_user_tokens": 0,
+      "est_assistant_tokens": 142,
+      "est_tool_io_tokens": 13300,
+      "est_turn_total_tokens": 13442,
+      "est_input_tokens_billed": 25300,
+      "est_output_tokens_billed": 142
+    },
+    {
+      "session_id": "local_341194dc-508a-46b1-bda0-3a51094a26d2",
+      "turn_index": 1,
+      "turn_ts": "2026-05-06T10:06:09.979179+00:00",
+      "role": "user",
+      "user_msg_chars": 26,
+      "assistant_msg_chars": 0,
+      "tool_call_count": 0,
+      "tool_calls": [],
+      "est_user_tokens": 8,
+      "est_assistant_tokens": 0,
+      "est_tool_io_tokens": 0,
+      "est_turn_total_tokens": 8,
+      "est_input_tokens_billed": 25450,
+      "est_output_tokens_billed": 0
+    },
+    {
+      "session_id": "local_341194dc-508a-46b1-bda0-3a51094a26d2",
+      "turn_index": 2,
+      "turn_ts": "2026-05-06T10:06:09.979179+00:00",
+      "role": "assistant",
+      "user_msg_chars": 0,
+      "assistant_msg_chars": 195,
+      "tool_call_count": 0,
+      "tool_calls": [],
+      "est_user_tokens": 0,
+      "est_assistant_tokens": 56,
+      "est_tool_io_tokens": 0,
+      "est_turn_total_tokens": 56,
+      "est_input_tokens_billed": 25450,
+      "est_output_tokens_billed": 56
+    },
+    {
+      "session_id": "local_341194dc-508a-46b1-bda0-3a51094a26d2",
+      "turn_index": 3,
+      "turn_ts": "2026-05-06T10:06:09.979179+00:00",
+      "role": "user",
+      "user_msg_chars": 22,
+      "assistant_msg_chars": 0,
+      "tool_call_count": 0,
+      "tool_calls": [],
+      "est_user_tokens": 7,
+      "est_assistant_tokens": 0,
+      "est_tool_io_tokens": 0,
+      "est_turn_total_tokens": 7,
+      "est_input_tokens_billed": 25513,
+      "est_output_tokens_billed": 0
+    },
+    {
+      "session_id": "local_341194dc-508a-46b1-bda0-3a51094a26d2",
+      "turn_index": 4,
+      "turn_ts": "2026-05-06T10:06:09.979179+00:00",
+      "role": "assistant",
+      "user_msg_chars": 0,
+      "assistant_msg_chars": 173,
+      "tool_call_count": 1,
+      "tool_calls": [
+        "mcp__workspace__bash"
+      ],
+      "est_user_tokens": 0,
+      "est_assistant_tokens": 50,
+      "est_tool_io_tokens": 650,
+      "est_turn_total_tokens": 700,
+      "est_input_tokens_billed": 26163,
+      "est_output_tokens_billed": 50
+    },
+    {
+      "session_id": "local_341194dc-508a-46b1-bda0-3a51094a26d2",
+      "turn_index": 5,
+      "turn_ts": "2026-05-06T10:06:09.979179+00:00",
+      "role": "user",
+      "user_msg_chars": 26,
+      "assistant_msg_chars": 0,
+      "tool_call_count": 0,
+      "tool_calls": [],
+      "est_user_tokens": 8,
+      "est_assistant_tokens": 0,
+      "est_tool_io_tokens": 0,
+      "est_turn_total_tokens": 8,
+      "est_input_tokens_billed": 26221,
+      "est_output_tokens_billed": 0
+    },
+    {
+      "session_id": "local_341194dc-508a-46b1-bda0-3a51094a26d2",
+      "turn_index": 6,
+      "turn_ts": "2026-05-06T10:06:09.979179+00:00",
+      "role": "assistant",
+      "user_msg_chars": 0,
+      "assistant_msg_chars": 175,
+      "tool_call_count": 1,
+      "tool_calls": [
+        "Edit"
+      ],
+      "est_user_tokens": 0,
+      "est_assistant_tokens": 50,
+      "est_tool_io_tokens": 150,
+      "est_turn_total_tokens": 200,
+      "est_input_tokens_billed": 26371,
+      "est_output_tokens_billed": 50
+    },
+    {
+      "session_id": "local_341194dc-508a-46b1-bda0-3a51094a26d2",
+      "turn_index": 7,
+      "turn_ts": "2026-05-06T10:06:09.979179+00:00",
+      "role": "user",
+      "user_msg_chars": 59,
+      "assistant_msg_chars": 0,
+      "tool_call_count": 0,
+      "tool_calls": [],
+      "est_user_tokens": 17,
+      "est_assistant_tokens": 0,
+      "est_tool_io_tokens": 0,
+      "est_turn_total_tokens": 17,
+      "est_input_tokens_billed": 26438,
+      "est_output_tokens_billed": 0
+    },
+    {
+      "session_id": "local_341194dc-508a-46b1-bda0-3a51094a26d2",
+      "turn_index": 8,
+      "turn_ts": "2026-05-06T10:06:09.979179+00:00",
+      "role": "assistant",
+      "user_msg_chars": 0,
+      "assistant_msg_chars": 377,
+      "tool_call_count": 3,
+      "tool_calls": [
+        "Edit",
+        "Read",
+        "Edit"
+      ],
+      "est_user_tokens": 0,
+      "est_assistant_tokens": 108,
+      "est_tool_io_tokens": 2850,
+      "est_turn_total_tokens": 2958,
+      "est_input_tokens_billed": 29288,
+      "est_output_tokens_billed": 108
+    },
+    {
+      "session_id": "local_341194dc-508a-46b1-bda0-3a51094a26d2",
+      "turn_index": 9,
+      "turn_ts": "2026-05-06T10:06:09.979179+00:00",
+      "role": "user",
+      "user_msg_chars": 37,
+      "assistant_msg_chars": 0,
+      "tool_call_count": 0,
+      "tool_calls": [],
+      "est_user_tokens": 11,
+      "est_assistant_tokens": 0,
+      "est_tool_io_tokens": 0,
+      "est_turn_total_tokens": 11,
+      "est_input_tokens_billed": 29407,
+      "est_output_tokens_billed": 0
+    },
+    {
+      "session_id": "local_341194dc-508a-46b1-bda0-3a51094a26d2",
+      "turn_index": 10,
+      "turn_ts": "2026-05-06T10:06:09.979179+00:00",
+      "role": "assistant",
+      "user_msg_chars": 0,
+      "assistant_msg_chars": 297,
+      "tool_call_count": 3,
+      "tool_calls": [
+        "mcp__workspace__bash",
+        "Read",
+        "Write"
+      ],
+      "est_user_tokens": 0,
+      "est_assistant_tokens": 85,
+      "est_tool_io_tokens": 3300,
+      "est_turn_total_tokens": 3385,
+      "est_input_tokens_billed": 32707,
+      "est_output_tokens_billed": 85
+    },
+    {
+      "session_id": "local_341194dc-508a-46b1-bda0-3a51094a26d2",
+      "turn_index": 11,
+      "turn_ts": "2026-05-06T10:06:09.979179+00:00",
+      "role": "user",
+      "user_msg_chars": 53,
+      "assistant_msg_chars": 0,
+      "tool_call_count": 0,
+      "tool_calls": [],
+      "est_user_tokens": 16,
+      "est_assistant_tokens": 0,
+      "est_tool_io_tokens": 0,
+      "est_turn_total_tokens": 16,
+      "est_input_tokens_billed": 32808,
+      "est_output_tokens_billed": 0
+    },
+    {
+      "session_id": "local_341194dc-508a-46b1-bda0-3a51094a26d2",
+      "turn_index": 12,
+      "turn_ts": "2026-05-06T10:06:09.979179+00:00",
+      "role": "assistant",
+      "user_msg_chars": 0,
+      "assistant_msg_chars": 197,
+      "tool_call_count": 2,
+      "tool_calls": [
+        "Read",
+        "Write"
+      ],
+      "est_user_tokens": 0,
+      "est_assistant_tokens": 57,
+      "est_tool_io_tokens": 2650,
+      "est_turn_total_tokens": 2707,
+      "est_input_tokens_billed": 35458,
+      "est_output_tokens_billed": 57
+    },
+    {
+      "session_id": "local_6c4f875e-484d-4b17-a142-316b2ab9e2c2",
+      "turn_index": 0,
+      "turn_ts": "2026-05-06T09:43:49.428530+00:00",
+      "role": "user",
+      "user_msg_chars": 767,
+      "assistant_msg_chars": 0,
+      "tool_call_count": 0,
+      "tool_calls": [],
+      "est_user_tokens": 220,
+      "est_assistant_tokens": 0,
+      "est_tool_io_tokens": 0,
+      "est_turn_total_tokens": 220,
+      "est_input_tokens_billed": 12220,
+      "est_output_tokens_billed": 0
+    },
+    {
+      "session_id": "local_6c4f875e-484d-4b17-a142-316b2ab9e2c2",
+      "turn_index": 1,
+      "turn_ts": "2026-05-06T09:43:49.428530+00:00",
+      "role": "assistant",
+      "user_msg_chars": 0,
+      "assistant_msg_chars": 3260,
+      "tool_call_count": 2,
+      "tool_calls": [
+        "ToolSearch",
+        "AskUserQuestion"
+      ],
+      "est_user_tokens": 0,
+      "est_assistant_tokens": 932,
+      "est_tool_io_tokens": 700,
+      "est_turn_total_tokens": 1632,
+      "est_input_tokens_billed": 12920,
+      "est_output_tokens_billed": 932
+    },
+    {
+      "session_id": "local_ce9679e6-6d41-46de-b0ec-52ce7f67ad42",
+      "turn_index": 0,
+      "turn_ts": "2026-05-06T09:43:15.526234+00:00",
+      "role": "user",
+      "user_msg_chars": 1705,
+      "assistant_msg_chars": 0,
+      "tool_call_count": 0,
+      "tool_calls": [],
+      "est_user_tokens": 488,
+      "est_assistant_tokens": 0,
+      "est_tool_io_tokens": 0,
+      "est_turn_total_tokens": 488,
+      "est_input_tokens_billed": 12488,
+      "est_output_tokens_billed": 0
+    },
+    {
+      "session_id": "local_ce9679e6-6d41-46de-b0ec-52ce7f67ad42",
+      "turn_index": 1,
+      "turn_ts": "2026-05-06T09:43:15.526234+00:00",
+      "role": "assistant",
+      "user_msg_chars": 0,
+      "assistant_msg_chars": 949,
+      "tool_call_count": 1,
+      "tool_calls": [
+        "AskUserQuestion"
+      ],
+      "est_user_tokens": 0,
+      "est_assistant_tokens": 272,
+      "est_tool_io_tokens": 250,
+      "est_turn_total_tokens": 522,
+      "est_input_tokens_billed": 12738,
+      "est_output_tokens_billed": 272
+    },
+    {
+      "session_id": "local_ce9679e6-6d41-46de-b0ec-52ce7f67ad42",
+      "turn_index": 2,
+      "turn_ts": "2026-05-06T09:43:15.526234+00:00",
+      "role": "user",
+      "user_msg_chars": 186,
+      "assistant_msg_chars": 0,
+      "tool_call_count": 0,
+      "tool_calls": [],
+      "est_user_tokens": 54,
+      "est_assistant_tokens": 0,
+      "est_tool_io_tokens": 0,
+      "est_turn_total_tokens": 54,
+      "est_input_tokens_billed": 13064,
+      "est_output_tokens_billed": 0
+    },
+    {
+      "session_id": "local_ce9679e6-6d41-46de-b0ec-52ce7f67ad42",
+      "turn_index": 3,
+      "turn_ts": "2026-05-06T09:43:15.526234+00:00",
+      "role": "assistant",
+      "user_msg_chars": 0,
+      "assistant_msg_chars": 659,
+      "tool_call_count": 1,
+      "tool_calls": [
+        "AskUserQuestion"
+      ],
+      "est_user_tokens": 0,
+      "est_assistant_tokens": 189,
+      "est_tool_io_tokens": 250,
+      "est_turn_total_tokens": 439,
+      "est_input_tokens_billed": 13314,
+      "est_output_tokens_billed": 189
+    },
+    {
+      "session_id": "local_ee58736f-0fa8-455b-b33d-38d1fdd4e651",
+      "turn_index": 0,
+      "turn_ts": "2026-05-06T10:05:30.113685+00:00",
+      "role": "assistant",
+      "user_msg_chars": 0,
+      "assistant_msg_chars": 745,
+      "tool_call_count": 10,
+      "tool_calls": [
+        "TaskUpdate",
+        "Edit",
+        "TaskUpdate",
+        "TaskUpdate",
+        "Edit",
+        "Edit",
+        "TaskUpdate",
+        "Grep",
+        "Grep",
+        "Edit"
+      ],
+      "est_user_tokens": 0,
+      "est_assistant_tokens": 213,
+      "est_tool_io_tokens": 2900,
+      "est_turn_total_tokens": 3113,
+      "est_input_tokens_billed": 14900,
+      "est_output_tokens_billed": 213
+    },
+    {
+      "session_id": "local_ee58736f-0fa8-455b-b33d-38d1fdd4e651",
+      "turn_index": 1,
+      "turn_ts": "2026-05-06T10:05:30.113685+00:00",
+      "role": "user",
+      "user_msg_chars": 37,
+      "assistant_msg_chars": 0,
+      "tool_call_count": 0,
+      "tool_calls": [],
+      "est_user_tokens": 11,
+      "est_assistant_tokens": 0,
+      "est_tool_io_tokens": 0,
+      "est_turn_total_tokens": 11,
+      "est_input_tokens_billed": 15124,
+      "est_output_tokens_billed": 0
+    },
+    {
+      "session_id": "local_ee58736f-0fa8-455b-b33d-38d1fdd4e651",
+      "turn_index": 2,
+      "turn_ts": "2026-05-06T10:05:30.113685+00:00",
+      "role": "assistant",
+      "user_msg_chars": 0,
+      "assistant_msg_chars": 30,
+      "tool_call_count": 1,
+      "tool_calls": [
+        "Write"
+      ],
+      "est_user_tokens": 0,
+      "est_assistant_tokens": 9,
+      "est_tool_io_tokens": 100,
+      "est_turn_total_tokens": 109,
+      "est_input_tokens_billed": 15224,
+      "est_output_tokens_billed": 9
+    },
+    {
+      "session_id": "local_ee58736f-0fa8-455b-b33d-38d1fdd4e651",
+      "turn_index": 3,
+      "turn_ts": "2026-05-06T10:05:30.113685+00:00",
+      "role": "user",
+      "user_msg_chars": 54,
+      "assistant_msg_chars": 0,
+      "tool_call_count": 0,
+      "tool_calls": [],
+      "est_user_tokens": 16,
+      "est_assistant_tokens": 0,
+      "est_tool_io_tokens": 0,
+      "est_turn_total_tokens": 16,
+      "est_input_tokens_billed": 15249,
+      "est_output_tokens_billed": 0
+    },
+    {
+      "session_id": "local_ee58736f-0fa8-455b-b33d-38d1fdd4e651",
+      "turn_index": 4,
+      "turn_ts": "2026-05-06T10:05:30.113685+00:00",
+      "role": "assistant",
+      "user_msg_chars": 0,
+      "assistant_msg_chars": 500,
+      "tool_call_count": 24,
+      "tool_calls": [
+        "Read",
+        "Read",
+        "TaskCreate",
+        "TaskCreate",
+        "TaskCreate",
+        "TaskCreate",
+        "TaskUpdate",
+        "Edit",
+        "TaskUpdate",
+        "TaskUpdate",
+        "Read",
+        "Read",
+        "Edit",
+        "TaskUpdate",
+        "TaskUpdate",
+        "Write",
+        "TaskUpdate",
+        "TaskUpdate",
+        "Edit",
+        "Edit",
+        "Edit",
+        "TaskUpdate",
+        "Grep",
+        "Grep"
+      ],
+      "est_user_tokens": 0,
+      "est_assistant_tokens": 143,
+      "est_tool_io_tokens": 14550,
+      "est_turn_total_tokens": 14693,
+      "est_input_tokens_billed": 29799,
+      "est_output_tokens_billed": 143
+    },
+    {
+      "session_id": "local_ee58736f-0fa8-455b-b33d-38d1fdd4e651",
+      "turn_index": 5,
+      "turn_ts": "2026-05-06T10:05:30.113685+00:00",
+      "role": "user",
+      "user_msg_chars": 125,
+      "assistant_msg_chars": 0,
+      "tool_call_count": 0,
+      "tool_calls": [],
+      "est_user_tokens": 36,
+      "est_assistant_tokens": 0,
+      "est_tool_io_tokens": 0,
+      "est_turn_total_tokens": 36,
+      "est_input_tokens_billed": 29978,
+      "est_output_tokens_billed": 0
+    },
+    {
+      "session_id": "local_ee58736f-0fa8-455b-b33d-38d1fdd4e651",
+      "turn_index": 6,
+      "turn_ts": "2026-05-06T10:05:30.113685+00:00",
+      "role": "assistant",
+      "user_msg_chars": 0,
+      "assistant_msg_chars": 43,
+      "tool_call_count": 2,
+      "tool_calls": [
+        "Read",
+        "Edit"
+      ],
+      "est_user_tokens": 0,
+      "est_assistant_tokens": 13,
+      "est_tool_io_tokens": 2700,
+      "est_turn_total_tokens": 2713,
+      "est_input_tokens_billed": 32678,
+      "est_output_tokens_billed": 13
+    }
+  ],
+  "daily": [
+    {
+      "date": "2026-05-06",
+      "project": "cipher",
+      "sessions": 1,
+      "turns": 13,
+      "est_input_tokens": 366574,
+      "est_output_tokens": 548,
+      "est_total_tokens": 367122
+    },
+    {
+      "date": "2026-05-06",
+      "project": "jarvis",
+      "sessions": 1,
+      "turns": 7,
+      "est_input_tokens": 152952,
+      "est_output_tokens": 378,
+      "est_total_tokens": 153330
+    },
+    {
+      "date": "2026-05-06",
+      "project": "other",
+      "sessions": 2,
+      "turns": 6,
+      "est_input_tokens": 76744,
+      "est_output_tokens": 1393,
+      "est_total_tokens": 78137
+    }
+  ],
+  "calibration": [],
+  "meta": {
+    "schema_version": "1-json",
+    "chars_per_token": 3.5,
+    "system_prompt_est_tokens": 12000,
+    "created_ts": "2026-05-06T09:41:03.808483+00:00"
+  },
+  "tool_stats": {
+    "row_count": 10,
+    "total_calls": 63,
+    "total_est_tokens": 44350,
+    "rows": [
+      {
+        "tool": "Read",
+        "calls": 12,
+        "sessions_using": 2,
+        "est_tokens": 30600,
+        "share_of_tool_io": 0.6899661781285231
+      },
+      {
+        "tool": "Grep",
+        "calls": 4,
+        "sessions_using": 1,
+        "est_tokens": 3400,
+        "share_of_tool_io": 0.07666290868094701
+      },
+      {
+        "tool": "mcp__workspace__bash",
+        "calls": 5,
+        "sessions_using": 1,
+        "est_tokens": 3250,
+        "share_of_tool_io": 0.07328072153325817
+      },
+      {
+        "tool": "Edit",
+        "calls": 16,
+        "sessions_using": 2,
+        "est_tokens": 2400,
+        "share_of_tool_io": 0.05411499436302142
+      },
+      {
+        "tool": "TaskUpdate",
+        "calls": 12,
+        "sessions_using": 1,
+        "est_tokens": 1800,
+        "share_of_tool_io": 0.040586245772266064
+      },
+      {
+        "tool": "AskUserQuestion",
+        "calls": 3,
+        "sessions_using": 2,
+        "est_tokens": 750,
+        "share_of_tool_io": 0.016910935738444193
+      },
+      {
+        "tool": "Glob",
+        "calls": 2,
+        "sessions_using": 1,
+        "est_tokens": 700,
+        "share_of_tool_io": 0.015783540022547914
+      },
+      {
+        "tool": "TaskCreate",
+        "calls": 4,
+        "sessions_using": 1,
+        "est_tokens": 600,
+        "share_of_tool_io": 0.013528748590755355
+      },
+      {
+        "tool": "ToolSearch",
+        "calls": 1,
+        "sessions_using": 1,
+        "est_tokens": 450,
+        "share_of_tool_io": 0.010146561443066516
+      },
+      {
+        "tool": "Write",
+        "calls": 4,
+        "sessions_using": 2,
+        "est_tokens": 400,
+        "share_of_tool_io": 0.009019165727170236
+      }
+    ]
+  },
+  "api_daily": [
+    {
+      "date": "2026-04-04",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-haiku-4-5-20251001",
+      "input_no_cache": 3466,
+      "cache_write_5m": 0,
+      "cache_write_1h": 0,
+      "cache_read": 0,
+      "output": 936,
+      "total_input": 3466,
+      "total_billed": 4402,
+      "cache_read_share": 0.0
+    },
+    {
+      "date": "2026-04-05",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-haiku-4-5-20251001",
+      "input_no_cache": 6723,
+      "cache_write_5m": 0,
+      "cache_write_1h": 0,
+      "cache_read": 0,
+      "output": 2451,
+      "total_input": 6723,
+      "total_billed": 9174,
+      "cache_read_share": 0.0
+    },
+    {
+      "date": "2026-04-06",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-haiku-4-5-20251001",
+      "input_no_cache": 6490,
+      "cache_write_5m": 0,
+      "cache_write_1h": 0,
+      "cache_read": 0,
+      "output": 1926,
+      "total_input": 6490,
+      "total_billed": 8416,
+      "cache_read_share": 0.0
+    },
+    {
+      "date": "2026-04-07",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-haiku-4-5-20251001",
+      "input_no_cache": 9072,
+      "cache_write_5m": 0,
+      "cache_write_1h": 0,
+      "cache_read": 0,
+      "output": 5007,
+      "total_input": 9072,
+      "total_billed": 14079,
+      "cache_read_share": 0.0
+    },
+    {
+      "date": "2026-04-08",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-haiku-4-5-20251001",
+      "input_no_cache": 6497,
+      "cache_write_5m": 0,
+      "cache_write_1h": 0,
+      "cache_read": 0,
+      "output": 4055,
+      "total_input": 6497,
+      "total_billed": 10552,
+      "cache_read_share": 0.0
+    },
+    {
+      "date": "2026-04-09",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-haiku-4-5-20251001",
+      "input_no_cache": 6640,
+      "cache_write_5m": 0,
+      "cache_write_1h": 0,
+      "cache_read": 0,
+      "output": 1359,
+      "total_input": 6640,
+      "total_billed": 7999,
+      "cache_read_share": 0.0
+    },
+    {
+      "date": "2026-04-10",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-haiku-4-5-20251001",
+      "input_no_cache": 804,
+      "cache_write_5m": 0,
+      "cache_write_1h": 0,
+      "cache_read": 0,
+      "output": 279,
+      "total_input": 804,
+      "total_billed": 1083,
+      "cache_read_share": 0.0
+    },
+    {
+      "date": "2026-04-11",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-haiku-4-5-20251001",
+      "input_no_cache": 10426,
+      "cache_write_5m": 0,
+      "cache_write_1h": 0,
+      "cache_read": 0,
+      "output": 2845,
+      "total_input": 10426,
+      "total_billed": 13271,
+      "cache_read_share": 0.0
+    },
+    {
+      "date": "2026-04-12",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-haiku-4-5-20251001",
+      "input_no_cache": 1000,
+      "cache_write_5m": 0,
+      "cache_write_1h": 0,
+      "cache_read": 0,
+      "output": 381,
+      "total_input": 1000,
+      "total_billed": 1381,
+      "cache_read_share": 0.0
+    },
+    {
+      "date": "2026-04-13",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-haiku-4-5-20251001",
+      "input_no_cache": 13739,
+      "cache_write_5m": 0,
+      "cache_write_1h": 0,
+      "cache_read": 0,
+      "output": 5023,
+      "total_input": 13739,
+      "total_billed": 18762,
+      "cache_read_share": 0.0
+    },
+    {
+      "date": "2026-04-14",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-haiku-4-5-20251001",
+      "input_no_cache": 2600,
+      "cache_write_5m": 0,
+      "cache_write_1h": 0,
+      "cache_read": 0,
+      "output": 522,
+      "total_input": 2600,
+      "total_billed": 3122,
+      "cache_read_share": 0.0
+    },
+    {
+      "date": "2026-04-15",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-haiku-4-5-20251001",
+      "input_no_cache": 3028,
+      "cache_write_5m": 0,
+      "cache_write_1h": 0,
+      "cache_read": 0,
+      "output": 1406,
+      "total_input": 3028,
+      "total_billed": 4434,
+      "cache_read_share": 0.0
+    },
+    {
+      "date": "2026-04-16",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-haiku-4-5-20251001",
+      "input_no_cache": 1812,
+      "cache_write_5m": 0,
+      "cache_write_1h": 0,
+      "cache_read": 0,
+      "output": 620,
+      "total_input": 1812,
+      "total_billed": 2432,
+      "cache_read_share": 0.0
+    },
+    {
+      "date": "2026-04-17",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-haiku-4-5-20251001",
+      "input_no_cache": 7996,
+      "cache_write_5m": 0,
+      "cache_write_1h": 0,
+      "cache_read": 0,
+      "output": 2709,
+      "total_input": 7996,
+      "total_billed": 10705,
+      "cache_read_share": 0.0
+    },
+    {
+      "date": "2026-04-18",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-haiku-4-5-20251001",
+      "input_no_cache": 2610,
+      "cache_write_5m": 0,
+      "cache_write_1h": 0,
+      "cache_read": 0,
+      "output": 706,
+      "total_input": 2610,
+      "total_billed": 3316,
+      "cache_read_share": 0.0
+    },
+    {
+      "date": "2026-04-19",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-haiku-4-5-20251001",
+      "input_no_cache": 3919,
+      "cache_write_5m": 0,
+      "cache_write_1h": 0,
+      "cache_read": 0,
+      "output": 1115,
+      "total_input": 3919,
+      "total_billed": 5034,
+      "cache_read_share": 0.0
+    },
+    {
+      "date": "2026-04-19",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-sonnet-4-5-20250929",
+      "input_no_cache": 4263,
+      "cache_write_5m": 0,
+      "cache_write_1h": 0,
+      "cache_read": 0,
+      "output": 468,
+      "total_input": 4263,
+      "total_billed": 4731,
+      "cache_read_share": 0.0
+    },
+    {
+      "date": "2026-04-19",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-sonnet-4-6",
+      "input_no_cache": 116,
+      "cache_write_5m": 186011,
+      "cache_write_1h": 0,
+      "cache_read": 2764603,
+      "output": 13386,
+      "total_input": 2950730,
+      "total_billed": 2964116,
+      "cache_read_share": 0.9369
+    },
+    {
+      "date": "2026-04-20",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-haiku-4-5-20251001",
+      "input_no_cache": 2840,
+      "cache_write_5m": 0,
+      "cache_write_1h": 0,
+      "cache_read": 0,
+      "output": 714,
+      "total_input": 2840,
+      "total_billed": 3554,
+      "cache_read_share": 0.0
+    },
+    {
+      "date": "2026-04-20",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-sonnet-4-5-20250929",
+      "input_no_cache": 14109,
+      "cache_write_5m": 0,
+      "cache_write_1h": 0,
+      "cache_read": 0,
+      "output": 4042,
+      "total_input": 14109,
+      "total_billed": 18151,
+      "cache_read_share": 0.0
+    },
+    {
+      "date": "2026-04-21",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-haiku-4-5-20251001",
+      "input_no_cache": 4853,
+      "cache_write_5m": 0,
+      "cache_write_1h": 0,
+      "cache_read": 0,
+      "output": 2149,
+      "total_input": 4853,
+      "total_billed": 7002,
+      "cache_read_share": 0.0
+    },
+    {
+      "date": "2026-04-21",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-opus-4-7",
+      "input_no_cache": 56,
+      "cache_write_5m": 78134,
+      "cache_write_1h": 0,
+      "cache_read": 394880,
+      "output": 11757,
+      "total_input": 473070,
+      "total_billed": 484827,
+      "cache_read_share": 0.8347
+    },
+    {
+      "date": "2026-04-21",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-sonnet-4-6",
+      "input_no_cache": 32948,
+      "cache_write_5m": 314690,
+      "cache_write_1h": 0,
+      "cache_read": 3402165,
+      "output": 36383,
+      "total_input": 3749803,
+      "total_billed": 3786186,
+      "cache_read_share": 0.9073
+    },
+    {
+      "date": "2026-04-22",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-haiku-4-5-20251001",
+      "input_no_cache": 1427,
+      "cache_write_5m": 0,
+      "cache_write_1h": 0,
+      "cache_read": 0,
+      "output": 700,
+      "total_input": 1427,
+      "total_billed": 2127,
+      "cache_read_share": 0.0
+    },
+    {
+      "date": "2026-04-22",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-sonnet-4-6",
+      "input_no_cache": 10,
+      "cache_write_5m": 26189,
+      "cache_write_1h": 0,
+      "cache_read": 48471,
+      "output": 2019,
+      "total_input": 74670,
+      "total_billed": 76689,
+      "cache_read_share": 0.6491
+    },
+    {
+      "date": "2026-04-23",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-haiku-4-5-20251001",
+      "input_no_cache": 5055,
+      "cache_write_5m": 0,
+      "cache_write_1h": 0,
+      "cache_read": 0,
+      "output": 1515,
+      "total_input": 5055,
+      "total_billed": 6570,
+      "cache_read_share": 0.0
+    },
+    {
+      "date": "2026-04-23",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-sonnet-4-6",
+      "input_no_cache": 10,
+      "cache_write_5m": 26131,
+      "cache_write_1h": 0,
+      "cache_read": 48576,
+      "output": 1845,
+      "total_input": 74717,
+      "total_billed": 76562,
+      "cache_read_share": 0.6501
+    },
+    {
+      "date": "2026-04-24",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-haiku-4-5-20251001",
+      "input_no_cache": 3001,
+      "cache_write_5m": 0,
+      "cache_write_1h": 0,
+      "cache_read": 0,
+      "output": 564,
+      "total_input": 3001,
+      "total_billed": 3565,
+      "cache_read_share": 0.0
+    },
+    {
+      "date": "2026-04-24",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-sonnet-4-6",
+      "input_no_cache": 11,
+      "cache_write_5m": 26396,
+      "cache_write_1h": 0,
+      "cache_read": 62517,
+      "output": 2159,
+      "total_input": 88924,
+      "total_billed": 91083,
+      "cache_read_share": 0.703
+    },
+    {
+      "date": "2026-04-25",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-haiku-4-5-20251001",
+      "input_no_cache": 2778,
+      "cache_write_5m": 0,
+      "cache_write_1h": 0,
+      "cache_read": 0,
+      "output": 672,
+      "total_input": 2778,
+      "total_billed": 3450,
+      "cache_read_share": 0.0
+    },
+    {
+      "date": "2026-04-25",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-sonnet-4-6",
+      "input_no_cache": 11,
+      "cache_write_5m": 27471,
+      "cache_write_1h": 0,
+      "cache_read": 61282,
+      "output": 2459,
+      "total_input": 88764,
+      "total_billed": 91223,
+      "cache_read_share": 0.6904
+    },
+    {
+      "date": "2026-04-26",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-haiku-4-5-20251001",
+      "input_no_cache": 6685,
+      "cache_write_5m": 0,
+      "cache_write_1h": 0,
+      "cache_read": 0,
+      "output": 2552,
+      "total_input": 6685,
+      "total_billed": 9237,
+      "cache_read_share": 0.0
+    },
+    {
+      "date": "2026-04-26",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-sonnet-4-6",
+      "input_no_cache": 23,
+      "cache_write_5m": 42152,
+      "cache_write_1h": 0,
+      "cache_read": 180512,
+      "output": 3499,
+      "total_input": 222687,
+      "total_billed": 226186,
+      "cache_read_share": 0.8106
+    },
+    {
+      "date": "2026-04-27",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-haiku-4-5-20251001",
+      "input_no_cache": 5502,
+      "cache_write_5m": 0,
+      "cache_write_1h": 0,
+      "cache_read": 0,
+      "output": 2098,
+      "total_input": 5502,
+      "total_billed": 7600,
+      "cache_read_share": 0.0
+    },
+    {
+      "date": "2026-04-27",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-sonnet-4-6",
+      "input_no_cache": 42,
+      "cache_write_5m": 83531,
+      "cache_write_1h": 0,
+      "cache_read": 370613,
+      "output": 13818,
+      "total_input": 454186,
+      "total_billed": 468004,
+      "cache_read_share": 0.816
+    },
+    {
+      "date": "2026-04-28",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-haiku-4-5-20251001",
+      "input_no_cache": 3591,
+      "cache_write_5m": 0,
+      "cache_write_1h": 0,
+      "cache_read": 0,
+      "output": 1127,
+      "total_input": 3591,
+      "total_billed": 4718,
+      "cache_read_share": 0.0
+    },
+    {
+      "date": "2026-04-28",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-sonnet-4-6",
+      "input_no_cache": 10,
+      "cache_write_5m": 26180,
+      "cache_write_1h": 0,
+      "cache_read": 48525,
+      "output": 1918,
+      "total_input": 74715,
+      "total_billed": 76633,
+      "cache_read_share": 0.6495
+    },
+    {
+      "date": "2026-04-29",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-haiku-4-5-20251001",
+      "input_no_cache": 3727,
+      "cache_write_5m": 0,
+      "cache_write_1h": 0,
+      "cache_read": 0,
+      "output": 1336,
+      "total_input": 3727,
+      "total_billed": 5063,
+      "cache_read_share": 0.0
+    },
+    {
+      "date": "2026-04-29",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-sonnet-4-6",
+      "input_no_cache": 10,
+      "cache_write_5m": 26388,
+      "cache_write_1h": 0,
+      "cache_read": 48118,
+      "output": 1693,
+      "total_input": 74516,
+      "total_billed": 76209,
+      "cache_read_share": 0.6457
+    },
+    {
+      "date": "2026-04-30",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-haiku-4-5-20251001",
+      "input_no_cache": 5715,
+      "cache_write_5m": 0,
+      "cache_write_1h": 0,
+      "cache_read": 0,
+      "output": 1813,
+      "total_input": 5715,
+      "total_billed": 7528,
+      "cache_read_share": 0.0
+    },
+    {
+      "date": "2026-04-30",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-sonnet-4-6",
+      "input_no_cache": 12,
+      "cache_write_5m": 26810,
+      "cache_write_1h": 0,
+      "cache_read": 75532,
+      "output": 1761,
+      "total_input": 102354,
+      "total_billed": 104115,
+      "cache_read_share": 0.7379
+    },
+    {
+      "date": "2026-05-01",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-haiku-4-5-20251001",
+      "input_no_cache": 2799,
+      "cache_write_5m": 0,
+      "cache_write_1h": 0,
+      "cache_read": 0,
+      "output": 1110,
+      "total_input": 2799,
+      "total_billed": 3909,
+      "cache_read_share": 0.0
+    },
+    {
+      "date": "2026-05-01",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-sonnet-4-6",
+      "input_no_cache": 10,
+      "cache_write_5m": 25738,
+      "cache_write_1h": 0,
+      "cache_read": 48527,
+      "output": 1458,
+      "total_input": 74275,
+      "total_billed": 75733,
+      "cache_read_share": 0.6533
+    },
+    {
+      "date": "2026-05-02",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-haiku-4-5-20251001",
+      "input_no_cache": 4662,
+      "cache_write_5m": 0,
+      "cache_write_1h": 0,
+      "cache_read": 0,
+      "output": 1236,
+      "total_input": 4662,
+      "total_billed": 5898,
+      "cache_read_share": 0.0
+    },
+    {
+      "date": "2026-05-02",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-sonnet-4-6",
+      "input_no_cache": 10,
+      "cache_write_5m": 26666,
+      "cache_write_1h": 0,
+      "cache_read": 48020,
+      "output": 1876,
+      "total_input": 74696,
+      "total_billed": 76572,
+      "cache_read_share": 0.6429
+    },
+    {
+      "date": "2026-05-03",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-haiku-4-5-20251001",
+      "input_no_cache": 4060,
+      "cache_write_5m": 0,
+      "cache_write_1h": 0,
+      "cache_read": 0,
+      "output": 1144,
+      "total_input": 4060,
+      "total_billed": 5204,
+      "cache_read_share": 0.0
+    },
+    {
+      "date": "2026-05-03",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-sonnet-4-6",
+      "input_no_cache": 23,
+      "cache_write_5m": 42526,
+      "cache_write_1h": 0,
+      "cache_read": 182264,
+      "output": 4605,
+      "total_input": 224813,
+      "total_billed": 229418,
+      "cache_read_share": 0.8107
+    },
+    {
+      "date": "2026-05-04",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-haiku-4-5-20251001",
+      "input_no_cache": 8045,
+      "cache_write_5m": 0,
+      "cache_write_1h": 0,
+      "cache_read": 0,
+      "output": 2365,
+      "total_input": 8045,
+      "total_billed": 10410,
+      "cache_read_share": 0.0
+    },
+    {
+      "date": "2026-05-04",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-sonnet-4-6",
+      "input_no_cache": 35,
+      "cache_write_5m": 85983,
+      "cache_write_1h": 0,
+      "cache_read": 298998,
+      "output": 13179,
+      "total_input": 385016,
+      "total_billed": 398195,
+      "cache_read_share": 0.7766
+    },
+    {
+      "date": "2026-05-05",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-haiku-4-5-20251001",
+      "input_no_cache": 3424,
+      "cache_write_5m": 0,
+      "cache_write_1h": 0,
+      "cache_read": 0,
+      "output": 1225,
+      "total_input": 3424,
+      "total_billed": 4649,
+      "cache_read_share": 0.0
+    },
+    {
+      "date": "2026-05-05",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-sonnet-4-6",
+      "input_no_cache": 12,
+      "cache_write_5m": 30145,
+      "cache_write_1h": 0,
+      "cache_read": 77906,
+      "output": 5965,
+      "total_input": 108063,
+      "total_billed": 114028,
+      "cache_read_share": 0.7209
+    },
+    {
+      "date": "2026-05-06",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-haiku-4-5-20251001",
+      "input_no_cache": 2560,
+      "cache_write_5m": 0,
+      "cache_write_1h": 0,
+      "cache_read": 0,
+      "output": 1451,
+      "total_input": 2560,
+      "total_billed": 4011,
+      "cache_read_share": 0.0
+    },
+    {
+      "date": "2026-05-06",
+      "api_key": "cipher-n8n",
+      "project": "cipher",
+      "model": "claude-sonnet-4-6",
+      "input_no_cache": 13,
+      "cache_write_5m": 29104,
+      "cache_write_1h": 0,
+      "cache_read": 94292,
+      "output": 5397,
+      "total_input": 123409,
+      "total_billed": 128806,
+      "cache_read_share": 0.7641
+    }
+  ],
+  "api_summary": {
+    "captured_ts": "2026-05-06T14:41:47.838656+00:00",
+    "row_count": 53,
+    "date_range": [
+      "2026-04-04",
+      "2026-05-06"
+    ],
+    "days_covered": 33,
+    "models_seen": [
+      "claude-haiku-4-5-20251001",
+      "claude-opus-4-7",
+      "claude-sonnet-4-5-20250929",
+      "claude-sonnet-4-6"
+    ],
+    "api_keys_seen": [
+      "cipher-n8n"
+    ],
+    "projects_seen": [
+      "cipher"
+    ],
+    "totals": {
+      "input_no_cache": 209280,
+      "cache_write_5m": 1130245,
+      "cache_write_1h": 0,
+      "cache_read": 8255801,
+      "output": 184798,
+      "total_input": 9595326,
+      "total_billed": 9780124
+    },
+    "cache_read_share": 0.8603981771958555
+  },
+  "claude_ai_snapshots": [
+    {
+      "snapshot_ts": "2026-05-06T15:16:07.349732+00:00",
+      "plan_tier": "Pro",
+      "weekly_pct": {
+        "all_models": 100.0,
+        "claude_design": 0
+      },
+      "weekly_resets_at": "Fri 11:00 AM",
+      "daily_routine_runs": {
+        "used": 0,
+        "cap": 5
+      },
+      "extra_usage": {
+        "spent_eur": 82.66,
+        "monthly_cap_eur": 100.0,
+        "pct_used": 82.7,
+        "resets_at": "Jun 1",
+        "current_balance_eur": 12.39,
+        "auto_reload": false
+      },
+      "derived_token_equivalent": 64947142,
+      "settings_snapshot": {
+        "eur_to_usd_rate": 1.1,
+        "effective_usd_per_million_tokens": 1.4
+      },
+      "note": "First snapshot. Weekly cap hit by Wed afternoon. Auto-reload off."
+    }
+  ],
+  "session_count": 4,
+  "turn_count": 26
+};
+
+(function() {
+  const D = window.BURNRATE_DATA || {sessions:[], turns:[], daily:[], calibration:[],
+    meta:{}, tool_stats:{rows:[]}, api_daily:[], api_summary:{}, claude_ai_snapshots:[]};
+
+  const fmt = (n) => (n == null ? "-" : Math.round(n).toLocaleString());
+  const pct = (n) => (n == null ? "-" : (n * 100).toFixed(1) + "%");
+  const projectPill = (p) => `<span class="pill pill-${p || 'other'}">${p || 'other'}</span>`;
+
+  document.getElementById("subtitle").textContent =
+    `${D.session_count} Cowork sessions ingested | ${D.turn_count} turns | ${(D.api_daily||[]).length} API daily rows | ${(D.claude_ai_snapshots||[]).length} claude.ai snapshots | rendered ${D.rendered_ts}`;
+  document.getElementById("rendered-ts").textContent = D.rendered_ts || "-";
+
+  // Top stats
+  const total = D.sessions.reduce((a, s) => a + (s.est_total_tokens || 0), 0);
+  document.getElementById("stat-total").textContent = fmt(total);
+  document.getElementById("stat-sessions").textContent = D.sessions.length;
+  document.getElementById("stat-sessions-sub").textContent = `${D.turns.length} turns counted`;
+  const overheads = D.sessions.map(s => s.history_overhead_share || 0);
+  const avgOverhead = overheads.length ? overheads.reduce((a,b)=>a+b,0)/overheads.length : 0;
+  document.getElementById("stat-overhead").textContent = pct(avgOverhead);
+  const top = [...D.sessions].sort((a,b) => (b.est_total_tokens||0)-(a.est_total_tokens||0))[0];
+  if (top) {
+    document.getElementById("stat-top").textContent = fmt(top.est_total_tokens);
+    document.getElementById("stat-top-sub").textContent = `${top.title || top.session_id} (${top.project})`;
+  }
+
+  // Tokens by project
+  const byProject = {};
+  D.sessions.forEach(s => {
+    const p = s.project || "other";
+    const r = byProject[p] = byProject[p] || {sessions:0, turns:0, input:0, output:0, total:0};
+    r.sessions++; r.turns += s.turn_count || 0;
+    r.input += s.est_input_tokens || 0; r.output += s.est_output_tokens || 0;
+    r.total += s.est_total_tokens || 0;
+  });
+  const tbody1 = document.querySelector("#tbl-projects tbody");
+  const projRows = Object.entries(byProject).sort((a,b) => b[1].total - a[1].total);
+  if (projRows.length === 0) {
+    tbody1.innerHTML = `<tr><td colspan="7" class="empty">No data yet.</td></tr>`;
+  } else {
+    projRows.forEach(([proj, r]) => {
+      const share = total ? r.total / total : 0;
+      const tr = document.createElement("tr");
+      tr.innerHTML = `<td>${projectPill(proj)}</td><td class="num">${r.sessions}</td>
+        <td class="num">${r.turns}</td><td class="num">${fmt(r.input)}</td>
+        <td class="num">${fmt(r.output)}</td><td class="num"><strong>${fmt(r.total)}</strong></td>
+        <td><div class="bar-track"><div class="bar-fill" style="width:${(share*100).toFixed(1)}%"></div></div>
+        <div class="small">${pct(share)}</div></td>`;
+      tbody1.appendChild(tr);
+    });
+  }
+
+  // Top burner sessions
+  const tbody2 = document.querySelector("#tbl-top tbody");
+  const topN = [...D.sessions].sort((a,b)=>(b.est_total_tokens||0)-(a.est_total_tokens||0)).slice(0,15);
+  if (topN.length === 0) {
+    tbody2.innerHTML = `<tr><td colspan="6" class="empty">No sessions yet.</td></tr>`;
+  } else {
+    topN.forEach(s => {
+      const tr = document.createElement("tr");
+      const sid = (s.session_id || "").substring(0, 24);
+      tr.innerHTML = `<td><code class="small">${sid}...</code></td>
+        <td>${projectPill(s.project)}</td><td class="num">${s.turn_count || 0}</td>
+        <td class="num"><strong>${fmt(s.est_total_tokens)}</strong></td>
+        <td class="num">${pct(s.history_overhead_share)}</td>
+        <td>${(s.title || "").substring(0, 60)}</td>`;
+      tbody2.appendChild(tr);
+    });
+  }
+
+  // Tool burn breakdown
+  const tbodyTools = document.querySelector("#tbl-tools tbody");
+  const toolRows = (D.tool_stats && D.tool_stats.rows) || [];
+  if (toolRows.length === 0) {
+    tbodyTools.innerHTML = `<tr><td colspan="5" class="empty">No tool calls yet.</td></tr>`;
+  } else {
+    toolRows.slice(0, 25).forEach(r => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `<td><code class="small">${r.tool}</code></td>
+        <td class="num">${r.calls}</td><td class="num">${r.sessions_using}</td>
+        <td class="num"><strong>${fmt(r.est_tokens)}</strong></td>
+        <td><div class="bar-track"><div class="bar-fill" style="width:${(r.share_of_tool_io*100).toFixed(1)}%;background:#4a90e2;"></div></div>
+        <div class="small">${pct(r.share_of_tool_io)}</div></td>`;
+      tbodyTools.appendChild(tr);
+    });
+  }
+
+  // Shard simulator
+  const tbodyShard = document.querySelector("#tbl-shard tbody");
+  const shardCands = [...D.sessions].filter(s => s.shard_sim && s.shard_sim.actual_turns)
+    .sort((a,b) => (b.est_total_tokens||0)-(a.est_total_tokens||0)).slice(0, 8);
+  if (shardCands.length === 0) {
+    tbodyShard.innerHTML = `<tr><td colspan="7" class="empty">Run aggregate.py.</td></tr>`;
+  } else {
+    shardCands.forEach(s => {
+      const sim = s.shard_sim;
+      const fmtCut = (cut) => {
+        const c = sim.cuts[cut];
+        if (!c || !c.applies) return `<span style="color:#bbb;">-</span>`;
+        return `<strong>${fmt(c.would_save)}</strong><br><span class="small">${pct(c.saved_share)} saved</span>`;
+      };
+      const tr = document.createElement("tr");
+      tr.innerHTML = `<td><code class="small">${(s.session_id||"").substring(0,22)}...</code><br>
+        <span class="small">${(s.title||"").substring(0,50)}</span></td>
+        <td>${projectPill(s.project)}</td><td class="num">${sim.actual_turns}</td>
+        <td class="num"><strong>${fmt(sim.full_total)}</strong></td>
+        <td class="num">${fmtCut('turn_25')}</td><td class="num">${fmtCut('turn_15')}</td>
+        <td class="num">${fmtCut('turn_10')}</td>`;
+      tbodyShard.appendChild(tr);
+    });
+  }
+
+  // Daily totals (Cowork)
+  const tbody3 = document.querySelector("#tbl-daily tbody");
+  const calByDate = {};
+  (D.calibration || []).forEach(c => calByDate[c.date] = c);
+  if ((D.daily || []).length === 0) {
+    tbody3.innerHTML = `<tr><td colspan="6" class="empty">No daily totals yet.</td></tr>`;
+  } else {
+    [...D.daily].sort((a,b) => (b.date||'').localeCompare(a.date||'') || (b.est_total_tokens||0)-(a.est_total_tokens||0))
+      .forEach(d => {
+        const cal = calByDate[d.date];
+        const compareCell = cal && cal.actual_total_tokens
+          ? `<span class="small">est ${fmt(d.est_total_tokens)} vs actual ${fmt(cal.actual_total_tokens)}<br>factor ${cal.correction_factor ? cal.correction_factor.toFixed(2) : 'n/a'}</span>`
+          : `<span class="small" style="color:#bbb;">no console total yet</span>`;
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td>${d.date}</td><td>${projectPill(d.project)}</td>
+          <td class="num">${d.sessions||0}</td><td class="num">${d.turns||0}</td>
+          <td class="num"><strong>${fmt(d.est_total_tokens)}</strong></td>
+          <td>${compareCell}</td>`;
+        tbody3.appendChild(tr);
+      });
+  }
+
+  // API actual
+  const apiSumm = D.api_summary || {};
+  const apiDaily = D.api_daily || [];
+  const banner = document.getElementById("api-summary-banner");
+  if (apiSumm.totals && apiDaily.length > 0) {
+    const t = apiSumm.totals;
+    const cachePct = (apiSumm.cache_read_share || 0) * 100;
+    banner.innerHTML = `<div class="opinion" style="background:#eef4fb; border-left-color:#4a90e2;">
+      <strong>API actual:</strong> ${fmt(t.total_billed)} tokens billed across
+      ${apiSumm.days_covered} days (${apiSumm.date_range[0]} to ${apiSumm.date_range[1]}),
+      keys: ${apiSumm.api_keys_seen.join(', ')}, projects: ${apiSumm.projects_seen.join(', ')}.
+      <strong>${cachePct.toFixed(1)}% from cache hits</strong> (~10% of base price).
+    </div>`;
+  }
+  const grid = document.getElementById("api-stats-grid");
+  if (apiSumm.totals && grid) {
+    const t = apiSumm.totals;
+    grid.innerHTML = `
+      <div class="card"><h2>Total billed (API)</h2>
+        <div class="stat-big">${fmt(t.total_billed)}</div>
+        <div class="stat-sub">over ${apiSumm.days_covered} days</div></div>
+      <div class="card"><h2>Cache reads</h2>
+        <div class="stat-big">${fmt(t.cache_read)}</div>
+        <div class="stat-sub">${((apiSumm.cache_read_share||0)*100).toFixed(1)}% of input - ~10x cheaper</div></div>
+      <div class="card"><h2>Full-price input</h2>
+        <div class="stat-big">${fmt(t.input_no_cache)}</div>
+        <div class="stat-sub">no-cache + cache-write</div></div>
+      <div class="card"><h2>Output</h2>
+        <div class="stat-big">${fmt(t.output)}</div>
+        <div class="stat-sub">~5x base input price</div></div>`;
+  }
+  const tbodyApi = document.querySelector("#tbl-api-daily tbody");
+  if (tbodyApi) {
+    if (apiDaily.length === 0) {
+      tbodyApi.innerHTML = `<tr><td colspan="9" class="empty">No API CSVs imported.</td></tr>`;
+    } else {
+      [...apiDaily].sort((a,b) => (b.date||'').localeCompare(a.date||'') || (b.total_billed||0)-(a.total_billed||0))
+        .slice(0, 60).forEach(d => {
+          const cw = (d.cache_write_5m || 0) + (d.cache_write_1h || 0);
+          const ms = (d.model || '').replace('claude-', '').replace('-20250929','').replace('-20251001','');
+          const tr = document.createElement("tr");
+          tr.innerHTML = `<td>${d.date}</td><td>${projectPill(d.project)}</td>
+            <td><code class="small">${ms}</code></td>
+            <td class="num">${fmt(d.input_no_cache)}</td><td class="num">${fmt(cw)}</td>
+            <td class="num" style="color:#2d8a5f;"><strong>${fmt(d.cache_read)}</strong></td>
+            <td class="num">${fmt(d.output)}</td>
+            <td class="num"><strong>${fmt(d.total_billed)}</strong></td>
+            <td><div class="bar-track"><div class="bar-fill" style="width:${(d.cache_read_share*100).toFixed(1)}%;background:#2d8a5f;"></div></div>
+            <div class="small">${pct(d.cache_read_share)}</div></td>`;
+          tbodyApi.appendChild(tr);
+        });
+    }
+  }
+
+  // claude.ai snapshots
+  const aiSnaps = D.claude_ai_snapshots || [];
+  const latestEl = document.getElementById("claude-ai-latest");
+  const tbodyAi = document.querySelector("#tbl-claude-ai tbody");
+  if (aiSnaps.length === 0) {
+    if (latestEl) latestEl.innerHTML = `<p class="small">No snapshots yet.</p>`;
+    if (tbodyAi) tbodyAi.innerHTML = `<tr><td colspan="8" class="empty">No snapshots.</td></tr>`;
+  } else {
+    const latest = aiSnaps[aiSnaps.length - 1];
+    const lEu = latest.extra_usage || {};
+    const lWp = (latest.weekly_pct || {}).all_models || 0;
+    const derived = latest.derived_token_equivalent || 0;
+
+    let trendBlock = "";
+    if (aiSnaps.length >= 2) {
+      const first = aiSnaps[0];
+      try {
+        const d1 = new Date(first.snapshot_ts);
+        const d2 = new Date(latest.snapshot_ts);
+        const days = Math.max(1, (d2 - d1) / 86400000);
+        const dEur = (latest.extra_usage.spent_eur || 0) - (first.extra_usage.spent_eur || 0);
+        const perDay = dEur / days;
+        trendBlock = `<div class="card"><h2>EUR/day rate</h2>
+          <div class="stat-big">EUR ${perDay.toFixed(2)}</div>
+          <div class="stat-sub">extra-usage burn over ${days.toFixed(1)}d</div></div>`;
+      } catch (e) {}
+    }
+
+    if (latestEl) {
+      latestEl.innerHTML = `
+        <div class="grid" style="margin-bottom:8px;">
+          <div class="card"><h2>Weekly bucket used</h2>
+            <div class="stat-big" style="color:${lWp >= 90 ? '#d9534f' : '#1a1a1a'};">${lWp.toFixed(0)}%</div>
+            <div class="stat-sub">resets ${latest.weekly_resets_at || '-'}</div></div>
+          <div class="card"><h2>Extra usage spent</h2>
+            <div class="stat-big">EUR ${(lEu.spent_eur||0).toFixed(2)}</div>
+            <div class="stat-sub">${(lEu.pct_used||0).toFixed(1)}% of EUR ${(lEu.monthly_cap_eur||0).toFixed(0)} cap, resets ${lEu.resets_at||'-'}</div></div>
+          <div class="card"><h2>Token-equivalent</h2>
+            <div class="stat-big">${fmt(derived)}</div>
+            <div class="stat-sub">overflow only - subscription bundle is opaque</div></div>
+          ${trendBlock}
+        </div>
+        <div class="opinion">
+          <strong>What this snapshot says:</strong>
+          ${lWp >= 100 ? 'Weekly cap exhausted - any further chat is overflow at API rates. ' : ''}
+          ${(lEu.pct_used||0) > 80 ? 'Monthly extra-usage cap is &gt;80% used; auto-reload is ' + (lEu.auto_reload ? 'ON' : 'OFF') + '. ' : ''}
+          Roughly ${fmt(derived)} tokens of overflow consumed since the monthly bucket reset.
+          The bundled subscription tokens used to <em>reach</em> the weekly cap are not measured by Anthropic.
+        </div>`;
+    }
+
+    if (tbodyAi) {
+      [...aiSnaps].reverse().forEach(s => {
+        const eu = s.extra_usage || {};
+        const wp = (s.weekly_pct || {}).all_models || 0;
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td>${(s.snapshot_ts||'').substring(0,19)}</td>
+          <td><span class="pill">${s.plan_tier || '-'}</span></td>
+          <td class="num">${wp.toFixed(0)}%</td>
+          <td class="num"><strong>${(eu.spent_eur||0).toFixed(2)}</strong></td>
+          <td class="num">${(eu.monthly_cap_eur||0).toFixed(0)}</td>
+          <td class="num">${(eu.current_balance_eur||0).toFixed(2)}</td>
+          <td class="num">${fmt(s.derived_token_equivalent)}</td>
+          <td><span class="small">${(s.note||'').substring(0,60)}</span></td>`;
+        tbodyAi.appendChild(tr);
+      });
+    }
+  }
+
+  // Calibration body
+  const cb = document.getElementById("cal-body");
+  if ((D.calibration || []).length === 0) {
+    cb.innerHTML = `<p class="small">No calibration data yet.</p>`;
+  } else {
+    let h = `<table><thead><tr><th>Date</th><th class="num">Actual</th><th class="num">Estimated</th><th class="num">Factor</th></tr></thead><tbody>`;
+    [...D.calibration].sort((a,b) => (b.date||'').localeCompare(a.date||'')).forEach(c => {
+      h += `<tr><td>${c.date}</td><td class="num">${fmt(c.actual_total_tokens)}</td><td class="num">${fmt(c.estimated_total_tokens)}</td><td class="num">${c.correction_factor ? c.correction_factor.toFixed(2) : '-'}</td></tr>`;
+    });
+    h += `</tbody></table>`;
+    cb.innerHTML = h;
+  }
+})();
+</script>
+</body>
+</html>

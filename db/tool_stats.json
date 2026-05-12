@@ -1,0 +1,77 @@
+{
+  "row_count": 10,
+  "total_calls": 63,
+  "total_est_tokens": 44350,
+  "rows": [
+    {
+      "tool": "Read",
+      "calls": 12,
+      "sessions_using": 2,
+      "est_tokens": 30600,
+      "share_of_tool_io": 0.6899661781285231
+    },
+    {
+      "tool": "Grep",
+      "calls": 4,
+      "sessions_using": 1,
+      "est_tokens": 3400,
+      "share_of_tool_io": 0.07666290868094701
+    },
+    {
+      "tool": "mcp__workspace__bash",
+      "calls": 5,
+      "sessions_using": 1,
+      "est_tokens": 3250,
+      "share_of_tool_io": 0.07328072153325817
+    },
+    {
+      "tool": "Edit",
+      "calls": 16,
+      "sessions_using": 2,
+      "est_tokens": 2400,
+      "share_of_tool_io": 0.05411499436302142
+    },
+    {
+      "tool": "TaskUpdate",
+      "calls": 12,
+      "sessions_using": 1,
+      "est_tokens": 1800,
+      "share_of_tool_io": 0.040586245772266064
+    },
+    {
+      "tool": "AskUserQuestion",
+      "calls": 3,
+      "sessions_using": 2,
+      "est_tokens": 750,
+      "share_of_tool_io": 0.016910935738444193
+    },
+    {
+      "tool": "Glob",
+      "calls": 2,
+      "sessions_using": 1,
+      "est_tokens": 700,
+      "share_of_tool_io": 0.015783540022547914
+    },
+    {
+      "tool": "TaskCreate",
+      "calls": 4,
+      "sessions_using": 1,
+      "est_tokens": 600,
+      "share_of_tool_io": 0.013528748590755355
+    },
+    {
+      "tool": "ToolSearch",
+      "calls": 1,
+      "sessions_using": 1,
+      "est_tokens": 450,
+      "share_of_tool_io": 0.010146561443066516
+    },
+    {
+      "tool": "Write",
+      "calls": 4,
+      "sessions_using": 2,
+      "est_tokens": 400,
+      "share_of_tool_io": 0.009019165727170236
+    }
+  ]
+}

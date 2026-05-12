@@ -1,0 +1,13 @@
+usage_date_utc,model_version,api_key,workspace,usage_type,context_window,usage_input_tokens_no_cache,usage_input_tokens_cache_write_5m,usage_input_tokens_cache_write_1h,usage_input_tokens_cache_read,usage_output_tokens,web_search_count,inference_geo,speed
+2026-05-01,claude-haiku-4-5-20251001,cipher-n8n,Default,standard,<= 200k,2799,0,0,0,1110,0,not_available,
+2026-05-01,claude-sonnet-4-6,cipher-n8n,Default,standard,<= 200k,10,25738,0,48527,1458,0,global,
+2026-05-02,claude-haiku-4-5-20251001,cipher-n8n,Default,standard,<= 200k,4662,0,0,0,1236,0,not_available,
+2026-05-02,claude-sonnet-4-6,cipher-n8n,Default,standard,<= 200k,10,26666,0,48020,1876,0,global,
+2026-05-03,claude-haiku-4-5-20251001,cipher-n8n,Default,standard,<= 200k,4060,0,0,0,1144,0,not_available,
+2026-05-03,claude-sonnet-4-6,cipher-n8n,Default,standard,<= 200k,23,42526,0,182264,4605,0,global,
+2026-05-04,claude-haiku-4-5-20251001,cipher-n8n,Default,standard,<= 200k,8045,0,0,0,2365,0,not_available,
+2026-05-04,claude-sonnet-4-6,cipher-n8n,Default,standard,<= 200k,35,85983,0,298998,13179,0,global,
+2026-05-05,claude-haiku-4-5-20251001,cipher-n8n,Default,standard,<= 200k,3424,0,0,0,1225,0,not_available,
+2026-05-05,claude-sonnet-4-6,cipher-n8n,Default,standard,<= 200k,12,30145,0,77906,5965,0,global,
+2026-05-06,claude-haiku-4-5-20251001,cipher-n8n,Default,standard,<= 200k,2560,0,0,0,1451,0,not_available,
+2026-05-06,claude-sonnet-4-6,cipher-n8n,Default,standard,<= 200k,13,29104,0,94292,5397,0,global,

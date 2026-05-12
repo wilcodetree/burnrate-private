@@ -1,0 +1,44 @@
+# BurnRate gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+.pytest_cache/
+
+# SQLite database (regenerated from raw transcripts)
+db/burnrate.db
+db/burnrate.db-journal
+db/burnrate.db-wal
+db/burnrate.db-shm
+
+# Raw session transcripts dumped by Claude — may contain personal/work content
+db/raw_transcripts/
+db/raw_transcripts/*.json
+
+# Calibration may contain account-level usage data; keep local
+docs/calibration_local.md
+
+# Environment secrets
+.env
+.env.*
+
+# Node
+node_modules/
+
+# Test databases
+db/test.db
+db/test.db-journal
+db/test.db-wal
+db/test.db-shm
+db/*.db-journal
+db/*.db-wal
+db/*.db-shm
+
+# OS / IDE
+.DS_Store
+.vscode/
+.idea/
+*.swp

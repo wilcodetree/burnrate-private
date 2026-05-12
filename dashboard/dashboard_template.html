@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>BurnRate - Token Burn Dashboard</title>
+<style>
+  :root { color-scheme: light }
+  * { box-sizing: border-box }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+         background: #f7f7f5; color: #1a1a1a; margin: 0; padding: 24px; line-height: 1.5 }
+  header { margin-bottom: 24px }
+  h1 { margin: 0 0 4px; font-size: 24px; font-weight: 600 }
+  .subtitle { color: #666; font-size: 13px }
+  .uncertainty { background: #fff8e1; border-left: 3px solid #f5a623; padding: 10px 14px;
+                 margin: 16px 0; font-size: 13px; color: #5d4a17; border-radius: 2px }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+          gap: 16px; margin-bottom: 24px }
+  .card { background: white; border: 1px solid #e5e5e3; border-radius: 6px; padding: 16px 20px }
+  .card h2 { margin: 0 0 12px; font-size: 13px; font-weight: 600;
+             text-transform: uppercase; letter-spacing: 0.05em; color: #666 }
+  .stat-big { font-size: 28px; font-weight: 600 }
+  .stat-sub { font-size: 12px; color: #888; margin-top: 4px }
+  table { width: 100%; border-collapse: collapse; font-size: 13px }
+  th, td { padding: 8px 6px; text-align: left; border-bottom: 1px solid #f0f0ee }
+  th { font-weight: 600; color: #555; font-size: 11px;
+       text-transform: uppercase; letter-spacing: 0.04em }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums }
+  .pill { display: inline-block; padding: 2px 8px; border-radius: 10px;
+          font-size: 11px; font-weight: 500; background: #eef0f3; color: #555 }
+  .pill-cipher   { background: #fde9cc; color: #8a4a00 }
+  .pill-jarvis   { background: #d6eaff; color: #0a3d72 }
+  .pill-dsi      { background: #d8f0d4; color: #1f5f17 }
+  .pill-gha      { background: #f0d4f0; color: #6a1f6a }
+  .pill-hub      { background: #ffd9e0; color: #8a1530 }
+  .pill-burnrate { background: #ffe4b3; color: #a64500 }
+  .pill-work     { background: #e0e0e0; color: #444 }
+  .pill-other    { background: #eef0f3; color: #555 }
+  .bar-track { background: #f0f0ee; height: 6px; border-radius: 3px;
+               overflow: hidden; margin-top: 4px }
+  .bar-fill { height: 100%; background: #d9534f; border-radius: 3px }
+  .small { font-size: 11px; color: #888 }
+  details { margin-top: 8px }
+  summary { cursor: pointer; font-size: 12px; color: #666; padding: 4px 0 }
+  details[open] summary { font-weight: 600 }
+  footer { margin-top: 32px; font-size: 12px; color: #888; text-align: center }
+  .empty { color: #999; font-style: italic; padding: 12px 0 }
+  .opinion { background: #f0f7f4; border-left: 3px solid #2d8a5f;
+             padding: 12px 16px; margin: 12px 0; font-size: 13px; border-radius: 2px }
+  .opinion strong { color: #1a5a3f }
+  canvas { display: block }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>BurnRate - Token Burn Dashboard</h1>
+  <div class="subtitle" id="subtitle">Loading...</div>
+</header>
+
+<div class="uncertainty">
+  <strong>Three data streams.</strong>
+  <em>Cowork sections</em> are estimates from session-transcript heuristics (&plusmn;25% expected).
+  <em>API actual</em> sections are measurements straight from Anthropic console (exact).
+  <em>claude.ai snapshots</em> are manual entries from the Pro/Team Settings -> Usage page
+  (the only data Anthropic exposes for subscription chats).
+  Cowork chats, API calls and claude.ai are separate billing streams; don't sum them.
+</div>
+
+<div id="api-summary-banner"></div>
+
+<div class="grid">
+  <div class="card"><h2>Total estimated burn (Cowork)</h2>
+    <div class="stat-big" id="stat-total">-</div>
+    <div class="stat-sub" id="stat-total-sub">across all ingested sessions</div></div>
+  <div class="card"><h2>Sessions ingested</h2>
+    <div class="stat-big" id="stat-sessions">-</div>
+    <div class="stat-sub" id="stat-sessions-sub">turns counted</div></div>
+  <div class="card"><h2>Avg history overhead</h2>
+    <div class="stat-big" id="stat-overhead">-</div>
+    <div class="stat-sub">% of input spent re-reading prior context</div></div>
+  <div class="card"><h2>Top burner</h2>
+    <div class="stat-big" id="stat-top">-</div>
+    <div class="stat-sub" id="stat-top-sub">single highest-burn session</div></div>
+</div>
+
+<div class="card" style="margin-bottom:16px;">
+  <h2>Tokens by project (Cowork est.)</h2>
+  <table id="tbl-projects">
+    <thead><tr>
+      <th>Project</th><th class="num">Sessions</th><th class="num">Turns</th>
+      <th class="num">Input</th><th class="num">Output</th><th class="num">Total</th><th>Share</th>
+    </tr></thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<div class="card" style="margin-bottom:16px;">
+  <h2>Top burner sessions (Cowork est.)</h2>
+  <table id="tbl-top">
+    <thead><tr>
+      <th>Session</th><th>Project</th><th class="num">Turns</th>
+      <th class="num">Tokens</th><th class="num">History overhead</th><th>Title</th>
+    </tr></thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<div class="card" style="margin-bottom:16px;">
+  <h2>Tool burn breakdown</h2>
+  <p class="small" style="margin-top:0;">Which tool calls account for the most estimated token I/O.</p>
+  <table id="tbl-tools">
+    <thead><tr>
+      <th>Tool</th><th class="num">Calls</th><th class="num">Sessions</th>
+      <th class="num">Est. tokens</th><th>Share of tool I/O</th>
+    </tr></thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<div class="card" style="margin-bottom:16px;">
+  <h2>Session shard simulator - "what if I'd ended at turn N?"</h2>
+  <p class="small" style="margin-top:0;">Upper-bound savings (re-priming cost not subtracted).</p>
+  <table id="tbl-shard">
+    <thead><tr>
+      <th>Session</th><th>Project</th><th class="num">Actual turns</th>
+      <th class="num">Total burn</th><th class="num">Cut at 25</th>
+      <th class="num">Cut at 15</th><th class="num">Cut at 10</th>
+    </tr></thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<div class="card" style="margin-bottom:16px;">
+  <h2>Daily totals (Cowork est.)</h2>
+  <table id="tbl-daily">
+    <thead><tr>
+      <th>Date</th><th>Project</th><th class="num">Sessions</th>
+      <th class="num">Turns</th><th class="num">Total tokens</th><th class="num">vs Anthropic console</th>
+    </tr></thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<div class="card" style="margin-bottom:16px; border-top: 3px solid #2d8a5f;">
+  <h2>API actual usage (measured, from Anthropic console)</h2>
+  <p class="small" style="margin-top:0;">Imported from CSVs in <code>db/api_usage/</code>. Cache reads billed at ~10% base price.</p>
+  <div id="api-stats-grid" class="grid"></div>
+  <table id="tbl-api-daily" style="margin-top:16px;">
+    <thead><tr>
+      <th>Date</th><th>Project</th><th>Model</th>
+      <th class="num">Input (no cache)</th><th class="num">Cache write</th>
+      <th class="num">Cache read</th><th class="num">Output</th>
+      <th class="num">Total billed</th><th>Cache hit %</th>
+    </tr></thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<div class="card" style="margin-bottom:16px; border-top: 3px solid #d9534f;">
+  <h2>claude.ai (Pro/Team) snapshots - manual capture</h2>
+  <p class="small" style="margin-top:0;">
+    Anthropic does not expose token-level usage for Pro/Team subscribers. Open
+    <code>claude.ai/settings/usage</code>, read the four numbers, run
+    <code>python src/claude_ai_tracker.py add --weekly-pct N --eur N --balance N</code>.
+    Token-equivalent is for the overflow portion only.
+  </p>
+  <div id="claude-ai-latest"></div>
+  <table id="tbl-claude-ai" style="margin-top:16px;">
+    <thead><tr>
+      <th>Snapshot ts</th><th>Plan</th><th class="num">Weekly %</th>
+      <th class="num">Extra usage (EUR)</th><th class="num">Cap (EUR)</th>
+      <th class="num">Balance</th><th class="num">Token-equiv (overflow)</th><th>Note</th>
+    </tr></thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<div class="card">
+  <h2>Calibration</h2>
+  <div id="cal-body"></div>
+  <details><summary>How calibration works</summary>
+    <p class="small">Append daily totals to <code>docs/calibration_local.md</code> as
+    <code>2026-05-06: 1,250,000 tokens</code>, then run
+    <code>python src/cowork_estimator.py calibrate</code>.</p>
+  </details>
+</div>
+
+<footer>
+  Rendered <span id="rendered-ts">-</span> - BurnRate Phase 1 (JSON store)
+</footer>
+
+<script>
+/*BURNRATE_DATA_PLACEHOLDER*/
+
+(function() {
+  const D = window.BURNRATE_DATA || {sessions:[], turns:[], daily:[], calibration:[],
+    meta:{}, tool_stats:{rows:[]}, api_daily:[], api_summary:{}, claude_ai_snapshots:[]};
+
+  const fmt = (n) => (n == null ? "-" : Math.round(n).toLocaleString());
+  const pct = (n) => (n == null ? "-" : (n * 100).toFixed(1) + "%");
+  const projectPill = (p) => `<span class="pill pill-${p || 'other'}">${p || 'other'}</span>`;
+
+  document.getElementById("subtitle").textContent =
+    `${D.session_count} Cowork sessions ingested | ${D.turn_count} turns | ${(D.api_daily||[]).length} API daily rows | ${(D.claude_ai_snapshots||[]).length} claude.ai snapshots | rendered ${D.rendered_ts}`;
+  document.getElementById("rendered-ts").textContent = D.rendered_ts || "-";
+
+  // Top stats
+  const total = D.sessions.reduce((a, s) => a + (s.est_total_tokens || 0), 0);
+  document.getElementById("stat-total").textContent = fmt(total);
+  document.getElementById("stat-sessions").textContent = D.sessions.length;
+  document.getElementById("stat-sessions-sub").textContent = `${D.turns.length} turns counted`;
+  const overheads = D.sessions.map(s => s.history_overhead_share || 0);
+  const avgOverhead = overheads.length ? overheads.reduce((a,b)=>a+b,0)/overheads.length : 0;
+  document.getElementById("stat-overhead").textContent = pct(avgOverhead);
+  const top = [...D.sessions].sort((a,b) => (b.est_total_tokens||0)-(a.est_total_tokens||0))[0];
+  if (top) {
+    document.getElementById("stat-top").textContent = fmt(top.est_total_tokens);
+    document.getElementById("stat-top-sub").textContent = `${top.title || top.session_id} (${top.project})`;
+  }
+
+  // Tokens by project
+  const byProject = {};
+  D.sessions.forEach(s => {
+    const p = s.project || "other";
+    const r = byProject[p] = byProject[p] || {sessions:0, turns:0, input:0, output:0, total:0};
+    r.sessions++; r.turns += s.turn_count || 0;
+    r.input += s.est_input_tokens || 0; r.output += s.est_output_tokens || 0;
+    r.total += s.est_total_tokens || 0;
+  });
+  const tbody1 = document.querySelector("#tbl-projects tbody");
+  const projRows = Object.entries(byProject).sort((a,b) => b[1].total - a[1].total);
+  if (projRows.length === 0) {
+    tbody1.innerHTML = `<tr><td colspan="7" class="empty">No data yet.</td></tr>`;
+  } else {
+    projRows.forEach(([proj, r]) => {
+      const share = total ? r.total / total : 0;
+      const tr = document.createElement("tr");
+      tr.innerHTML = `<td>${projectPill(proj)}</td><td class="num">${r.sessions}</td>
+        <td class="num">${r.turns}</td><td class="num">${fmt(r.input)}</td>
+        <td class="num">${fmt(r.output)}</td><td class="num"><strong>${fmt(r.total)}</strong></td>
+        <td><div class="bar-track"><div class="bar-fill" style="width:${(share*100).toFixed(1)}%"></div></div>
+        <div class="small">${pct(share)}</div></td>`;
+      tbody1.appendChild(tr);
+    });
+  }
+
+  // Top burner sessions
+  const tbody2 = document.querySelector("#tbl-top tbody");
+  const topN = [...D.sessions].sort((a,b)=>(b.est_total_tokens||0)-(a.est_total_tokens||0)).slice(0,15);
+  if (topN.length === 0) {
+    tbody2.innerHTML = `<tr><td colspan="6" class="empty">No sessions yet.</td></tr>`;
+  } else {
+    topN.forEach(s => {
+      const tr = document.createElement("tr");
+      const sid = (s.session_id || "").substring(0, 24);
+      tr.innerHTML = `<td><code class="small">${sid}...</code></td>
+        <td>${projectPill(s.project)}</td><td class="num">${s.turn_count || 0}</td>
+        <td class="num"><strong>${fmt(s.est_total_tokens)}</strong></td>
+        <td class="num">${pct(s.history_overhead_share)}</td>
+        <td>${(s.title || "").substring(0, 60)}</td>`;
+      tbody2.appendChild(tr);
+    });
+  }
+
+  // Tool burn breakdown
+  const tbodyTools = document.querySelector("#tbl-tools tbody");
+  const toolRows = (D.tool_stats && D.tool_stats.rows) || [];
+  if (toolRows.length === 0) {
+    tbodyTools.innerHTML = `<tr><td colspan="5" class="empty">No tool calls yet.</td></tr>`;
+  } else {
+    toolRows.slice(0, 25).forEach(r => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `<td><code class="small">${r.tool}</code></td>
+        <td class="num">${r.calls}</td><td class="num">${r.sessions_using}</td>
+        <td class="num"><strong>${fmt(r.est_tokens)}</strong></td>
+        <td><div class="bar-track"><div class="bar-fill" style="width:${(r.share_of_tool_io*100).toFixed(1)}%;background:#4a90e2;"></div></div>
+        <div class="small">${pct(r.share_of_tool_io)}</div></td>`;
+      tbodyTools.appendChild(tr);
+    });
+  }
+
+  // Shard simulator
+  const tbodyShard = document.querySelector("#tbl-shard tbody");
+  const shardCands = [...D.sessions].filter(s => s.shard_sim && s.shard_sim.actual_turns)
+    .sort((a,b) => (b.est_total_tokens||0)-(a.est_total_tokens||0)).slice(0, 8);
+  if (shardCands.length === 0) {
+    tbodyShard.innerHTML = `<tr><td colspan="7" class="empty">Run aggregate.py.</td></tr>`;
+  } else {
+    shardCands.forEach(s => {
+      const sim = s.shard_sim;
+      const fmtCut = (cut) => {
+        const c = sim.cuts[cut];
+        if (!c || !c.applies) return `<span style="color:#bbb;">-</span>`;
+        return `<strong>${fmt(c.would_save)}</strong><br><span class="small">${pct(c.saved_share)} saved</span>`;
+      };
+      const tr = document.createElement("tr");
+      tr.innerHTML = `<td><code class="small">${(s.session_id||"").substring(0,22)}...</code><br>
+        <span class="small">${(s.title||"").substring(0,50)}</span></td>
+        <td>${projectPill(s.project)}</td><td class="num">${sim.actual_turns}</td>
+        <td class="num"><strong>${fmt(sim.full_total)}</strong></td>
+        <td class="num">${fmtCut('turn_25')}</td><td class="num">${fmtCut('turn_15')}</td>
+        <td class="num">${fmtCut('turn_10')}</td>`;
+      tbodyShard.appendChild(tr);
+    });
+  }
+
+  // Daily totals (Cowork)
+  const tbody3 = document.querySelector("#tbl-daily tbody");
+  const calByDate = {};
+  (D.calibration || []).forEach(c => calByDate[c.date] = c);
+  if ((D.daily || []).length === 0) {
+    tbody3.innerHTML = `<tr><td colspan="6" class="empty">No daily totals yet.</td></tr>`;
+  } else {
+    [...D.daily].sort((a,b) => (b.date||'').localeCompare(a.date||'') || (b.est_total_tokens||0)-(a.est_total_tokens||0))
+      .forEach(d => {
+        const cal = calByDate[d.date];
+        const compareCell = cal && cal.actual_total_tokens
+          ? `<span class="small">est ${fmt(d.est_total_tokens)} vs actual ${fmt(cal.actual_total_tokens)}<br>factor ${cal.correction_factor ? cal.correction_factor.toFixed(2) : 'n/a'}</span>`
+          : `<span class="small" style="color:#bbb;">no console total yet</span>`;
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td>${d.date}</td><td>${projectPill(d.project)}</td>
+          <td class="num">${d.sessions||0}</td><td class="num">${d.turns||0}</td>
+          <td class="num"><strong>${fmt(d.est_total_tokens)}</strong></td>
+          <td>${compareCell}</td>`;
+        tbody3.appendChild(tr);
+      });
+  }
+
+  // API actual
+  const apiSumm = D.api_summary || {};
+  const apiDaily = D.api_daily || [];
+  const banner = document.getElementById("api-summary-banner");
+  if (apiSumm.totals && apiDaily.length > 0) {
+    const t = apiSumm.totals;
+    const cachePct = (apiSumm.cache_read_share || 0) * 100;
+    banner.innerHTML = `<div class="opinion" style="background:#eef4fb; border-left-color:#4a90e2;">
+      <strong>API actual:</strong> ${fmt(t.total_billed)} tokens billed across
+      ${apiSumm.days_covered} days (${apiSumm.date_range[0]} to ${apiSumm.date_range[1]}),
+      keys: ${apiSumm.api_keys_seen.join(', ')}, projects: ${apiSumm.projects_seen.join(', ')}.
+      <strong>${cachePct.toFixed(1)}% from cache hits</strong> (~10% of base price).
+    </div>`;
+  }
+  const grid = document.getElementById("api-stats-grid");
+  if (apiSumm.totals && grid) {
+    const t = apiSumm.totals;
+    grid.innerHTML = `
+      <div class="card"><h2>Total billed (API)</h2>
+        <div class="stat-big">${fmt(t.total_billed)}</div>
+        <div class="stat-sub">over ${apiSumm.days_covered} days</div></div>
+      <div class="card"><h2>Cache reads</h2>
+        <div class="stat-big">${fmt(t.cache_read)}</div>
+        <div class="stat-sub">${((apiSumm.cache_read_share||0)*100).toFixed(1)}% of input - ~10x cheaper</div></div>
+      <div class="card"><h2>Full-price input</h2>
+        <div class="stat-big">${fmt(t.input_no_cache)}</div>
+        <div class="stat-sub">no-cache + cache-write</div></div>
+      <div class="card"><h2>Output</h2>
+        <div class="stat-big">${fmt(t.output)}</div>
+        <div class="stat-sub">~5x base input price</div></div>`;
+  }
+  const tbodyApi = document.querySelector("#tbl-api-daily tbody");
+  if (tbodyApi) {
+    if (apiDaily.length === 0) {
+      tbodyApi.innerHTML = `<tr><td colspan="9" class="empty">No API CSVs imported.</td></tr>`;
+    } else {
+      [...apiDaily].sort((a,b) => (b.date||'').localeCompare(a.date||'') || (b.total_billed||0)-(a.total_billed||0))
+        .slice(0, 60).forEach(d => {
+          const cw = (d.cache_write_5m || 0) + (d.cache_write_1h || 0);
+          const ms = (d.model || '').replace('claude-', '').replace('-20250929','').replace('-20251001','');
+          const tr = document.createElement("tr");
+          tr.innerHTML = `<td>${d.date}</td><td>${projectPill(d.project)}</td>
+            <td><code class="small">${ms}</code></td>
+            <td class="num">${fmt(d.input_no_cache)}</td><td class="num">${fmt(cw)}</td>
+            <td class="num" style="color:#2d8a5f;"><strong>${fmt(d.cache_read)}</strong></td>
+            <td class="num">${fmt(d.output)}</td>
+            <td class="num"><strong>${fmt(d.total_billed)}</strong></td>
+            <td><div class="bar-track"><div class="bar-fill" style="width:${(d.cache_read_share*100).toFixed(1)}%;background:#2d8a5f;"></div></div>
+            <div class="small">${pct(d.cache_read_share)}</div></td>`;
+          tbodyApi.appendChild(tr);
+        });
+    }
+  }
+
+  // claude.ai snapshots
+  const aiSnaps = D.claude_ai_snapshots || [];
+  const latestEl = document.getElementById("claude-ai-latest");
+  const tbodyAi = document.querySelector("#tbl-claude-ai tbody");
+  if (aiSnaps.length === 0) {
+    if (latestEl) latestEl.innerHTML = `<p class="small">No snapshots yet.</p>`;
+    if (tbodyAi) tbodyAi.innerHTML = `<tr><td colspan="8" class="empty">No snapshots.</td></tr>`;
+  } else {
+    const latest = aiSnaps[aiSnaps.length - 1];
+    const lEu = latest.extra_usage || {};
+    const lWp = (latest.weekly_pct || {}).all_models || 0;
+    const derived = latest.derived_token_equivalent || 0;
+
+    let trendBlock = "";
+    if (aiSnaps.length >= 2) {
+      const first = aiSnaps[0];
+      try {
+        const d1 = new Date(first.snapshot_ts);
+        const d2 = new Date(latest.snapshot_ts);
+        const days = Math.max(1, (d2 - d1) / 86400000);
+        const dEur = (latest.extra_usage.spent_eur || 0) - (first.extra_usage.spent_eur || 0);
+        const perDay = dEur / days;
+        trendBlock = `<div class="card"><h2>EUR/day rate</h2>
+          <div class="stat-big">EUR ${perDay.toFixed(2)}</div>
+          <div class="stat-sub">extra-usage burn over ${days.toFixed(1)}d</div></div>`;
+      } catch (e) {}
+    }
+
+    if (latestEl) {
+      latestEl.innerHTML = `
+        <div class="grid" style="margin-bottom:8px;">
+          <div class="card"><h2>Weekly bucket used</h2>
+            <div class="stat-big" style="color:${lWp >= 90 ? '#d9534f' : '#1a1a1a'};">${lWp.toFixed(0)}%</div>
+            <div class="stat-sub">resets ${latest.weekly_resets_at || '-'}</div></div>
+          <div class="card"><h2>Extra usage spent</h2>
+            <div class="stat-big">EUR ${(lEu.spent_eur||0).toFixed(2)}</div>
+            <div class="stat-sub">${(lEu.pct_used||0).toFixed(1)}% of EUR ${(lEu.monthly_cap_eur||0).toFixed(0)} cap, resets ${lEu.resets_at||'-'}</div></div>
+          <div class="card"><h2>Token-equivalent</h2>
+            <div class="stat-big">${fmt(derived)}</div>
+            <div class="stat-sub">overflow only - subscription bundle is opaque</div></div>
+          ${trendBlock}
+        </div>
+        <div class="opinion">
+          <strong>What this snapshot says:</strong>
+          ${lWp >= 100 ? 'Weekly cap exhausted - any further chat is overflow at API rates. ' : ''}
+          ${(lEu.pct_used||0) > 80 ? 'Monthly extra-usage cap is &gt;80% used; auto-reload is ' + (lEu.auto_reload ? 'ON' : 'OFF') + '. ' : ''}
+          Roughly ${fmt(derived)} tokens of overflow consumed since the monthly bucket reset.
+          The bundled subscription tokens used to <em>reach</em> the weekly cap are not measured by Anthropic.
+        </div>`;
+    }
+
+    if (tbodyAi) {
+      [...aiSnaps].reverse().forEach(s => {
+        const eu = s.extra_usage || {};
+        const wp = (s.weekly_pct || {}).all_models || 0;
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td>${(s.snapshot_ts||'').substring(0,19)}</td>
+          <td><span class="pill">${s.plan_tier || '-'}</span></td>
+          <td class="num">${wp.toFixed(0)}%</td>
+          <td class="num"><strong>${(eu.spent_eur||0).toFixed(2)}</strong></td>
+          <td class="num">${(eu.monthly_cap_eur||0).toFixed(0)}</td>
+          <td class="num">${(eu.current_balance_eur||0).toFixed(2)}</td>
+          <td class="num">${fmt(s.derived_token_equivalent)}</td>
+          <td><span class="small">${(s.note||'').substring(0,60)}</span></td>`;
+        tbodyAi.appendChild(tr);
+      });
+    }
+  }
+
+  // Calibration body
+  const cb = document.getElementById("cal-body");
+  if ((D.calibration || []).length === 0) {
+    cb.innerHTML = `<p class="small">No calibration data yet.</p>`;
+  } else {
+    let h = `<table><thead><tr><th>Date</th><th class="num">Actual</th><th class="num">Estimated</th><th class="num">Factor</th></tr></thead><tbody>`;
+    [...D.calibration].sort((a,b) => (b.date||'').localeCompare(a.date||'')).forEach(c => {
+      h += `<tr><td>${c.date}</td><td class="num">${fmt(c.actual_total_tokens)}</td><td class="num">${fmt(c.estimated_total_tokens)}</td><td class="num">${c.correction_factor ? c.correction_factor.toFixed(2) : '-'}</td></tr>`;
+    });
+    h += `</tbody></table>`;
+    cb.innerHTML = h;
+  }
+})();
+</script>
+</body>
+</html>

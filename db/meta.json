@@ -1,0 +1,6 @@
+{
+  "schema_version": "1-json",
+  "chars_per_token": 3.5,
+  "system_prompt_est_tokens": 12000,
+  "created_ts": "2026-05-06T09:41:03.808483+00:00"
+}

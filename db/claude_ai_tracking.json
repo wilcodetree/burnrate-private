@@ -1,0 +1,29 @@
+[
+  {
+    "snapshot_ts": "2026-05-06T15:16:07.349732+00:00",
+    "plan_tier": "Pro",
+    "weekly_pct": {
+      "all_models": 100.0,
+      "claude_design": 0
+    },
+    "weekly_resets_at": "Fri 11:00 AM",
+    "daily_routine_runs": {
+      "used": 0,
+      "cap": 5
+    },
+    "extra_usage": {
+      "spent_eur": 82.66,
+      "monthly_cap_eur": 100.0,
+      "pct_used": 82.7,
+      "resets_at": "Jun 1",
+      "current_balance_eur": 12.39,
+      "auto_reload": false
+    },
+    "derived_token_equivalent": 64947142,
+    "settings_snapshot": {
+      "eur_to_usd_rate": 1.1,
+      "effective_usd_per_million_tokens": 1.4
+    },
+    "note": "First snapshot. Weekly cap hit by Wed afternoon. Auto-reload off."
+  }
+]
