@@ -4,6 +4,15 @@ Most-recent on top. One paragraph per session. Append at end of each chat.
 
 ---
 
+## 2026-05-13 — CLAUDE.md compacted; STATUS.md created
+
+Restructured CLAUDE.md: compacted to 72 lines (from 132); moved full "Hard constraints
+(Phase 1)" section and "Three-step plan" detail to new STATUS.md. CLAUDE.md retains
+2-sentence hard-constraints summary and 3-bullet plan; full detail pointer to STATUS.md.
+"Why now" section trimmed. No guardrail wording changed.
+
+---
+
 ## 2026-05-12 - Competitive analysis + phased productisation roadmap
 
 Wilco shared five competitor links (ccburn, AleBles/burnrate,
