@@ -1,11 +1,11 @@
 {
-  "captured_ts": "2026-05-06T14:41:47.838656+00:00",
-  "row_count": 53,
+  "captured_ts": "2026-05-19T20:41:15.880795+00:00",
+  "row_count": 79,
   "date_range": [
     "2026-04-04",
-    "2026-05-06"
+    "2026-05-19"
   ],
-  "days_covered": 33,
+  "days_covered": 46,
   "models_seen": [
     "claude-haiku-4-5-20251001",
     "claude-opus-4-7",
@@ -19,13 +19,13 @@
     "cipher"
   ],
   "totals": {
-    "input_no_cache": 209280,
-    "cache_write_5m": 1130245,
+    "input_no_cache": 262633,
+    "cache_write_5m": 1630180,
     "cache_write_1h": 0,
-    "cache_read": 8255801,
-    "output": 184798,
-    "total_input": 9595326,
-    "total_billed": 9780124
+    "cache_read": 9759087,
+    "output": 258669,
+    "total_input": 11651900,
+    "total_billed": 11910569
   },
-  "cache_read_share": 0.8603981771958555
+  "cache_read_share": 0.8375532745732456
 }

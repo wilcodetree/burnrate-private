@@ -25,5 +25,15 @@
       "effective_usd_per_million_tokens": 1.4
     },
     "note": "First snapshot. Weekly cap hit by Wed afternoon. Auto-reload off."
+  },
+  {
+    "snapshot_ts": "2026-05-19T07:32:43.286136+00:00",
+    "snapshot_local": "2026-05-19T07:32:43.286153",
+    "plan_tier": "team",
+    "weekly_pct_all_models": 31.0,
+    "session_pct": 19.0,
+    "this_week_cowork_tokens": 0,
+    "implied_weekly_limit": null,
+    "note": "start of day, Tue 2026-05-19"
   }
 ]

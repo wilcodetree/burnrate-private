@@ -4,6 +4,20 @@ Most-recent on top. One paragraph per session. Append at end of each chat.
 
 ---
 
+## 2026-05-19 — Full dashboard rebuild + forecast engine + findings (TokenFinOps-inspired)
+
+Reviewed TokenFinOps technical doc and UI screenshots (dark theme, cumulative forecast chart, budget gauges, model router). Built a complete BurnRate upgrade across 6 files. (1) `src/projects.py`: fixed hub detection — root Cowork Output cwd now correctly tags sessions as `hub` instead of `other`; added `_clean_title()` to strip `<command-message>` XML tags from session titles. (2) `config.json`: added `weekly_token_limit` (default 50M), `weekly_reset_day` and `weekly_reset_hour` fields. (3) `src/cowork_estimator.py` (v2 continued): added `forecast` command that computes current-week burn vs limit, 7-day moving average, days-to-limit projection, and writes `db/forecast.json`; added `run_ingest.bat` now calls forecast step. (4) `dashboard/dashboard.html`: complete rebuild — 1132-line dark-theme single-page app with 7 sections (Dashboard, Forecast, Projects, Sessions, Cache Analysis, API Actual, Recommendations); uses Chart.js; KPI cards, SVG arc gauge, stacked bar charts, cumulative burn line with dashed forecast, session table with cache bars, cache growth per turn, model pricing reference table, auto-generated recommendations ranked by impact. All files written via bash to /tmp then cp to FUSE mount to avoid truncation corruption. (5) `docs/findings.md`: first real findings written from measured data — cache is 95–98% not 90%, fresh input is 1–3 tokens/turn, session length compounds cost, CIPHER API already well-optimised at 86% cache hit, mitigation priority list with estimated savings. (6) `CLAUDE.md`: rebuilt to 80 lines — removed duplicate folder map, updated with real finding (95–98% cache), added FUSE mount corruption warning, marked step 1 of 3-step plan as done.
+
+---
+
+## 2026-05-18 — JSONL direct ingestion (v2): Phase 1 estimation model retired
+
+Discovered that Cowork sessions write full JSONL to `~/.claude/projects/C--Users-WilcoDeTree-OneDrive---Valona-Intelligence-Claude-Cowork-Output/*.jsonl`, with exact Anthropic API `usage` objects embedded in every assistant message (`input_tokens`, `cache_creation_input_tokens`, `cache_read_input_tokens`, `output_tokens`). Verified across 5 uploaded sample sessions. Key finding: cache read tokens represent 88–98% of total effective input across all sessions — the original 90% hypothesis was conservative. Rewrote `src/cowork_estimator.py` (v2) to parse JSONL directly instead of using `mcp__session_info` + estimation. New data model: exact token fields per session and turn, `ingest_state.json` tracks file mtimes for incremental runs on active/growing sessions. Created `config.json` for configurable source folder paths (supports multiple folders, easy to change if OneDrive path changes). Created `run_ingest.bat` for Windows Task Scheduler — runs `ingest` + `rollup`, appends timestamped output to `db/ingest_log.txt`, trims log to 500 lines. Updated CLAUDE.md: removed stale "Cowork blocks JSONL access" constraint, replaced with accurate data source description. Token_calc.py and old estimation code kept for reference but no longer called by the main pipeline. Smoke test on 5 sample sessions: 26.3M effective input tokens, 504k output tokens parsed correctly with project tagging and turn-level rows.
+
+---
+
+---
+
 ## 2026-05-13 — CLAUDE.md compacted; STATUS.md created
 
 Restructured CLAUDE.md: compacted to 72 lines (from 132); moved full "Hard constraints
