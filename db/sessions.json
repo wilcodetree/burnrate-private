@@ -1,204 +1,12 @@
 [
   {
-    "session_id": "local_6c4f875e-484d-4b17-a142-316b2ab9e2c2",
-    "title": "Internal UI architecture for Claude automation",
-    "cwd": "C:\\Users\\wilco.de.tree\\AppData\\Roaming\\Claude\\local-agent-mode-sessions\\5fb0ce67-f764-4f11-af50-dc3b98ad2b52\\9731d067-95c4-4ebc-9edb-3dce64fb2678\\local_6c4f875e-484d-4b17-a142-316b2ab9e2c2\\outputs",
-    "project": "other",
-    "project_confidence": 0.0,
-    "first_seen_ts": "2026-05-06T09:43:49.428530+00:00",
-    "last_ingest_ts": "2026-05-06T09:43:49.428530+00:00",
-    "turn_count": 2,
-    "is_active": false,
-    "est_input_tokens": 25140,
-    "est_output_tokens": 932,
-    "est_total_tokens": 26072,
-    "est_unique_content_tokens": 1852,
-    "history_overhead_tokens": 23288,
-    "history_overhead_share": 0.9263,
-    "shard_sim": {
-      "full_total": 26072,
-      "actual_turns": 2,
-      "cuts": {
-        "turn_10": {
-          "applies": false,
-          "would_save": 0,
-          "saved_share": 0.0
-        },
-        "turn_15": {
-          "applies": false,
-          "would_save": 0,
-          "saved_share": 0.0
-        },
-        "turn_20": {
-          "applies": false,
-          "would_save": 0,
-          "saved_share": 0.0
-        },
-        "turn_25": {
-          "applies": false,
-          "would_save": 0,
-          "saved_share": 0.0
-        },
-        "turn_30": {
-          "applies": false,
-          "would_save": 0,
-          "saved_share": 0.0
-        }
-      }
-    }
-  },
-  {
-    "session_id": "local_ce9679e6-6d41-46de-b0ec-52ce7f67ad42",
-    "title": "Write work anniversary book message",
-    "cwd": "C:\\Users\\wilco.de.tree\\AppData\\Roaming\\Claude\\local-agent-mode-sessions\\5fb0ce67-f764-4f11-af50-dc3b98ad2b52\\9731d067-95c4-4ebc-9edb-3dce64fb2678\\local_ce9679e6-6d41-46de-b0ec-52ce7f67ad42\\outputs",
-    "project": "other",
-    "project_confidence": 0.0,
-    "first_seen_ts": "2026-05-06T09:43:15.526234+00:00",
-    "last_ingest_ts": "2026-05-06T09:43:15.526234+00:00",
-    "turn_count": 4,
-    "is_active": false,
-    "est_input_tokens": 51604,
-    "est_output_tokens": 461,
-    "est_total_tokens": 52065,
-    "est_unique_content_tokens": 1503,
-    "history_overhead_tokens": 50101,
-    "history_overhead_share": 0.9709,
-    "shard_sim": {
-      "full_total": 52065,
-      "actual_turns": 4,
-      "cuts": {
-        "turn_10": {
-          "applies": false,
-          "would_save": 0,
-          "saved_share": 0.0
-        },
-        "turn_15": {
-          "applies": false,
-          "would_save": 0,
-          "saved_share": 0.0
-        },
-        "turn_20": {
-          "applies": false,
-          "would_save": 0,
-          "saved_share": 0.0
-        },
-        "turn_25": {
-          "applies": false,
-          "would_save": 0,
-          "saved_share": 0.0
-        },
-        "turn_30": {
-          "applies": false,
-          "would_save": 0,
-          "saved_share": 0.0
-        }
-      }
-    }
-  },
-  {
-    "session_id": "local_341194dc-508a-46b1-bda0-3a51094a26d2",
-    "title": "CIPHER project tasks (Cheaper)",
-    "cwd": "C:\\Users\\wilco.de.tree\\AppData\\Roaming\\Claude\\local-agent-mode-sessions\\5fb0ce67-f764-4f11-af50-dc3b98ad2b52\\9731d067-95c4-4ebc-9edb-3dce64fb2678\\local_341194dc-508a-46b1-bda0-3a51094a26d2\\outputs",
-    "project": "cipher",
-    "project_confidence": 0.8,
-    "first_seen_ts": "2026-05-06T10:06:09.979179+00:00",
-    "last_ingest_ts": "2026-05-06T10:06:09.979179+00:00",
-    "turn_count": 13,
-    "is_active": false,
-    "est_input_tokens": 366574,
-    "est_output_tokens": 548,
-    "est_total_tokens": 367122,
-    "est_unique_content_tokens": 23515,
-    "history_overhead_tokens": 343059,
-    "history_overhead_share": 0.9359,
-    "shard_sim": {
-      "full_total": 367122,
-      "actual_turns": 13,
-      "cuts": {
-        "turn_10": {
-          "applies": true,
-          "would_save": 101115,
-          "saved_share": 0.2754261526141174
-        },
-        "turn_15": {
-          "applies": false,
-          "would_save": 0,
-          "saved_share": 0.0
-        },
-        "turn_20": {
-          "applies": false,
-          "would_save": 0,
-          "saved_share": 0.0
-        },
-        "turn_25": {
-          "applies": false,
-          "would_save": 0,
-          "saved_share": 0.0
-        },
-        "turn_30": {
-          "applies": false,
-          "would_save": 0,
-          "saved_share": 0.0
-        }
-      }
-    }
-  },
-  {
-    "session_id": "local_ee58736f-0fa8-455b-b33d-38d1fdd4e651",
-    "title": "JARVIS project tasks (Cheaper)",
-    "cwd": "C:\\Users\\wilco.de.tree\\AppData\\Roaming\\Claude\\local-agent-mode-sessions\\5fb0ce67-f764-4f11-af50-dc3b98ad2b52\\9731d067-95c4-4ebc-9edb-3dce64fb2678\\local_ee58736f-0fa8-455b-b33d-38d1fdd4e651\\outputs",
-    "project": "jarvis",
-    "project_confidence": 0.8,
-    "first_seen_ts": "2026-05-06T10:05:30.113685+00:00",
-    "last_ingest_ts": "2026-05-06T10:05:30.113685+00:00",
-    "turn_count": 7,
-    "is_active": false,
-    "est_input_tokens": 152952,
-    "est_output_tokens": 378,
-    "est_total_tokens": 153330,
-    "est_unique_content_tokens": 20691,
-    "history_overhead_tokens": 132261,
-    "history_overhead_share": 0.8647,
-    "shard_sim": {
-      "full_total": 153330,
-      "actual_turns": 7,
-      "cuts": {
-        "turn_10": {
-          "applies": false,
-          "would_save": 0,
-          "saved_share": 0.0
-        },
-        "turn_15": {
-          "applies": false,
-          "would_save": 0,
-          "saved_share": 0.0
-        },
-        "turn_20": {
-          "applies": false,
-          "would_save": 0,
-          "saved_share": 0.0
-        },
-        "turn_25": {
-          "applies": false,
-          "would_save": 0,
-          "saved_share": 0.0
-        },
-        "turn_30": {
-          "applies": false,
-          "would_save": 0,
-          "saved_share": 0.0
-        }
-      }
-    }
-  },
-  {
     "session_id": "20162cae-79ce-4ec2-84e7-5d55a41dea91",
-    "title": "compact-claudemd /compact-claud",
+    "title": "compact-claudemd /compact-claudemd",
     "cwd": "C:\\Users\\WilcoDeTree\\OneDrive - Valona Intelligence\\Claude Cowork Output",
     "project": "hub",
     "project_confidence": 0.9,
     "first_seen_ts": "2026-05-12T22:06:02.217Z",
-    "last_ingest_ts": "2026-05-18T22:01:37.823054+00:00",
+    "last_ingest_ts": "2026-06-03T21:51:47.757679+00:00",
     "last_session_ts": "2026-05-12T22:21:53.622Z",
     "turn_count": 57,
     "models": [
@@ -224,7 +32,7 @@
     "project": "hub",
     "project_confidence": 0.9,
     "first_seen_ts": "2026-05-16T08:58:27.246Z",
-    "last_ingest_ts": "2026-05-18T22:01:37.853468+00:00",
+    "last_ingest_ts": "2026-06-03T21:51:47.775671+00:00",
     "last_session_ts": "2026-05-16T10:32:40.578Z",
     "turn_count": 57,
     "models": [
@@ -244,13 +52,39 @@
     "history_overhead_tokens": 1645079
   },
   {
-    "session_id": "6861ed2f-3feb-45db-aecd-7ad149e5e3a4",
-    "title": "Caveat: The messages below were generated by the user whil",
+    "session_id": "58f62a0d-93cf-4e5b-96ec-6c53618b8404",
+    "title": "commit-and-push-all /commit-and-push-all",
     "cwd": "C:\\Users\\WilcoDeTree\\OneDrive - Valona Intelligence\\Claude Cowork Output",
     "project": "hub",
     "project_confidence": 0.9,
-    "first_seen_ts": "2026-05-18T22:01:37.871224+00:00",
-    "last_ingest_ts": "2026-05-18T22:01:37.871224+00:00",
+    "first_seen_ts": "2026-05-19T21:28:29.444Z",
+    "last_ingest_ts": "2026-06-03T21:51:47.795765+00:00",
+    "last_session_ts": "2026-05-19T21:34:03.080Z",
+    "turn_count": 49,
+    "models": [
+      "claude-sonnet-4-6"
+    ],
+    "data_source": "jsonl",
+    "input_tokens": 56,
+    "cache_creation_tokens": 177197,
+    "cache_read_tokens": 1484149,
+    "output_tokens": 56167,
+    "total_effective_input": 1661402,
+    "history_overhead_share": 0.8933,
+    "est_input_tokens": 1661402,
+    "est_output_tokens": 56167,
+    "est_total_tokens": 1717569,
+    "est_unique_content_tokens": 177253,
+    "history_overhead_tokens": 1484149
+  },
+  {
+    "session_id": "6861ed2f-3feb-45db-aecd-7ad149e5e3a4",
+    "title": "Caveat: The messages below were generated by the user while running local comman",
+    "cwd": "C:\\Users\\WilcoDeTree\\OneDrive - Valona Intelligence\\Claude Cowork Output",
+    "project": "other",
+    "project_confidence": 0.0,
+    "first_seen_ts": "2026-06-03T21:51:47.821388+00:00",
+    "last_ingest_ts": "2026-06-03T21:51:47.821401+00:00",
     "last_session_ts": null,
     "turn_count": 0,
     "models": [],
@@ -269,12 +103,12 @@
   },
   {
     "session_id": "d699f724-0ddb-4fb9-876e-f325a3c59873",
-    "title": "compact-claudemd /compact-claud",
+    "title": "compact-claudemd /compact-claudemd",
     "cwd": "C:\\Users\\WilcoDeTree\\OneDrive - Valona Intelligence\\Claude Cowork Output",
     "project": "hub",
     "project_confidence": 0.9,
     "first_seen_ts": "2026-05-13T15:14:13.882Z",
-    "last_ingest_ts": "2026-05-18T22:01:37.916871+00:00",
+    "last_ingest_ts": "2026-06-03T21:51:47.857543+00:00",
     "last_session_ts": "2026-05-13T19:07:44.922Z",
     "turn_count": 186,
     "models": [
@@ -292,5 +126,31 @@
     "est_total_tokens": 16426412,
     "est_unique_content_tokens": 304267,
     "history_overhead_tokens": 15944387
+  },
+  {
+    "session_id": "fd00b5c0-ff7a-4d27-b71e-bdd53bdbde5a",
+    "title": "can you use perplexity?",
+    "cwd": "C:\\Users\\WilcoDeTree\\OneDrive - Valona Intelligence\\Claude Cowork Output",
+    "project": "hub",
+    "project_confidence": 0.9,
+    "first_seen_ts": "2026-06-03T14:25:55.307Z",
+    "last_ingest_ts": "2026-06-03T21:51:47.903457+00:00",
+    "last_session_ts": "2026-06-03T15:33:44.241Z",
+    "turn_count": 234,
+    "models": [
+      "claude-sonnet-4-6"
+    ],
+    "data_source": "jsonl",
+    "input_tokens": 8174,
+    "cache_creation_tokens": 916124,
+    "cache_read_tokens": 18658135,
+    "output_tokens": 93441,
+    "total_effective_input": 19582433,
+    "history_overhead_share": 0.9528,
+    "est_input_tokens": 19582433,
+    "est_output_tokens": 93441,
+    "est_total_tokens": 19675874,
+    "est_unique_content_tokens": 924298,
+    "history_overhead_tokens": 18658135
   }
 ]

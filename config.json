@@ -14,12 +14,12 @@
   "_db_dir_note": "null = use BurnRate/db/ relative to this config. Set absolute path to write elsewhere.",
   "data_retention_days": 365,
   "plan_tier": "team",
-  "_plan_tier_note": "claude.ai plan: pro or team. Informational \u2014 used in dashboard labels.",
-  "weekly_token_limit": 50000000,
+  "_plan_tier_note": "claude.ai plan: pro or team. Informational — used in dashboard labels.",
+  "weekly_token_limit": 89011059,
   "_weekly_token_limit_note": [
     "Approximate weekly effective-input token limit. Calibrate as follows:",
     "1. Note the % shown on claude.ai Settings -> Usage -> Weekly limits.",
-    "2. Run: python src/cowork_estimator.py report \u2014 note this weeks total_effective_input.",
+    "2. Run: python src/cowork_estimator.py report — note this weeks total_effective_input.",
     "3. But: that number only covers Cowork sessions. Other claude.ai chat sessions also",
     "   count toward the weekly limit but are NOT captured by BurnRate (they do not write JSONL).",
     "4. From screenshot (2026-05-19, Monday): 31% used. BurnRate sees 1.73M this week.",
@@ -33,6 +33,7 @@
   "current_session_limit_pct_observed": 19,
   "_current_session_note": "Per-session limit also exists (separate from weekly). Observed at 19% on 2026-05-19.",
   "schedule": "daily",
-  "_schedule_note": "Informational \u2014 actual scheduling via Windows Task Scheduler (run_ingest.bat).",
-  "_comment_source": "claude_projects_dir is relative to the BurnRate root (CWD when run_ingest.bat executes). The bat mirrors ~/.claude/projects/... into _jsonl_mirror/ before ingest runs."
+  "_schedule_note": "Informational — actual scheduling via Windows Task Scheduler (run_ingest.bat).",
+  "_comment_source": "claude_projects_dir is relative to the BurnRate root (CWD when run_ingest.bat executes). The bat mirrors ~/.claude/projects/... into _jsonl_mirror/ before ingest runs.",
+  "_calibration_note": "Absolute calibration 2026-06-03: 19,582,433 Cowork tokens = 22% weekly (user confirmed Cowork-only usage today). Implied = 89,011,059."
 }

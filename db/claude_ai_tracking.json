@@ -35,5 +35,65 @@
     "this_week_cowork_tokens": 0,
     "implied_weekly_limit": null,
     "note": "start of day, Tue 2026-05-19"
+  },
+  {
+    "snapshot_ts": "2026-05-19T21:34:52.344079+00:00",
+    "snapshot_local": "2026-05-19T21:34:52.344180",
+    "plan_tier": "team",
+    "weekly_pct_all_models": 37.0,
+    "session_pct": 65.0,
+    "this_week_cowork_tokens": 0,
+    "implied_weekly_limit": null,
+    "note": "end of day Tue 2026-05-19"
+  },
+  {
+    "snapshot_ts": "2026-05-19T21:37:24.135572+00:00",
+    "snapshot_local": "2026-05-19T21:37:24.135597",
+    "plan_tier": "team",
+    "weekly_pct_all_models": 38.0,
+    "session_pct": 71.0,
+    "this_week_cowork_tokens": 1661402,
+    "implied_weekly_limit": null,
+    "note": "after ingest, Tue 2026-05-19 evening"
+  },
+  {
+    "snapshot_ts": "2026-05-20T21:31:23.247836+00:00",
+    "snapshot_local": "2026-05-20T21:31:23.247938",
+    "plan_tier": "team",
+    "weekly_pct_all_models": 39.0,
+    "session_pct": 0.0,
+    "this_week_cowork_tokens": 1661402,
+    "implied_weekly_limit": null,
+    "note": "start of day Wed 2026-05-20, new session not started"
+  },
+  {
+    "snapshot_ts": "2026-05-20T21:32:31.159814+00:00",
+    "snapshot_local": "2026-05-20T21:32:31.159895",
+    "plan_tier": "team",
+    "weekly_pct_all_models": 39.0,
+    "session_pct": 0.0,
+    "this_week_cowork_tokens": 1661402,
+    "implied_weekly_limit": null,
+    "note": "start of day Wed 2026-05-20 (after bug fix)"
+  },
+  {
+    "snapshot_ts": "2026-05-20T21:33:51.168845+00:00",
+    "snapshot_local": "2026-05-20T21:33:51.168904",
+    "plan_tier": "team",
+    "weekly_pct_all_models": 39.0,
+    "session_pct": 0.0,
+    "this_week_cowork_tokens": 1661402,
+    "implied_weekly_limit": 83070100,
+    "note": "start of day Wed 2026-05-20 calibration test"
+  },
+  {
+    "snapshot_ts": "2026-06-03T21:51:55.019950+00:00",
+    "snapshot_local": "2026-06-03T21:51:55.019969",
+    "plan_tier": "team",
+    "weekly_pct_all_models": 22.0,
+    "session_pct": 81.0,
+    "this_week_cowork_tokens": 19582433,
+    "implied_weekly_limit": null,
+    "note": "start of new week, Wed 2026-06-03, after reset Sun Jun 1"
   }
 ]

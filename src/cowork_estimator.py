@@ -730,21 +730,24 @@ def cmd_snapshot(cfg, weekly_pct=None, session_pct=None, note=None):
         and _ts_ge(ts, week_start)
     )
 
-    # Calibration: if we have a previous snapshot this week, estimate the limit
+    # Calibration: find the best prior snapshot this week to diff against.
+    # "Best" = most recent snapshot where delta_pct > 0 AND delta_cowork > 0.
     implied_limit = None
+    prev_used     = None
     prev_this_week = [
         t for t in tracking
-        if _ts_ge(t.get("snapshot_ts", ""), week_start.isoformat())
+        if _ts_ge(t.get("snapshot_ts", ""), week_start)
     ]
-    if prev_this_week:
-        prev = prev_this_week[-1]
-        prev_pct    = prev.get("weekly_pct_all_models", 0)
-        prev_cowork = prev.get("this_week_cowork_tokens", 0)
+    # Walk from most-recent to oldest, pick first usable anchor
+    for prev_candidate in reversed(prev_this_week):
+        prev_pct    = prev_candidate.get("weekly_pct_all_models", 0)
+        prev_cowork = prev_candidate.get("this_week_cowork_tokens", 0)
         delta_pct    = weekly_pct - prev_pct
         delta_cowork = this_week_cowork - prev_cowork
         if delta_pct > 0 and delta_cowork > 0:
-            # Cowork is some fraction of total; compute implied limit assuming Cowork = total
             implied_limit = int(delta_cowork / delta_pct * 100)
+            prev_used = prev_candidate
+            break
 
     entry = {
         "snapshot_ts":              now_iso,
@@ -765,7 +768,7 @@ def cmd_snapshot(cfg, weekly_pct=None, session_pct=None, note=None):
     print(f"           This-week Cowork tokens: {this_week_cowork:,}")
     if implied_limit:
         print(f"           Implied weekly limit: ~{implied_limit:,} tokens")
-        print(f"           (based on +{weekly_pct-prev_pct:.1f}% with +{this_week_cowork-prev_this_week[-1].get('this_week_cowork_tokens',0):,} Cowork tokens)")
+        print(f"           (based on +{weekly_pct-prev_used.get('weekly_pct_all_models',0):.1f}% with +{this_week_cowork-prev_used.get('this_week_cowork_tokens',0):,} Cowork tokens)")
         # Auto-update config if implied limit looks reasonable (>1M, <500M)
         if 1_000_000 < implied_limit < 500_000_000:
             current_limit = cfg.get("weekly_token_limit", 50_000_000)
