@@ -414,7 +414,18 @@ def cmd_ingest(cfg, only_session_id=None):
             )
             n_ok += 1
 
-    _save(db_dir / "sessions.json",     list(sessions_map.values()))
+    # Safety guard: never overwrite sessions.json with an empty list when files
+    # were all skipped (mtime unchanged). This prevents sessions_map starting
+    # empty (e.g. after FUSE corruption) and silently wiping the store.
+    saved_sessions = list(sessions_map.values())
+    if saved_sessions or n_ok > 0:
+        _save(db_dir / "sessions.json", saved_sessions)
+    else:
+        existing = _load(db_dir / "sessions.json", [])
+        if existing:
+            print("[WARN] ingest skipped all files but sessions.json has data — preserving.")
+        # else both are empty, safe to write
+        _save(db_dir / "sessions.json", saved_sessions)
     _save(db_dir / "turns.json",        turns)
     _save(db_dir / "ingest_state.json", state)
 

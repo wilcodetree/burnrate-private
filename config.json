@@ -15,7 +15,7 @@
   "data_retention_days": 365,
   "plan_tier": "team",
   "_plan_tier_note": "claude.ai plan: pro or team. Informational — used in dashboard labels.",
-  "weekly_token_limit": 89011059,
+  "weekly_token_limit": 63822627,
   "_weekly_token_limit_note": [
     "Approximate weekly effective-input token limit. Calibrate as follows:",
     "1. Note the % shown on claude.ai Settings -> Usage -> Weekly limits.",
@@ -35,5 +35,5 @@
   "schedule": "daily",
   "_schedule_note": "Informational — actual scheduling via Windows Task Scheduler (run_ingest.bat).",
   "_comment_source": "claude_projects_dir is relative to the BurnRate root (CWD when run_ingest.bat executes). The bat mirrors ~/.claude/projects/... into _jsonl_mirror/ before ingest runs.",
-  "_calibration_note": "Absolute calibration 2026-06-03: 19,582,433 Cowork tokens = 22% weekly (user confirmed Cowork-only usage today). Implied = 89,011,059."
+  "_calibration_note": "Auto-calibrated 2026-06-04: implied=53,027,586 blended=63,822,627"
 }

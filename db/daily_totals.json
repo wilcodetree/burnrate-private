@@ -56,21 +56,21 @@
     "est_total_tokens": 1717569
   },
   {
-    "date": "2026-06-03",
+    "date": "2026-06-04",
     "project": "hub",
-    "sessions": 1,
-    "turns": 234,
-    "input_tokens": 8174,
-    "cache_creation_tokens": 916124,
-    "cache_read_tokens": 18658135,
-    "output_tokens": 93441,
-    "total_effective_input": 19582433,
-    "est_input_tokens": 19582433,
-    "est_output_tokens": 93441,
-    "est_total_tokens": 19675874
+    "sessions": 5,
+    "turns": 394,
+    "input_tokens": 8402,
+    "cache_creation_tokens": 2653143,
+    "cache_read_tokens": 28586957,
+    "output_tokens": 185405,
+    "total_effective_input": 31248502,
+    "est_input_tokens": 31248502,
+    "est_output_tokens": 185405,
+    "est_total_tokens": 31433907
   },
   {
-    "date": "2026-06-03",
+    "date": "2026-06-04",
     "project": "other",
     "sessions": 1,
     "turns": 0,

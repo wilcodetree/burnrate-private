@@ -95,5 +95,15 @@
     "this_week_cowork_tokens": 19582433,
     "implied_weekly_limit": null,
     "note": "start of new week, Wed 2026-06-03, after reset Sun Jun 1"
+  },
+  {
+    "snapshot_ts": "2026-06-04T21:46:49.413165+00:00",
+    "snapshot_local": "2026-06-04T21:46:49.413278",
+    "plan_tier": "team",
+    "weekly_pct_all_models": 44.0,
+    "session_pct": 100.0,
+    "this_week_cowork_tokens": 31248502,
+    "implied_weekly_limit": 53027586,
+    "note": "session hit 100%, Wed 2026-06-04 evening"
   }
 ]

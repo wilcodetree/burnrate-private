@@ -1,0 +1,91 @@
+ 
+============================================================ 
+[Tue 05/19/2026 23:36:31.09] BurnRate ingest started 
+============================================================ 
+[Tue 05/19/2026 23:36:31.09] JSONL mirror sync done 
+[OK]   20162cae-79ce-4ec2-84e7-5d55a41dea91  project=hub       turns=  57  output= 194,188  eff_input=   2,335,175  cache= 88.9%
+[OK]   3a28ed39-4d11-4521-b26e-dcc5c5996d55  project=hub       turns=  57  output=  38,593  eff_input=   1,732,434  cache= 95.0%
+[OK]   58f62a0d-93cf-4e5b-96ec-6c53618b8404  project=hub       turns=  49  output=  56,167  eff_input=   1,661,402  cache= 89.3%
+[OK]   6861ed2f-3feb-45db-aecd-7ad149e5e3a4  project=other     turns=   0  output=       0  eff_input=           0  cache=  0.0%
+[OK]   d699f724-0ddb-4fb9-876e-f325a3c59873  project=hub       turns= 186  output= 177,758  eff_input=  16,248,654  cache= 98.1%
+
+Ingested 5 session(s), skipped 0 unchanged.
+[OK] daily_totals.json rebuilt.
+[FORECAST]  Week burn :      1,661,402 / 50,000,000  (3.3%)
+            Avg daily :      5,494,416 (7-day, 4 days with data)
+            Limit in  : 8.8 days at current rate
+            Resets in : 4.1 days  (status: ok)
+[OK] forecast.json written.
+[OK] dashboard.html rendered with 8 sessions, 8 daily rows, forecast status=ok
+     Open: C:\Users\WilcoDeTree\OneDrive - Valona Intelligence\Claude Cowork Output\BurnRate\dashboard\dashboard.html
+[Tue 05/19/2026 23:36:31.09] BurnRate ingest completed successfully 
+ 
+============================================================ 
+[Wed 05/20/2026 23:30:31.19] BurnRate ingest started 
+============================================================ 
+[Wed 05/20/2026 23:30:31.19] JSONL mirror sync done 
+
+Ingested 0 session(s), skipped 5 unchanged.
+[OK] daily_totals.json rebuilt.
+[FORECAST]  Week burn :      1,661,402 / 50,000,000  (3.3%)
+            Avg daily :      6,547,496 (7-day, 3 days with data)
+            Limit in  : 7.4 days at current rate
+            Resets in : 3.1 days  (status: ok)
+[OK] forecast.json written.
+[OK] dashboard.html rendered with 4 sessions, 5 daily rows, forecast status=ok
+     Open: C:\Users\WilcoDeTree\OneDrive - Valona Intelligence\Claude Cowork Output\BurnRate\dashboard\dashboard.html
+[Wed 05/20/2026 23:30:31.19] BurnRate ingest completed successfully 
+ 
+============================================================ 
+[Wed 06/03/2026 23:50:39.27] BurnRate ingest started 
+============================================================ 
+[Wed 06/03/2026 23:50:39.27] JSONL mirror sync done 
+[OK]   fd00b5c0-ff7a-4d27-b71e-bdd53bdbde5a  project=hub       turns= 234  output=  93,441  eff_input=  19,582,433  cache= 95.3%
+
+Ingested 1 session(s), skipped 5 unchanged.
+[OK] daily_totals.json rebuilt.
+[FORECAST]  Week burn :     19,582,433 / 73,149,070  (26.8%)
+            Avg daily :     19,582,433 (7-day, 1 days with data)
+            Limit in  : 2.7 days at current rate
+            Resets in : 3.0 days  (status: ok)
+[OK] forecast.json written.
+[OK] dashboard.html rendered with 5 sessions, 6 daily rows, forecast status=ok
+     Open: C:\Users\WilcoDeTree\OneDrive - Valona Intelligence\Claude Cowork Output\BurnRate\dashboard\dashboard.html
+[Wed 06/03/2026 23:50:39.27] BurnRate ingest completed successfully 
+ 
+============================================================ 
+[Thu 06/04/2026 23:39:46.29] BurnRate ingest started 
+============================================================ 
+[Thu 06/04/2026 23:39:46.29] JSONL mirror sync done 
+[OK]   073ade8a-4554-4b69-9f8d-246ad59fa49d  project=hub       turns=  63  output=  18,971  eff_input=   4,533,117  cache= 92.2%
+[OK]   5e4b9c7a-aeb6-4100-ac23-7ec72dd2629b  project=hub       turns=  52  output=  62,886  eff_input=   3,546,229  cache= 86.5%
+[OK]   7e8b13c9-059a-46d6-9c74-df69935d7c5e  project=hub       turns=   2  output=     178  eff_input=      67,412  cache= 65.8%
+[OK]   bb693705-6ea1-4c47-8658-5dcd9186aa43  project=hub       turns=  28  output=   5,091  eff_input=   1,075,718  cache= 93.6%
+[OK]   fd00b5c0-ff7a-4d27-b71e-bdd53bdbde5a  project=hub       turns= 249  output=  98,279  eff_input=  22,026,026  cache= 92.1%
+
+Ingested 5 session(s), skipped 5 unchanged.
+[OK] daily_totals.json rebuilt.
+[FORECAST]  Week burn :     31,248,502 / 89,011,059  (35.1%)
+            Avg daily :     31,248,502 (7-day, 1 days with data)
+            Limit in  : 1.8 days at current rate
+            Resets in : 2.1 days  (status: ok)
+[OK] forecast.json written.
+[OK] dashboard.html rendered with 9 sessions, 6 daily rows, forecast status=ok
+     Open: C:\Users\WilcoDeTree\OneDrive - Valona Intelligence\Claude Cowork Output\BurnRate\dashboard\dashboard.html
+[Thu 06/04/2026 23:39:46.29] BurnRate ingest completed successfully 
+ 
+============================================================ 
+[Thu 06/04/2026 23:43:47.35] BurnRate ingest started 
+============================================================ 
+[Thu 06/04/2026 23:43:47.35] JSONL mirror sync done 
+
+Ingested 0 session(s), skipped 10 unchanged.
+[OK] daily_totals.json rebuilt.
+[FORECAST]  Week burn :     22,026,026 / 89,011,059  (24.7%)
+            Avg daily :     22,026,026 (7-day, 1 days with data)
+            Limit in  : 3.0 days at current rate
+            Resets in : 2.1 days  (status: ok)
+[OK] forecast.json written.
+[OK] dashboard.html rendered with 5 sessions, 6 daily rows, forecast status=ok
+     Open: C:\Users\WilcoDeTree\OneDrive - Valona Intelligence\Claude Cowork Output\BurnRate\dashboard\dashboard.html
+[Thu 06/04/2026 23:43:47.35] BurnRate ingest completed successfully 
