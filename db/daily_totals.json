@@ -82,5 +82,19 @@
     "est_input_tokens": 0,
     "est_output_tokens": 0,
     "est_total_tokens": 0
+  },
+  {
+    "date": "2026-06-06",
+    "project": "hub",
+    "sessions": 1,
+    "turns": 44,
+    "input_tokens": 51,
+    "cache_creation_tokens": 402354,
+    "cache_read_tokens": 2022408,
+    "output_tokens": 41211,
+    "total_effective_input": 2424813,
+    "est_input_tokens": 2424813,
+    "est_output_tokens": 41211,
+    "est_total_tokens": 2466024
   }
 ]
