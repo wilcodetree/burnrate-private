@@ -16,11 +16,13 @@ from typing import Tuple
 
 PROJECT_PATTERNS = {
     "cipher":   [r"\bCIPHER\b", r"\bn8n\b", r"hetzner", r"meta resumable"],
-    "jarvis":   [r"\bJARVIS\b", r"langgraph", r"local agent", r"voice agent"],
+    "jarvis":   [r"\bJARVIS\b", r"langgraph", r"local agent", r"voice agent",
+                r"consulting work", r"time registration", r"time.entry"],
     "dsi":      [r"datastream", r"\bDSI\b", r"trade.flow", r"\bR1\b clearance"],
     "gha":      [r"github.actions", r"marketplace", r"billing app", r"zero-nonsense-dev"],
     "hub":      [r"ZeroNonsense\.dev", r"\bZND\b", r"\bhub\b",
-                 r"company brief", r"portfolio\.md", r"DEADLINES\.md"],
+                 r"company brief", r"portfolio\.md", r"DEADLINES\.md",
+                 r"roadmap\.md", r"next_steps", r"SESSION_LOG"],
     "burnrate": [r"\bBurnRate\b", r"token.burn"],
     "work":     [r"a-insights", r"Fabric Warehouse", r"\bMedicare\b"],
 }

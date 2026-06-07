@@ -42,3 +42,9 @@ db/*.db-shm
 .vscode/
 .idea/
 *.swp
+
+# === Graphify generated artifacts (regenerable) ===
+graphify-out/
+
+# === Raw session transcript mirror (personal content; like db/raw_transcripts/) ===
+_jsonl_mirror/

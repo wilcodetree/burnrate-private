@@ -72,7 +72,8 @@ BurnRate/
 - **"Token burn" ≠ "dollar cost."** Cowork is subscription-limited, not metered. Per-call dollar
   figures only meaningful in Phase 2.
 - **FUSE mount corrupts files on edit.** Always write large files via bash heredoc to /tmp, then
-  cp to mount. Never use Edit tool for files >100 lines on the mount.
+  cp to mount. Never use Edit tool for ANY file in src/ or db/ — use bash cp from /tmp instead.
+- **Ingest race condition (RESOLVED).** Bat now writes all ingest files to `%LOCALAPPDATA%\BurnRate\db` (local path, not OneDrive). After render, it copies sessions/turns/daily_totals/forecast/ingest_state.json back to OneDrive db/ for sandbox reads. Sandbox never writes these files. Rule still applies: sandbox runs `snapshot`, `forecast`, `render`, `rollup` only — never `ingest`. Recovery: reset mtimes in OneDrive db/ingest_state.json from sandbox, then user runs `.\run_ingest.bat`.
 - **Memory facts may be stale.** Verify file paths and function names before acting.
 
 ---

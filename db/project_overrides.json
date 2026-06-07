@@ -1,0 +1,13 @@
+{
+  "_comment": "Manual project tag overrides. Format: session_id -> {project, note}. Applied after auto-tagger during ingest, never overwritten by re-ingest.",
+  "2807c0c4-b87d-4913-b656-730f1c76eb78": {
+    "project": "hub",
+    "confidence": 0.5,
+    "note": "Manual: hub planning/status session (title too generic for auto-tag)"
+  },
+  "deb44e27-3307-49e5-a8af-c20b3c6937fa": {
+    "project": "jarvis",
+    "confidence": 0.5,
+    "note": "Manual: jarvis consulting work idea session"
+  }
+}

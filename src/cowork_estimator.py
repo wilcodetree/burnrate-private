@@ -374,6 +374,11 @@ def cmd_ingest(cfg, only_session_id=None):
 
     n_ok, n_skip = 0, 0
 
+    # Load manual project overrides (survive re-ingest)
+    overrides_path = db_dir / "project_overrides.json"
+    project_overrides = json.loads(overrides_path.read_text()) if overrides_path.exists() else {}
+
+
     for src in source_paths:
         jsonl_files = sorted(src.glob("*.jsonl"))
         if only_session_id:
@@ -397,6 +402,11 @@ def cmd_ingest(cfg, only_session_id=None):
 
             s = result["session"]
             sessions_map[sid] = s
+            if sid in project_overrides:
+                ov = project_overrides[sid]
+                s["project"] = ov["project"]
+                s["project_confidence"] = ov.get("confidence", 0.5)
+                s["retag_note"] = ov.get("note", "manual override")
             turns = [t for t in turns if t["session_id"] != sid] + result["turns"]
             state[sid] = {
                 "last_mtime":     mtime,
@@ -755,7 +765,7 @@ def cmd_snapshot(cfg, weekly_pct=None, session_pct=None, note=None):
         prev_cowork = prev_candidate.get("this_week_cowork_tokens", 0)
         delta_pct    = weekly_pct - prev_pct
         delta_cowork = this_week_cowork - prev_cowork
-        if delta_pct > 0 and delta_cowork > 0:
+        if delta_pct > 0 and delta_cowork > 0 and prev_cowork > 0:
             implied_limit = int(delta_cowork / delta_pct * 100)
             prev_used = prev_candidate
             break
@@ -815,12 +825,17 @@ def main():
     p = argparse.ArgumentParser(description="BurnRate - JSONL-based exact token ingester (v2)")
     p.add_argument("cmd", choices=["init", "scan", "ingest", "rollup", "report", "calibrate", "forecast", "render", "snapshot"])
     p.add_argument("session_id", nargs="?", default=None, help="Ingest a single session by ID")
-    p.add_argument("--weekly-pct",  type=float, default=None, help="Weekly % from claude.ai Usage page")
-    p.add_argument("--session-pct", type=float, default=None, help="Session % from claude.ai Usage page")
+    p.add_argument("--weekly-pct",  type=float, default=None, help="Weekly %% from claude.ai Usage page")
+    p.add_argument("--session-pct", type=float, default=None, help="Session %% from claude.ai Usage page")
     p.add_argument("--note", type=str, default=None, help="Optional note, e.g. 'start of day'")
+    p.add_argument("--db-dir", type=str, default=None,
+                   help="Override db/ directory (absolute path). Bat uses this to write to a local "
+                        "path and avoid the OneDrive/FUSE write-collision race condition.")
     args = p.parse_args()
 
     cfg = load_config()
+    if args.db_dir:
+        cfg["db_dir"] = args.db_dir
 
     if args.cmd == "init":
         cmd_init(cfg)

@@ -1,109 +1,500 @@
- 
 ============================================================ 
-[Tue 05/19/2026 23:36:31.09] BurnRate ingest started 
+[Sun 06/07/2026 15:22:31.09] BurnRate ingest started 
 ============================================================ 
-[Tue 05/19/2026 23:36:31.09] JSONL mirror sync done 
-[OK]   20162cae-79ce-4ec2-84e7-5d55a41dea91  project=hub       turns=  57  output= 194,188  eff_input=   2,335,175  cache= 88.9%
-[OK]   3a28ed39-4d11-4521-b26e-dcc5c5996d55  project=hub       turns=  57  output=  38,593  eff_input=   1,732,434  cache= 95.0%
-[OK]   58f62a0d-93cf-4e5b-96ec-6c53618b8404  project=hub       turns=  49  output=  56,167  eff_input=   1,661,402  cache= 89.3%
-[OK]   6861ed2f-3feb-45db-aecd-7ad149e5e3a4  project=other     turns=   0  output=       0  eff_input=           0  cache=  0.0%
-[OK]   d699f724-0ddb-4fb9-876e-f325a3c59873  project=hub       turns= 186  output= 177,758  eff_input=  16,248,654  cache= 98.1%
+[Sun 06/07/2026 15:22:31.09] JSONL mirror sync done (all Cowork subfolders) 
+[OK]   9a7bee4f-d1d1-4464-966e-3d41565536ea  project=hub       turns=  89  output=  79,248  eff_input=   5,640,096  cache= 83.7%
 
-Ingested 5 session(s), skipped 0 unchanged.
+Ingested 1 session(s), skipped 16 unchanged.
 [OK] daily_totals.json rebuilt.
-[FORECAST]  Week burn :      1,661,402 / 50,000,000  (3.3%)
-            Avg daily :      5,494,416 (7-day, 4 days with data)
-            Limit in  : 8.8 days at current rate
-            Resets in : 4.1 days  (status: ok)
+[FORECAST]  Week burn :      5,640,096 / 63,822,627  (8.8%)
+            Avg daily :     23,593,749 (7-day, 3 days with data)
+            Limit in  : 2.5 days at current rate
+            Resets in : 6.4 days  (status: ok)
 [OK] forecast.json written.
-[OK] dashboard.html rendered with 8 sessions, 8 daily rows, forecast status=ok
+[OK] dashboard.html rendered with 16 sessions, 10 daily rows, forecast status=ok
      Open: C:\Users\WilcoDeTree\OneDrive - Valona Intelligence\Claude Cowork Output\BurnRate\dashboard\dashboard.html
-[Tue 05/19/2026 23:36:31.09] BurnRate ingest completed successfully 
+[Sun 06/07/2026 15:22:31.09] BurnRate ingest completed successfully 
  
 ============================================================ 
-[Wed 05/20/2026 23:30:31.19] BurnRate ingest started 
+[Sun 06/07/2026 15:23:04.65] BurnRate ingest started 
 ============================================================ 
-[Wed 05/20/2026 23:30:31.19] JSONL mirror sync done 
+[Sun 06/07/2026 15:23:04.65] JSONL mirror sync done (all Cowork subfolders) 
 
-Ingested 0 session(s), skipped 5 unchanged.
+Ingested 0 session(s), skipped 17 unchanged.
 [OK] daily_totals.json rebuilt.
-[FORECAST]  Week burn :      1,661,402 / 50,000,000  (3.3%)
-            Avg daily :      6,547,496 (7-day, 3 days with data)
-            Limit in  : 7.4 days at current rate
-            Resets in : 3.1 days  (status: ok)
+[FORECAST]  Week burn :      5,640,096 / 63,822,627  (8.8%)
+            Avg daily :     23,593,749 (7-day, 3 days with data)
+            Limit in  : 2.5 days at current rate
+            Resets in : 6.4 days  (status: ok)
 [OK] forecast.json written.
-[OK] dashboard.html rendered with 4 sessions, 5 daily rows, forecast status=ok
+[OK] dashboard.html rendered with 16 sessions, 10 daily rows, forecast status=ok
      Open: C:\Users\WilcoDeTree\OneDrive - Valona Intelligence\Claude Cowork Output\BurnRate\dashboard\dashboard.html
-[Wed 05/20/2026 23:30:31.19] BurnRate ingest completed successfully 
+[Sun 06/07/2026 15:23:04.65] BurnRate ingest completed successfully 
  
 ============================================================ 
-[Wed 06/03/2026 23:50:39.27] BurnRate ingest started 
+[Sun 06/07/2026 15:27:25.98] BurnRate ingest started 
 ============================================================ 
-[Wed 06/03/2026 23:50:39.27] JSONL mirror sync done 
-[OK]   fd00b5c0-ff7a-4d27-b71e-bdd53bdbde5a  project=hub       turns= 234  output=  93,441  eff_input=  19,582,433  cache= 95.3%
+[Sun 06/07/2026 15:27:25.98] JSONL mirror sync done (all Cowork subfolders) 
 
-Ingested 1 session(s), skipped 5 unchanged.
+Ingested 0 session(s), skipped 17 unchanged.
 [OK] daily_totals.json rebuilt.
-[FORECAST]  Week burn :     19,582,433 / 73,149,070  (26.8%)
-            Avg daily :     19,582,433 (7-day, 1 days with data)
-            Limit in  : 2.7 days at current rate
-            Resets in : 3.0 days  (status: ok)
+[FORECAST]  Week burn :      5,640,096 / 63,822,627  (8.8%)
+            Avg daily :     23,593,749 (7-day, 3 days with data)
+            Limit in  : 2.5 days at current rate
+            Resets in : 6.4 days  (status: ok)
 [OK] forecast.json written.
-[OK] dashboard.html rendered with 5 sessions, 6 daily rows, forecast status=ok
+[OK] dashboard.html rendered with 16 sessions, 10 daily rows, forecast status=ok
      Open: C:\Users\WilcoDeTree\OneDrive - Valona Intelligence\Claude Cowork Output\BurnRate\dashboard\dashboard.html
-[Wed 06/03/2026 23:50:39.27] BurnRate ingest completed successfully 
+[Sun 06/07/2026 15:27:25.98] BurnRate ingest completed successfully 
  
 ============================================================ 
-[Thu 06/04/2026 23:39:46.29] BurnRate ingest started 
+[Sun 06/07/2026 15:42:06.39] BurnRate ingest started 
 ============================================================ 
-[Thu 06/04/2026 23:39:46.29] JSONL mirror sync done 
+[Sun 06/07/2026 15:42:06.39] JSONL mirror sync done (all Cowork subfolders) 
+
+Ingested 0 session(s), skipped 17 unchanged.
+[OK] daily_totals.json rebuilt.
+[FORECAST]  Week burn :      5,640,096 / 63,822,627  (8.8%)
+            Avg daily :     23,593,749 (7-day, 3 days with data)
+            Limit in  : 2.5 days at current rate
+            Resets in : 6.4 days  (status: ok)
+[OK] forecast.json written.
+[OK] dashboard.html rendered with 16 sessions, 10 daily rows, forecast status=ok
+     Open: C:\Users\WilcoDeTree\OneDrive - Valona Intelligence\Claude Cowork Output\BurnRate\dashboard\dashboard.html
+[Sun 06/07/2026 15:42:06.39] BurnRate ingest completed successfully 
+ 
+============================================================ 
+[Sun 06/07/2026 21:09:08.99] BurnRate ingest started 
+============================================================ 
+[Sun 06/07/2026 21:09:08.99] JSONL mirror sync done (all Cowork subfolders) 
+
+Ingested 0 session(s), skipped 17 unchanged.
+[OK] daily_totals.json rebuilt.
+[FORECAST]  Week burn :      5,640,096 / 63,822,627  (8.8%)
+            Avg daily :     23,593,749 (7-day, 3 days with data)
+            Limit in  : 2.5 days at current rate
+            Resets in : 6.2 days  (status: ok)
+[OK] forecast.json written.
+[OK] dashboard.html rendered with 16 sessions, 10 daily rows, forecast status=ok
+     Open: C:\Users\WilcoDeTree\OneDrive - Valona Intelligence\Claude Cowork Output\BurnRate\dashboard\dashboard.html
+[Sun 06/07/2026 21:09:08.99] BurnRate ingest completed successfully 
+ 
+============================================================ 
+[Sun 06/07/2026 21:21:03.53] BurnRate ingest started (LOCAL_DB=C:\Users\WilcoDeTree\AppData\Local\BurnRate\db) 
+============================================================ 
+[Sun 06/07/2026 21:21:03.53] OneDrive - db sync done 
+[Sun 06/07/2026 21:21:03.53] JSONL mirror sync done (all Cowork subfolders) 
+[OK] BurnRate store initialized at C:\Users\WilcoDeTree\AppData\Local\BurnRate\db
 [OK]   073ade8a-4554-4b69-9f8d-246ad59fa49d  project=hub       turns=  63  output=  18,971  eff_input=   4,533,117  cache= 92.2%
+[OK]   0b6719a9-c368-42c6-ac67-8c47de05b539  project=jarvis    turns=  19  output=  20,426  eff_input=   1,060,806  cache= 92.3%
+[OK]   13dd09ad-ae30-42ec-ac05-59447556a036  project=jarvis    turns= 334  output= 288,125  eff_input=  30,620,111  cache= 96.2%
+[OK]   20162cae-79ce-4ec2-84e7-5d55a41dea91  project=hub       turns=  57  output= 194,188  eff_input=   2,335,175  cache= 88.9%
+[OK]   286a036a-0759-4b8a-9cee-5e0e0b189131  project=jarvis    turns=  14  output=   8,530  eff_input=     628,523  cache= 85.0%
+[OK]   3a28ed39-4d11-4521-b26e-dcc5c5996d55  project=hub       turns=  57  output=  38,593  eff_input=   1,732,434  cache= 95.0%
+[OK]   42bb142c-fad8-4cc8-ad4d-32303a4c18c6  project=burnrate  turns=   8  output=   9,002  eff_input=   1,054,421  cache= 80.1%
+[OK]   58f62a0d-93cf-4e5b-96ec-6c53618b8404  project=hub       turns=  49  output=  56,167  eff_input=   1,661,402  cache= 89.3%
 [OK]   5e4b9c7a-aeb6-4100-ac23-7ec72dd2629b  project=hub       turns=  52  output=  62,886  eff_input=   3,546,229  cache= 86.5%
+[OK]   6861ed2f-3feb-45db-aecd-7ad149e5e3a4  project=other     turns=   0  output=       0  eff_input=           0  cache=  0.0%
+[OK]   7370d57f-da36-483d-a293-99667005db01  project=hub       turns=   6  output=   6,767  eff_input=     374,647  cache= 58.5%
 [OK]   7e8b13c9-059a-46d6-9c74-df69935d7c5e  project=hub       turns=   2  output=     178  eff_input=      67,412  cache= 65.8%
+[OK]   9a7bee4f-d1d1-4464-966e-3d41565536ea  project=hub       turns=  89  output=  79,248  eff_input=   5,640,096  cache= 83.7%
+[OK]   agent-aa89eb34a99643e3e  project=jarvis    turns=   9  output=   7,122  eff_input=     154,143  cache=  6.3%
 [OK]   bb693705-6ea1-4c47-8658-5dcd9186aa43  project=hub       turns=  28  output=   5,091  eff_input=   1,075,718  cache= 93.6%
+[OK]   d699f724-0ddb-4fb9-876e-f325a3c59873  project=hub       turns= 186  output= 177,758  eff_input=  16,248,654  cache= 98.1%
 [OK]   fd00b5c0-ff7a-4d27-b71e-bdd53bdbde5a  project=hub       turns= 249  output=  98,279  eff_input=  22,026,026  cache= 92.1%
 
-Ingested 5 session(s), skipped 5 unchanged.
+Ingested 17 session(s), skipped 0 unchanged.
 [OK] daily_totals.json rebuilt.
-[FORECAST]  Week burn :     31,248,502 / 89,011,059  (35.1%)
-            Avg daily :     31,248,502 (7-day, 1 days with data)
-            Limit in  : 1.8 days at current rate
-            Resets in : 2.1 days  (status: ok)
+[FORECAST]  Week burn :      5,640,096 / 63,822,627  (8.8%)
+            Avg daily :     23,593,749 (7-day, 3 days with data)
+            Limit in  : 2.5 days at current rate
+            Resets in : 6.2 days  (status: ok)
 [OK] forecast.json written.
-[OK] dashboard.html rendered with 9 sessions, 6 daily rows, forecast status=ok
+[OK] dashboard.html rendered with 16 sessions, 10 daily rows, forecast status=ok
      Open: C:\Users\WilcoDeTree\OneDrive - Valona Intelligence\Claude Cowork Output\BurnRate\dashboard\dashboard.html
-[Thu 06/04/2026 23:39:46.29] BurnRate ingest completed successfully 
+[Sun 06/07/2026 21:21:03.53] local db - sync done 
+[Sun 06/07/2026 21:21:03.53] BurnRate ingest completed successfully 
  
 ============================================================ 
-[Thu 06/04/2026 23:43:47.35] BurnRate ingest started 
+[Sun 06/07/2026 21:21:16.80] BurnRate ingest started (LOCAL_DB=C:\Users\WilcoDeTree\AppData\Local\BurnRate\db) 
 ============================================================ 
-[Thu 06/04/2026 23:43:47.35] JSONL mirror sync done 
+[Sun 06/07/2026 21:21:16.80] OneDrive - db sync done 
+[Sun 06/07/2026 21:21:16.80] JSONL mirror sync done (all Cowork subfolders) 
 
-Ingested 0 session(s), skipped 10 unchanged.
+Ingested 0 session(s), skipped 17 unchanged.
 [OK] daily_totals.json rebuilt.
-[FORECAST]  Week burn :     22,026,026 / 89,011,059  (24.7%)
-            Avg daily :     22,026,026 (7-day, 1 days with data)
-            Limit in  : 3.0 days at current rate
-            Resets in : 2.1 days  (status: ok)
+[FORECAST]  Week burn :      5,640,096 / 63,822,627  (8.8%)
+            Avg daily :     23,593,749 (7-day, 3 days with data)
+            Limit in  : 2.5 days at current rate
+            Resets in : 6.2 days  (status: ok)
 [OK] forecast.json written.
-[OK] dashboard.html rendered with 5 sessions, 6 daily rows, forecast status=ok
+[OK] dashboard.html rendered with 16 sessions, 10 daily rows, forecast status=ok
      Open: C:\Users\WilcoDeTree\OneDrive - Valona Intelligence\Claude Cowork Output\BurnRate\dashboard\dashboard.html
-[Thu 06/04/2026 23:43:47.35] BurnRate ingest completed successfully 
+[Sun 06/07/2026 21:21:16.80] local db - sync done 
+[Sun 06/07/2026 21:21:16.80] BurnRate ingest completed successfully 
  
 ============================================================ 
-[Sun 06/07/2026 12:39:41.76] BurnRate ingest started 
+[Sun 06/07/2026 21:25:23.56] BurnRate ingest started (LOCAL_DB=C:\Users\WilcoDeTree\AppData\Local\BurnRate\db) 
 ============================================================ 
-[Sun 06/07/2026 12:39:41.76] JSONL mirror sync done 
-[OK]   073ade8a-4554-4b69-9f8d-246ad59fa49d  project=hub       turns=  63  output=  18,971  eff_input=   4,533,117  cache= 92.2%
-[OK]   9a7bee4f-d1d1-4464-966e-3d41565536ea  project=hub       turns=  44  output=  41,211  eff_input=   2,424,813  cache= 83.4%
+[Sun 06/07/2026 21:25:23.56] OneDrive - db sync done 
+[Sun 06/07/2026 21:25:23.56] JSONL mirror sync done (all Cowork subfolders) 
 
-Ingested 2 session(s), skipped 9 unchanged.
+Ingested 0 session(s), skipped 17 unchanged.
 [OK] daily_totals.json rebuilt.
-[FORECAST]  Week burn :              0 / 63,822,627  (0.0%)
-            Avg daily :     16,836,657 (7-day, 2 days with data)
-            Limit in  : 3.8 days at current rate
-            Resets in : 6.5 days  (status: ok)
+[FORECAST]  Week burn :      5,640,096 / 63,822,627  (8.8%)
+            Avg daily :     23,593,749 (7-day, 3 days with data)
+            Limit in  : 2.5 days at current rate
+            Resets in : 6.1 days  (status: ok)
 [OK] forecast.json written.
-[OK] dashboard.html rendered with 10 sessions, 7 daily rows, forecast status=ok
+[OK] dashboard.html rendered with 16 sessions, 10 daily rows, forecast status=ok
      Open: C:\Users\WilcoDeTree\OneDrive - Valona Intelligence\Claude Cowork Output\BurnRate\dashboard\dashboard.html
-[Sun 06/07/2026 12:39:41.76] BurnRate ingest completed successfully 
+[Sun 06/07/2026 21:25:23.56] local db - sync done 
+[Sun 06/07/2026 21:25:23.56] BurnRate ingest completed successfully 
+ 
+============================================================ 
+[Sun 06/07/2026 22:00:40.64] BurnRate ingest started (LOCAL_DB=C:\Users\WilcoDeTree\AppData\Local\BurnRate\db) 
+============================================================ 
+[Sun 06/07/2026 22:00:40.64] OneDrive - db sync done 
+[Sun 06/07/2026 22:00:40.64] JSONL mirror sync done (all Cowork subfolders) 
+
+Ingested 0 session(s), skipped 17 unchanged.
+[OK] daily_totals.json rebuilt.
+[FORECAST]  Week burn :      5,640,096 / 63,822,627  (8.8%)
+            Avg daily :     23,593,749 (7-day, 3 days with data)
+            Limit in  : 2.5 days at current rate
+            Resets in : 6.1 days  (status: ok)
+[OK] forecast.json written.
+[OK] dashboard.html rendered with 16 sessions, 10 daily rows, forecast status=ok
+     Open: C:\Users\WilcoDeTree\OneDrive - Valona Intelligence\Claude Cowork Output\BurnRate\dashboard\dashboard.html
+[Sun 06/07/2026 22:00:40.64] local db - sync done 
+[Sun 06/07/2026 22:00:40.64] BurnRate ingest completed successfully 
+ 
+============================================================ 
+[2026-06-07 22:07:30] BurnRate ingest started 
+[2026-06-07 22:07:30] LOCAL_DB = C:\Users\WilcoDeTree\AppData\Local\BurnRate\db 
+============================================================ 
+[2026-06-07 22:07:30] OneDrive to local db sync done 
+[2026-06-07 22:07:30] JSONL mirror sync done 
+
+Ingested 0 session(s), skipped 17 unchanged.
+[OK] daily_totals.json rebuilt.
+[FORECAST]  Week burn :      5,640,096 / 63,822,627  (8.8%)
+            Avg daily :     23,593,749 (7-day, 3 days with data)
+            Limit in  : 2.5 days at current rate
+            Resets in : 6.1 days  (status: ok)
+[OK] forecast.json written.
+[OK] dashboard.html rendered with 16 sessions, 10 daily rows, forecast status=ok
+     Open: C:\Users\WilcoDeTree\OneDrive - Valona Intelligence\Claude Cowork Output\BurnRate\dashboard\dashboard.html
+[2026-06-07 22:07:30] Copying local db to OneDrive... 
+[2026-06-07 22:07:30] local db to OneDrive sync done 
+[2026-06-07 22:07:30] BurnRate ingest completed successfully 
+ 
+============================================================ 
+[2026-06-07 22:09:58] BurnRate ingest started 
+[2026-06-07 22:09:58] LOCAL_DB = C:\Users\WilcoDeTree\AppData\Local\BurnRate\db 
+============================================================ 
+[2026-06-07 22:09:58] OneDrive to local db sync done 
+[2026-06-07 22:09:58] JSONL mirror sync done 
+
+Ingested 0 session(s), skipped 17 unchanged.
+[OK] daily_totals.json rebuilt.
+[FORECAST]  Week burn :      5,640,096 / 63,822,627  (8.8%)
+            Avg daily :     23,593,749 (7-day, 3 days with data)
+            Limit in  : 2.5 days at current rate
+            Resets in : 6.1 days  (status: ok)
+[OK] forecast.json written.
+[OK] dashboard.html rendered with 16 sessions, 10 daily rows, forecast status=ok
+     Open: C:\Users\WilcoDeTree\OneDrive - Valona Intelligence\Claude Cowork Output\BurnRate\dashboard\dashboard.html
+[2026-06-07 22:09:58] Copying local db to OneDrive... 
+[2026-06-07 22:09:58] local db to OneDrive sync done 
+[2026-06-07 22:09:58] BurnRate ingest completed successfully 
+ 
+============================================================ 
+[Sun 06/07/2026 22:14:24.18] BurnRate ingest started 
+[Sun 06/07/2026 22:14:24.18] LOCAL_DB=C:\Users\WilcoDeTree\AppData\Local\BurnRate\db 
+============================================================ 
+[Sun 06/07/2026 22:14:24.18] OneDrive to local sync done 
+[Sun 06/07/2026 22:14:24.18] JSONL mirror sync done 
+
+Ingested 0 session(s), skipped 17 unchanged.
+[OK] daily_totals.json rebuilt.
+[FORECAST]  Week burn :      5,640,096 / 63,822,627  (8.8%)
+            Avg daily :     23,593,749 (7-day, 3 days with data)
+            Limit in  : 2.5 days at current rate
+            Resets in : 6.1 days  (status: ok)
+[OK] forecast.json written.
+[OK] dashboard.html rendered with 16 sessions, 10 daily rows, forecast status=ok
+     Open: C:\Users\WilcoDeTree\OneDrive - Valona Intelligence\Claude Cowork Output\BurnRate\dashboard\dashboard.html
+[Sun 06/07/2026 22:14:24.18] Syncing local db to OneDrive... 
+[SYNC] sessions.json: 16,090 bytes -> OK
+[SYNC] turns.json: 1,012,820 bytes -> OK
+[SYNC] daily_totals.json: 3,652 bytes -> OK
+[SYNC] forecast.json: 356 bytes -> OK
+[SYNC] ingest_state.json: 2,892 bytes -> OK
+[SYNC] Done — 5/5 files copied to OneDrive
+[Sun 06/07/2026 22:14:24.18] BurnRate ingest completed successfully 
+ 
+============================================================ 
+[Sun 06/07/2026 22:29:59.16] BurnRate ingest started 
+[Sun 06/07/2026 22:29:59.16] LOCAL_DB=C:\Users\WilcoDeTree\AppData\Local\BurnRate\db 
+============================================================ 
+[Sun 06/07/2026 22:29:59.16] OneDrive to local sync done 
+[Sun 06/07/2026 22:29:59.16] JSONL mirror sync done 
+
+Ingested 0 session(s), skipped 17 unchanged.
+[OK] daily_totals.json rebuilt.
+[FORECAST]  Week burn :      5,640,096 / 63,822,627  (8.8%)
+            Avg daily :     23,593,749 (7-day, 3 days with data)
+            Limit in  : 2.5 days at current rate
+            Resets in : 6.1 days  (status: ok)
+[OK] forecast.json written.
+[OK] dashboard.html rendered with 16 sessions, 10 daily rows, forecast status=ok
+     Open: C:\Users\WilcoDeTree\OneDrive - Valona Intelligence\Claude Cowork Output\BurnRate\dashboard\dashboard.html
+[Sun 06/07/2026 22:29:59.16] Syncing local db to OneDrive... 
+[SYNC] sessions.json: 16,090 bytes -> OK
+[SYNC] turns.json: 1,012,820 bytes -> OK
+[SYNC] daily_totals.json: 3,652 bytes -> OK
+[SYNC] forecast.json: 356 bytes -> OK
+[SYNC] ingest_state.json: 2,892 bytes -> OK
+[SYNC] Done — 5/5 files copied to OneDrive
+[Sun 06/07/2026 22:29:59.16] BurnRate ingest completed successfully 
+ 
+============================================================ 
+[Sun 06/07/2026 22:33:59.24] BurnRate ingest started 
+[Sun 06/07/2026 22:33:59.24] LOCAL_DB=C:\Users\WilcoDeTree\AppData\Local\BurnRate\db 
+============================================================ 
+[Sun 06/07/2026 22:33:59.24] OneDrive to local sync done 
+[Sun 06/07/2026 22:33:59.24] JSONL mirror sync done 
+
+Ingested 0 session(s), skipped 17 unchanged.
+[OK] daily_totals.json rebuilt.
+[FORECAST]  Week burn :      5,640,096 / 63,822,627  (8.8%)
+            Avg daily :     23,593,749 (7-day, 3 days with data)
+            Limit in  : 2.5 days at current rate
+            Resets in : 6.1 days  (status: ok)
+[OK] forecast.json written.
+[OK] dashboard.html rendered with 16 sessions, 10 daily rows, forecast status=ok
+     Open: C:\Users\WilcoDeTree\OneDrive - Valona Intelligence\Claude Cowork Output\BurnRate\dashboard\dashboard.html
+[Sun 06/07/2026 22:33:59.24] Syncing local db to OneDrive... 
+[SYNC] sessions.json: 16,090 bytes -> OK
+[SYNC] turns.json: 1,012,820 bytes -> OK
+[SYNC] daily_totals.json: 3,652 bytes -> OK
+[SYNC] forecast.json: 356 bytes -> OK
+[SYNC] ingest_state.json: 2,892 bytes -> OK
+[SYNC] Done — 5/5 files copied to OneDrive
+[Sun 06/07/2026 22:33:59.24] BurnRate ingest completed successfully 
+ 
+============================================================ 
+[Sun 06/07/2026 22:39:32.18] BurnRate ingest started 
+[Sun 06/07/2026 22:39:32.18] LOCAL_DB=C:\Users\WilcoDeTree\AppData\Local\BurnRate\db 
+============================================================ 
+[Sun 06/07/2026 22:39:32.18] OneDrive to local sync done 
+[Sun 06/07/2026 22:39:32.18] JSONL mirror sync done 
+
+Ingested 0 session(s), skipped 17 unchanged.
+[OK] daily_totals.json rebuilt.
+[FORECAST]  Week burn :      5,640,096 / 63,822,627  (8.8%)
+            Avg daily :     23,593,749 (7-day, 3 days with data)
+            Limit in  : 2.5 days at current rate
+            Resets in : 6.1 days  (status: ok)
+[OK] forecast.json written.
+[OK] dashboard.html rendered with 16 sessions, 10 daily rows, forecast status=ok
+     Open: C:\Users\WilcoDeTree\OneDrive - Valona Intelligence\Claude Cowork Output\BurnRate\dashboard\dashboard.html
+[Sun 06/07/2026 22:39:32.18] Syncing local db to OneDrive... 
+[SYNC] sessions.json: 16,090 bytes -> OK
+[SYNC] turns.json: 1,012,820 bytes -> OK
+[SYNC] daily_totals.json: 3,652 bytes -> OK
+[SYNC] forecast.json: 356 bytes -> OK
+[SYNC] ingest_state.json: 2,892 bytes -> OK
+[SYNC] Done — 5/5 files copied to OneDrive
+[Sun 06/07/2026 22:39:32.18] BurnRate ingest completed successfully 
+ 
+============================================================ 
+[Sun 06/07/2026 22:40:08.45] BurnRate ingest started 
+[Sun 06/07/2026 22:40:08.45] LOCAL_DB=C:\Users\WilcoDeTree\AppData\Local\BurnRate\db 
+============================================================ 
+[Sun 06/07/2026 22:40:08.45] OneDrive to local sync done 
+[Sun 06/07/2026 22:40:08.45] JSONL mirror sync done 
+
+Ingested 0 session(s), skipped 17 unchanged.
+[OK] daily_totals.json rebuilt.
+[FORECAST]  Week burn :      5,640,096 / 63,822,627  (8.8%)
+            Avg daily :     23,593,749 (7-day, 3 days with data)
+            Limit in  : 2.5 days at current rate
+            Resets in : 6.1 days  (status: ok)
+[OK] forecast.json written.
+[OK] dashboard.html rendered with 16 sessions, 10 daily rows, forecast status=ok
+     Open: C:\Users\WilcoDeTree\OneDrive - Valona Intelligence\Claude Cowork Output\BurnRate\dashboard\dashboard.html
+[Sun 06/07/2026 22:40:08.45] Syncing local db to OneDrive... 
+[SYNC] sessions.json: 16,090 bytes -> OK
+[SYNC] turns.json: 1,012,820 bytes -> OK
+[SYNC] daily_totals.json: 3,652 bytes -> OK
+[SYNC] forecast.json: 356 bytes -> OK
+[SYNC] ingest_state.json: 2,892 bytes -> OK
+[SYNC] Done — 5/5 files copied to OneDrive
+[Sun 06/07/2026 22:40:08.45] BurnRate ingest completed successfully 
+ 
+============================================================ 
+[Sun 06/07/2026 22:40:42.13] BurnRate ingest started 
+[Sun 06/07/2026 22:40:42.13] LOCAL_DB=C:\Users\WilcoDeTree\AppData\Local\BurnRate\db 
+============================================================ 
+[Sun 06/07/2026 22:40:42.13] OneDrive to local sync done 
+[Sun 06/07/2026 22:40:42.13] JSONL mirror sync done 
+
+Ingested 0 session(s), skipped 17 unchanged.
+[OK] daily_totals.json rebuilt.
+[FORECAST]  Week burn :      5,640,096 / 63,822,627  (8.8%)
+            Avg daily :     23,593,749 (7-day, 3 days with data)
+            Limit in  : 2.5 days at current rate
+            Resets in : 6.1 days  (status: ok)
+[OK] forecast.json written.
+[OK] dashboard.html rendered with 16 sessions, 10 daily rows, forecast status=ok
+     Open: C:\Users\WilcoDeTree\OneDrive - Valona Intelligence\Claude Cowork Output\BurnRate\dashboard\dashboard.html
+[Sun 06/07/2026 22:40:42.13] Syncing local db to OneDrive... 
+[SYNC] sessions.json: 16,090 bytes -> OK
+[SYNC] turns.json: 1,012,820 bytes -> OK
+[SYNC] daily_totals.json: 3,652 bytes -> OK
+[SYNC] forecast.json: 356 bytes -> OK
+[SYNC] ingest_state.json: 2,892 bytes -> OK
+[SYNC] Done — 5/5 files copied to OneDrive
+[Sun 06/07/2026 22:40:42.13] BurnRate ingest completed successfully 
+ 
+============================================================ 
+[Sun 06/07/2026 22:45:48.10] BurnRate ingest started 
+[Sun 06/07/2026 22:45:48.10] LOCAL_DB=C:\Users\WilcoDeTree\AppData\Local\BurnRate\db 
+============================================================ 
+[Sun 06/07/2026 22:45:48.10] OneDrive to local sync done 
+[Sun 06/07/2026 22:45:48.10] JSONL mirror sync done 
+
+Ingested 0 session(s), skipped 17 unchanged.
+[OK] daily_totals.json rebuilt.
+[FORECAST]  Week burn :      5,640,096 / 63,822,627  (8.8%)
+            Avg daily :     23,593,749 (7-day, 3 days with data)
+            Limit in  : 2.5 days at current rate
+            Resets in : 6.1 days  (status: ok)
+[OK] forecast.json written.
+[OK] dashboard.html rendered with 16 sessions, 10 daily rows, forecast status=ok
+     Open: C:\Users\WilcoDeTree\OneDrive - Valona Intelligence\Claude Cowork Output\BurnRate\dashboard\dashboard.html
+[Sun 06/07/2026 22:45:48.10] Syncing local db to OneDrive... 
+[SYNC] sessions.json: 16,090 bytes -> OK
+[SYNC] turns.json: 1,012,820 bytes -> OK
+[SYNC] daily_totals.json: 3,652 bytes -> OK
+[SYNC] forecast.json: 356 bytes -> OK
+[SYNC] ingest_state.json: 2,892 bytes -> OK
+[SYNC] Done — 5/5 files copied to OneDrive
+[Sun 06/07/2026 22:45:48.10] BurnRate ingest completed successfully 
+ 
+============================================================ 
+[Sun 06/07/2026 22:45:59.70] BurnRate ingest started 
+[Sun 06/07/2026 22:45:59.70] LOCAL_DB=C:\Users\WilcoDeTree\AppData\Local\BurnRate\db 
+============================================================ 
+[Sun 06/07/2026 22:45:59.70] OneDrive to local sync done 
+[Sun 06/07/2026 22:45:59.70] JSONL mirror sync done 
+
+Ingested 0 session(s), skipped 17 unchanged.
+[OK] daily_totals.json rebuilt.
+[FORECAST]  Week burn :      5,640,096 / 63,822,627  (8.8%)
+            Avg daily :     23,593,749 (7-day, 3 days with data)
+            Limit in  : 2.5 days at current rate
+            Resets in : 6.1 days  (status: ok)
+[OK] forecast.json written.
+[OK] dashboard.html rendered with 16 sessions, 10 daily rows, forecast status=ok
+     Open: C:\Users\WilcoDeTree\OneDrive - Valona Intelligence\Claude Cowork Output\BurnRate\dashboard\dashboard.html
+[Sun 06/07/2026 22:45:59.70] Syncing local db to OneDrive... 
+[SYNC] sessions.json: 16,090 bytes -> OK
+[SYNC] turns.json: 1,012,820 bytes -> OK
+[SYNC] daily_totals.json: 3,652 bytes -> OK
+[SYNC] forecast.json: 356 bytes -> OK
+[SYNC] ingest_state.json: 2,892 bytes -> OK
+[SYNC] Done — 5/5 files copied to OneDrive
+[Sun 06/07/2026 22:45:59.70] BurnRate ingest completed successfully 
+ 
+============================================================ 
+[Sun 06/07/2026 22:49:21.01] BurnRate ingest started 
+[Sun 06/07/2026 22:49:21.01] LOCAL_DB=C:\Users\WilcoDeTree\AppData\Local\BurnRate\db 
+============================================================ 
+[Sun 06/07/2026 22:49:21.01] OneDrive to local sync done 
+[Sun 06/07/2026 22:49:21.01] JSONL mirror sync done 
+[OK]   05c5c38c-9c9d-4822-b946-cb74c31de802  project=other     turns=  61  output= 100,113  eff_input=   6,679,803  cache= 91.7%
+[OK]   1601cc7a-275c-4bd4-9d4e-1371db559d6b  project=other     turns= 401  output= 592,605  eff_input= 122,805,101  cache= 93.0%
+[OK]   1c5012aa-9fc2-4e33-a64a-44c8186acd76  project=other     turns= 163  output= 281,378  eff_input=  17,025,019  cache= 93.7%
+[OK]   27a77bed-5e69-4a61-a24f-180c00524395  project=burnrate  turns= 717  output= 729,448  eff_input=  92,124,397  cache= 94.2%
+[OK]   2807c0c4-b87d-4913-b656-730f1c76eb78  project=other     turns= 199  output= 170,520  eff_input=  23,189,774  cache= 94.1%
+[OK]   388329d4-4a81-469f-9c60-12e648ba9c8d  project=burnrate  turns=  53  output=  66,231  eff_input=   3,643,070  cache= 95.3%
+[OK]   464b2c25-2000-4419-a8da-8b80aacce961  project=cipher    turns=  30  output=  40,363  eff_input=   2,669,899  cache= 44.5%
+[OK]   4b1e8615-5638-4135-8950-b018ef5f55f3  project=other     turns= 124  output=  94,163  eff_input=   6,024,593  cache= 96.9%
+[OK]   56c6036c-8835-4206-8cdf-fec2495ca691  project=gha       turns=  20  output=   9,766  eff_input=   1,297,445  cache= 87.4%
+[OK]   5b22ec4a-ae64-4e07-817c-153d53bb8366  project=burnrate  turns=   4  output=     494  eff_input=     255,524  cache= 61.6%
+[OK]   6c51e5d5-0af6-4809-9feb-f35e6cbce4e4  project=other     turns= 283  output= 503,828  eff_input=  81,013,672  cache= 98.1%
+[OK]   7e3ab7bb-d91a-453c-a404-4e5b9b3d7c34  project=other     turns=  68  output=  62,395  eff_input=   6,973,131  cache= 91.0%
+[OK]   86160d41-111d-49c4-9800-d144c8bd6a49  project=burnrate  turns=  10  output=   3,294  eff_input=     906,119  cache= 80.1%
+[OK]   8762e1f0-9000-4d76-ab0b-addde9940d15  project=dsi       turns= 149  output= 113,735  eff_input=  15,682,389  cache= 97.8%
+[OK]   9babea4f-0218-4eb2-8814-59fa2583e75c  project=cipher    turns=  17  output=  16,204  eff_input=     960,479  cache= 73.0%
+[OK]   9d7219ec-6242-4e78-bd57-41e7d711fcdf  project=jarvis    turns= 215  output= 166,998  eff_input=  27,056,890  cache= 94.6%
+[OK]   af5f9316-a57b-49b5-8fea-c3a5995bd88a  project=burnrate  turns=  10  output=   1,722  eff_input=     653,025  cache= 84.4%
+[OK]   agent-a0138be199f1e85a4  project=other     turns=  16  output=   3,432  eff_input=     285,833  cache= 93.3%
+[OK]   agent-a2fa264058c074e47  project=other     turns=  29  output=   3,743  eff_input=     747,571  cache= 90.6%
+[OK]   agent-a42221724a0f3815b  project=other     turns=  23  output=   4,005  eff_input=     427,044  cache= 94.6%
+[OK]   agent-a512f4e67c03fc712  project=other     turns=  31  output=  24,125  eff_input=   1,053,225  cache= 90.7%
+[OK]   agent-a820b96198e02bbd8  project=other     turns=  11  output=     744  eff_input=     173,886  cache= 92.7%
+[OK]   agent-a9c8fccd78e1ac5bc  project=other     turns=  10  output=     867  eff_input=     149,043  cache= 82.2%
+[OK]   agent-a9f2e87b5d1f62ded  project=other     turns=  22  output=   6,076  eff_input=     463,371  cache= 94.1%
+[OK]   agent-ac49d65e34d8b6083  project=other     turns=  14  output=   2,110  eff_input=     154,732  cache= 62.8%
+[OK]   agent-ac83d8e479336e38e  project=other     turns=  58  output=   5,640  eff_input=   2,375,847  cache= 89.2%
+[OK]   agent-ac98b9bc4a09dddc8  project=other     turns=  10  output=     956  eff_input=     153,952  cache= 86.9%
+[OK]   audit  project=jarvis    turns= 246  output=   4,993  eff_input=  23,350,803  cache= 95.3%
+[OK]   c3f52a42-3fb3-4d80-ab7d-28bdc62b0b57  project=other     turns= 320  output= 427,311  eff_input=  51,741,017  cache= 93.3%
+[OK]   c92c19be-3fd8-45e8-946a-d4102de4715a  project=burnrate  turns=  58  output=  25,015  eff_input=   3,270,908  cache= 93.8%
+[OK]   cb85d959-ab6f-46a3-aa75-8b3e5977186e  project=jarvis    turns=  27  output=  57,701  eff_input=   3,269,950  cache= 87.2%
+[OK]   d7049ed3-b394-4939-98d6-6eb9740268a0  project=burnrate  turns=  10  output=   1,506  eff_input=     653,295  cache= 84.4%
+[OK]   d97e3fde-82ef-445b-8154-a86e3462521a  project=burnrate  turns=   9  output=   1,450  eff_input=     364,152  cache= 79.0%
+[OK]   dd9c21f1-46ae-4d4f-bde9-646d0601cd8a  project=burnrate  turns=   4  output=     496  eff_input=     163,384  cache= 68.4%
+[OK]   deb44e27-3307-49e5-a8af-c20b3c6937fa  project=other     turns=  81  output= 116,369  eff_input=  12,439,949  cache= 90.0%
+[OK]   e7be2494-ab63-4e74-b4a5-5879cd97ab1a  project=cipher    turns=  20  output=  13,286  eff_input=   1,521,506  cache= 49.2%
+[OK]   ee968d33-79ef-4d4b-89fa-1dd4ae3c7682  project=jarvis    turns= 248  output= 158,859  eff_input=  23,350,803  cache= 95.3%
+[OK]   f1af5231-759a-403d-899b-57a64f124ecb  project=hub       turns= 258  output= 291,740  eff_input=  57,000,446  cache= 95.6%
+[OK]   f2daff73-9b8a-4580-8230-8f2787659330  project=jarvis    turns=  23  output=   9,545  eff_input=   1,738,087  cache= 89.1%
+
+Ingested 39 session(s), skipped 17 unchanged.
+[OK] daily_totals.json rebuilt.
+[FORECAST]  Week burn :    251,351,504 / 63,822,627  (100.0%)
+            Avg daily :     94,453,923 (7-day, 5 days with data)
+            Limit in  : 0.0 days at current rate
+            Resets in : 6.1 days  (status: over)
+[OK] forecast.json written.
+[OK] dashboard.html rendered with 55 sessions, 29 daily rows, forecast status=over
+     Open: C:\Users\WilcoDeTree\OneDrive - Valona Intelligence\Claude Cowork Output\BurnRate\dashboard\dashboard.html
+[Sun 06/07/2026 22:49:21.01] Syncing local db to OneDrive... 
+[SYNC] sessions.json: 58,500 bytes -> OK
+[SYNC] turns.json: 4,351,353 bytes -> OK
+[SYNC] daily_totals.json: 10,766 bytes -> OK
+[SYNC] forecast.json: 362 bytes -> OK
+[SYNC] ingest_state.json: 9,398 bytes -> OK
+[SYNC] Done — 5/5 files copied to OneDrive
+[Sun 06/07/2026 22:49:21.01] BurnRate ingest completed successfully 
+ 
+============================================================ 
+[Sun 06/07/2026 22:50:26.23] BurnRate ingest started 
+[Sun 06/07/2026 22:50:26.23] LOCAL_DB=C:\Users\WilcoDeTree\AppData\Local\BurnRate\db 
+============================================================ 
+[Sun 06/07/2026 22:50:26.23] OneDrive to local sync done 
+[Sun 06/07/2026 22:50:26.23] JSONL mirror sync done 
+[OK]   27a77bed-5e69-4a61-a24f-180c00524395  project=burnrate  turns= 719  output= 730,916  eff_input=  92,313,919  cache= 94.1%
+
+Ingested 1 session(s), skipped 55 unchanged.
+[OK] daily_totals.json rebuilt.
+[FORECAST]  Week burn :    251,541,026 / 63,822,627  (100.0%)
+            Avg daily :     94,491,827 (7-day, 5 days with data)
+            Limit in  : 0.0 days at current rate
+            Resets in : 6.1 days  (status: over)
+[OK] forecast.json written.
+[OK] dashboard.html rendered with 55 sessions, 29 daily rows, forecast status=over
+     Open: C:\Users\WilcoDeTree\OneDrive - Valona Intelligence\Claude Cowork Output\BurnRate\dashboard\dashboard.html
+[Sun 06/07/2026 22:50:26.23] Syncing local db to OneDrive... 
+[SYNC] sessions.json: 58,500 bytes -> OK
+[SYNC] turns.json: 4,353,011 bytes -> OK
+[SYNC] daily_totals.json: 10,766 bytes -> OK
+[SYNC] forecast.json: 362 bytes -> OK
+[SYNC] ingest_state.json: 9,399 bytes -> OK
+[SYNC] Done — 5/5 files copied to OneDrive
+[Sun 06/07/2026 22:50:26.23] BurnRate ingest completed successfully 
