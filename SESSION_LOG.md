@@ -4,6 +4,12 @@ Most-recent on top. One paragraph per session. Append at end of each chat.
 
 ---
 
+## 2026-06-12 — First clean calibration; Store app path fully working
+
+**Calibration finally fired cleanly.** Snapshot A (Jun 10, 18%, 325M tokens) + Snapshot B (Jun 12, 38%, 375M tokens) gave delta_pct=20%, delta_cowork=50M → **implied weekly limit ≈ 250M tokens**. Config `weekly_token_limit` auto-updated from 63.8M → 194M (blended conservative). The old 63–83M estimate was wrong — it was based on only 1 of 9 sessions being counted (CLI sessions only, Store app sessions missing). 250M is the first estimate based on complete data. Also: skill `/log-time-from-sessions` Step 3 fixed — hardcoded sandbox name `busy-eager-dirac` replaced with dynamic `SANDBOX=$(ls /sessions/ | grep -v lost | tail -1)`. Dashboard re-rendered: 67 sessions, 40 daily rows.
+
+---
+
 ## 2026-06-07 (late night) — Store app JSONL path fix; calibration contaminated by backfill
 
 Identified the root cause of why Cowork desktop sessions were never being ingested. Step 1b of `run_ingest.bat` was pointing at `%APPDATA%\Claude\local-agent-mode-sessions` (the app's internal virtual view) rather than the real Windows Store app path: `%LOCALAPPDATA%\Packages\Claude_*\LocalCache\Roaming\Claude\local-agent-mode-sessions`. The bat was running the PowerShell scan but finding zero files because from outside the app (CMD), the Claude folder doesn't exist under standard `%APPDATA%`. **Fix (bat v4b)**: step 1b now uses `Join-Path $env:LOCALAPPDATA 'Packages\Claude_*\LocalCache\Roaming\Claude\local-agent-mode-sessions'` with a wildcard for the package ID. First successful run captured all previously-missed sessions: sessions.json jumped from 17 to 56 sessions. This week's sessions went from 1 to 9 (228M effective input tokens total at 39% Anthropic weekly usage). **Calibration snapshot #21 is invalid**: the 2% usage delta corresponded to a 245M token delta-cowork, giving an absurd 12.3B implied limit. The delta was polluted by 8 sessions being discovered for the first time (not new consumption). Snapshot marked invalid in `claude_ai_tracking.json`. Point estimate from the new data: 228M/39% ≈ 585M weekly limit, but unit mismatch between BurnRate's `total_effective_input` (cache-read-heavy) and Anthropic's usage metric is unresolved — needs a proper calibration pair taken next week from a clean baseline.
