@@ -449,20 +449,6 @@
   },
   {
     "date": "2026-06-10",
-    "project": "burnrate",
-    "sessions": 2,
-    "turns": 804,
-    "input_tokens": 34291,
-    "cache_creation_tokens": 5891188,
-    "cache_read_tokens": 96333288,
-    "output_tokens": 805978,
-    "total_effective_input": 102258767,
-    "est_input_tokens": 102258767,
-    "est_output_tokens": 805978,
-    "est_total_tokens": 103064745
-  },
-  {
-    "date": "2026-06-10",
     "project": "jarvis",
     "sessions": 4,
     "turns": 309,
@@ -504,18 +490,46 @@
     "est_total_tokens": 4689347
   },
   {
+    "date": "2026-06-10",
+    "project": "burnrate",
+    "sessions": 1,
+    "turns": 12,
+    "input_tokens": 32884,
+    "cache_creation_tokens": 156862,
+    "cache_read_tokens": 971502,
+    "output_tokens": 3513,
+    "total_effective_input": 1161248,
+    "est_input_tokens": 1161248,
+    "est_output_tokens": 3513,
+    "est_total_tokens": 1164761
+  },
+  {
     "date": "2026-06-11",
     "project": "hub",
+    "sessions": 3,
+    "turns": 560,
+    "input_tokens": 166592,
+    "cache_creation_tokens": 9992806,
+    "cache_read_tokens": 110030980,
+    "output_tokens": 738499,
+    "total_effective_input": 120190378,
+    "est_input_tokens": 120190378,
+    "est_output_tokens": 738499,
+    "est_total_tokens": 120928877
+  },
+  {
+    "date": "2026-06-11",
+    "project": "burnrate",
     "sessions": 2,
-    "turns": 516,
-    "input_tokens": 166541,
-    "cache_creation_tokens": 9572778,
-    "cache_read_tokens": 107915285,
-    "output_tokens": 691505,
-    "total_effective_input": 117654604,
-    "est_input_tokens": 117654604,
-    "est_output_tokens": 691505,
-    "est_total_tokens": 118346109
+    "turns": 826,
+    "input_tokens": 1476,
+    "cache_creation_tokens": 6512775,
+    "cache_read_tokens": 98789487,
+    "output_tokens": 821350,
+    "total_effective_input": 105303738,
+    "est_input_tokens": 105303738,
+    "est_output_tokens": 821350,
+    "est_total_tokens": 106125088
   },
   {
     "date": "2026-06-11",
@@ -546,17 +560,31 @@
     "est_total_tokens": 3533130
   },
   {
-    "date": "2026-06-11",
+    "date": "2026-06-12",
+    "project": "cipher",
+    "sessions": 1,
+    "turns": 37,
+    "input_tokens": 49,
+    "cache_creation_tokens": 628400,
+    "cache_read_tokens": 2547761,
+    "output_tokens": 30921,
+    "total_effective_input": 3176210,
+    "est_input_tokens": 3176210,
+    "est_output_tokens": 30921,
+    "est_total_tokens": 3207131
+  },
+  {
+    "date": "2026-06-12",
     "project": "burnrate",
     "sessions": 1,
     "turns": 12,
     "input_tokens": 20,
-    "cache_creation_tokens": 125342,
-    "cache_read_tokens": 900580,
-    "output_tokens": 2841,
-    "total_effective_input": 1025942,
-    "est_input_tokens": 1025942,
-    "est_output_tokens": 2841,
-    "est_total_tokens": 1028783
+    "cache_creation_tokens": 120810,
+    "cache_read_tokens": 864990,
+    "output_tokens": 2100,
+    "total_effective_input": 985820,
+    "est_input_tokens": 985820,
+    "est_output_tokens": 2100,
+    "est_total_tokens": 987920
   }
 ]
