@@ -235,5 +235,25 @@
     "this_week_cowork_tokens": 375049123,
     "implied_weekly_limit": 250148900,
     "note": ""
+  },
+  {
+    "snapshot_ts": "2026-06-12T21:40:50.610284+00:00",
+    "snapshot_local": "2026-06-12T23:40:50.610284",
+    "plan_tier": "team",
+    "weekly_pct_all_models": 56.0,
+    "session_pct": 78.0,
+    "this_week_cowork_tokens": 443537234,
+    "implied_weekly_limit": 380489505,
+    "note": ""
+  },
+  {
+    "snapshot_ts": "2026-06-15T21:15:49.268350+00:00",
+    "snapshot_local": "2026-06-15T23:15:49.268350",
+    "plan_tier": "team",
+    "weekly_pct_all_models": 17.0,
+    "session_pct": 49.0,
+    "this_week_cowork_tokens": 139818011,
+    "implied_weekly_limit": null,
+    "note": ""
   }
 ]

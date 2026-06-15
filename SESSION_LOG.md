@@ -4,6 +4,12 @@ Most-recent on top. One paragraph per session. Append at end of each chat.
 
 ---
 
+## 2026-06-15 — Snapshot A synced; STATUS.md rewritten
+
+Context limit hit mid-session (Jun 12–15 work); conversation continued in new context. Main action: synced Snapshot A for week of Jun 15 from `%LOCALAPPDATA%\BurnRate\db\claude_ai_tracking.json` to OneDrive `BurnRate\db\` (it was 1 snapshot behind after the previous session ended at the context window boundary). Snapshot A: Jun 15, weekly=17%, twc=139,818,011 — new week baseline. No calibration yet (need Snapshot B at ~27%+). Also rewrote STATUS.md from scratch — the previous version still described the original estimation-based Phase 1 approach (pre-May rebuild) and predated the JSONL ingester, calibration history, Store app path fix, and FUSE rules. New STATUS.md reflects current architecture, calibration snapshot table, doubled-credits note, and pending items.
+
+---
+
 ## 2026-06-12 — First clean calibration; Store app path fully working
 
 **Calibration finally fired cleanly.** Snapshot A (Jun 10, 18%, 325M tokens) + Snapshot B (Jun 12, 38%, 375M tokens) gave delta_pct=20%, delta_cowork=50M → **implied weekly limit ≈ 250M tokens**. Config `weekly_token_limit` auto-updated from 63.8M → 194M (blended conservative). The old 63–83M estimate was wrong — it was based on only 1 of 9 sessions being counted (CLI sessions only, Store app sessions missing). 250M is the first estimate based on complete data. Also: skill `/log-time-from-sessions` Step 3 fixed — hardcoded sandbox name `busy-eager-dirac` replaced with dynamic `SANDBOX=$(ls /sessions/ | grep -v lost | tail -1)`. Dashboard re-rendered: 67 sessions, 40 daily rows.
