@@ -1,6 +1,6 @@
 # BurnRate — Status
 
-## Snapshot (2026-06-15)
+## Snapshot (2026-06-24)
 
 Phase 1 fully operational. JSONL ingester v2 running daily via `run_ingest.bat`. Exact token counts
 from Anthropic API `usage` fields — no estimation. Dashboard live. Calibration producing clean
@@ -61,10 +61,12 @@ disproportionately high.
 
 | # | Date | Weekly % | TWC tokens | Implied limit | Notes |
 |---|------|----------|-----------|---------------|-------|
-| A | Jun 10 | 18% | 325,019,343 | — | Baseline, no prior snap |
+| A | Jun 10 | 18% | 325,019,343 | — | Baseline week of Jun 8 |
 | B | Jun 12 | 38% | 375,049,123 | 250,148,900 | First clean calibration |
 | C | Jun 12 eve | 56% | 443,537,234 | 380,489,505 | Config → 324,617,958 (blended) |
-| A | **Jun 15** | **17%** | **139,818,011** | **—** | **New week baseline; Snapshot B pending** |
+| A | Jun 15 | 17% | 139,818,011 | — | Baseline week of Jun 15; Snapshot B never taken |
+| A | Jun 24 AM | 8% | 23,592,455 | — | Baseline week of Jun 22; twc pre-re-sync (stale) |
+| B | Jun 24 PM | 29% | 10,793,994 | — | FUSE corruption fixed; delta_cowork negative — no implied limit |
 
 **Current config:** `weekly_token_limit = 324,617,958` (blended; doubled-credits period).
 **Re-calibrate week of Jul 7** for permanent baseline.
@@ -86,7 +88,7 @@ during ingest; survive re-ingest. Currently overrides 2 sessions (Jun 12 diagnos
 
 | Item | Priority | Notes |
 |------|----------|-------|
-| Take Snapshot B (week of Jun 15) | High | When weekly % hits ~27%+ (10pt delta over 17% baseline) |
+| Take clean Snapshot A/B pair (week of Jun 29) | High | Jun 24 pair unusable (sessions.json inconsistency); next clean pair week of Jun 29 |
 | Re-calibrate week of Jul 7 | High | First post-double-credits week; expect ~125M real limit |
 | Switch calibration to fresh-compute metric | Medium | Use `input_tokens + cache_creation_tokens + output_tokens` instead of `total_effective_input` |
 | Add session-level project override UI to dashboard | Low | Currently done manually via JSON |
@@ -102,4 +104,4 @@ during ingest; survive re-ingest. Currently overrides 2 sessions (Jun 12 diagnos
 
 ---
 
-*Last updated: 2026-06-15.*
+*Last updated: 2026-06-24 (evening).*

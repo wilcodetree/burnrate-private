@@ -144,7 +144,7 @@
     "session_pct": 94.0,
     "this_week_cowork_tokens": 0,
     "implied_weekly_limit": null,
-    "note": "Jun 7 CALIBRATION ANCHOR — bat just ran, ingest clean, about to do Opus work"
+    "note": "Jun 7 CALIBRATION ANCHOR \u2014 bat just ran, ingest clean, about to do Opus work"
   },
   {
     "snapshot_ts": "2026-06-07T13:31:13.276856+00:00",
@@ -154,7 +154,7 @@
     "session_pct": 94.0,
     "this_week_cowork_tokens": 5640096,
     "implied_weekly_limit": 282004800,
-    "note": "Jun 7 CALIBRATION ANCHOR — clean ingest, pre-Opus work"
+    "note": "Jun 7 CALIBRATION ANCHOR \u2014 clean ingest, pre-Opus work"
   },
   {
     "snapshot_ts": "2026-06-07T13:32:52.139856+00:00",
@@ -164,7 +164,7 @@
     "session_pct": 94.0,
     "this_week_cowork_tokens": 5640096,
     "implied_weekly_limit": null,
-    "note": "Jun 7 CALIBRATION ANCHOR — prev_cowork guard active, pre-Opus work"
+    "note": "Jun 7 CALIBRATION ANCHOR \u2014 prev_cowork guard active, pre-Opus work"
   },
   {
     "snapshot_ts": "2026-06-07T13:43:22.626250+00:00",
@@ -174,7 +174,7 @@
     "session_pct": 100.0,
     "this_week_cowork_tokens": 0,
     "implied_weekly_limit": null,
-    "note": "Jun 7 post-Opus work — session hit 100%, weekly +1% but JSONL not flushed yet (Opus session still active)"
+    "note": "Jun 7 post-Opus work \u2014 session hit 100%, weekly +1% but JSONL not flushed yet (Opus session still active)"
   },
   {
     "snapshot_ts": "2026-06-07T13:44:58.387697+00:00",
@@ -184,7 +184,7 @@
     "session_pct": 100.0,
     "this_week_cowork_tokens": 5640096,
     "implied_weekly_limit": null,
-    "note": "Jun 7 post-Opus — session 100%, weekly +1% from anchor. Opus JSONL not flushed yet."
+    "note": "Jun 7 post-Opus \u2014 session 100%, weekly +1% from anchor. Opus JSONL not flushed yet."
   },
   {
     "snapshot_ts": "2026-06-07T19:23:52.411945+00:00",
@@ -214,7 +214,7 @@
     "session_pct": 81.0,
     "this_week_cowork_tokens": 251541026,
     "implied_weekly_limit": null,
-    "note": "CALIBRATION INVALID — first Store app backfill contaminated delta_cowork. Point estimate: 228M/39%=585M but unit mismatch likely. Discard implied_weekly_limit."
+    "note": "CALIBRATION INVALID \u2014 first Store app backfill contaminated delta_cowork. Point estimate: 228M/39%=585M but unit mismatch likely. Discard implied_weekly_limit."
   },
   {
     "snapshot_ts": "2026-06-10T21:32:15.413208+00:00",
@@ -255,5 +255,27 @@
     "this_week_cowork_tokens": 139818011,
     "implied_weekly_limit": null,
     "note": ""
+  },
+  {
+    "snapshot_ts": "2026-06-24T08:53:15.138770+00:00",
+    "snapshot_local": "2026-06-24T08:53:15.139325",
+    "plan_tier": "team",
+    "weekly_pct_all_models": 8.0,
+    "session_pct": 24.0,
+    "this_week_cowork_tokens": 23592455,
+    "implied_weekly_limit": null,
+    "note": "",
+    "calibration_note": "twc=23,592,455 read from OneDrive sessions.json before bat re-sync; inconsistent with Snap B \u2014 use % values only"
+  },
+  {
+    "snapshot_ts": "2026-06-24T20:46:06.691466+00:00",
+    "snapshot_local": "2026-06-24T20:46:06.691574",
+    "plan_tier": "team",
+    "weekly_pct_all_models": 29.0,
+    "session_pct": 25.0,
+    "this_week_cowork_tokens": 10793994,
+    "implied_weekly_limit": null,
+    "note": "",
+    "calibration_note": "twc corrected after FUSE truncation of sessions.json; delta_cowork negative vs Snap A (sessions.json inconsistency between bat runs) \u2014 implied not computed"
   }
 ]

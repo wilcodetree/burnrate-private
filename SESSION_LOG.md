@@ -4,6 +4,16 @@ Most-recent on top. One paragraph per session. Append at end of each chat.
 
 ---
 
+## 2026-06-24 (evening) — Windows Task Scheduler created; Cowork task confirmed disabled
+
+Investigated why the daily scheduled ingest was not running automatically. Confirmed via `Get-ScheduledTask` that no Windows Task Scheduler task existed — all prior bat runs were manual. A Cowork scheduled task ("burnrate-daily-ingest") was running daily at ~08:00 instead, but it runs inside the sandbox (no Store app JSONL access, no PowerShell) so it ingested 0 new sessions every day. It also wrote sessions.json to OneDrive via the sandbox FUSE mount — almost certainly the root cause of the recurring sessions.json FUSE truncation. The Cowork task was already disabled (enabled:false) by the time this was checked. Created Windows Task Scheduler task "BurnRate daily ingest" via PowerShell: runs daily at 09:00, -StartWhenAvailable (fires on wake if laptop was asleep), -WakeToRun, RunLevel Highest. Task registered with state=Ready. Tomorrow's 09:00 run will be the first real automated bat execution.
+
+
+## 2026-06-24 — Snapshot A+B taken; FUSE truncation recurrence; STATUS.md updated
+
+Two snapshots taken today (week of Jun 22 baseline). Snapshot A: 08:53, weekly=8%, twc=23,592,455. Snapshot B: 20:46, weekly=29%. However Snapshot B showed twc=0 due to OneDrive sessions.json being FUSE-truncated again (line 2804, char 111828) after the second bat run. Repaired by copying LocalAppData sessions.json (109 sessions) via /tmp to OneDrive — same recovery procedure as before. Corrected Snapshot B twc to 10,793,994 (10.8M from 6 sessions this week). Calibration could not fire: delta_cowork was negative (Snapshot A read from pre-re-sync sessions.json showing 23.5M; Snapshot B read from repaired copy showing 10.8M — same week, different session counts due to re-ingest). Both snapshots annotated with calibration_note in claude_ai_tracking.json. Pending item updated: next clean calibration pair is week of Jun 29. STATUS.md snapshot table updated with both Jun 24 rows.
+
+
 ## 2026-06-15 — Snapshot A synced; STATUS.md rewritten
 
 Context limit hit mid-session (Jun 12–15 work); conversation continued in new context. Main action: synced Snapshot A for week of Jun 15 from `%LOCALAPPDATA%\BurnRate\db\claude_ai_tracking.json` to OneDrive `BurnRate\db\` (it was 1 snapshot behind after the previous session ended at the context window boundary). Snapshot A: Jun 15, weekly=17%, twc=139,818,011 — new week baseline. No calibration yet (need Snapshot B at ~27%+). Also rewrote STATUS.md from scratch — the previous version still described the original estimation-based Phase 1 approach (pre-May rebuild) and predated the JSONL ingester, calibration history, Store app path fix, and FUSE rules. New STATUS.md reflects current architecture, calibration snapshot table, doubled-credits note, and pending items.
