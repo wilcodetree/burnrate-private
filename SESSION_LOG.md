@@ -4,6 +4,10 @@ Most-recent on top. One paragraph per session. Append at end of each chat.
 
 ---
 
+## 2026-06-30 — compact-claudemd pass (Claude)
+
+Restructured CLAUDE.md: compacted to 82 lines (from 92). "Data source" paragraph updated: Task Scheduler now at 09:00 (was 08:00, per 2026-06-24 session), Cowork task reference removed (it was the broken one). "Things never assume" bullets 4 and 5 (FUSE mount rules and ingest race condition) condensed from 7 total lines to 4, with pointer to STATUS.md for full detail — content already in STATUS.md § FUSE mount rules. No content dropped. STATUS.md unchanged.
+
 ## 2026-06-24 (evening) — Windows Task Scheduler created; Cowork task confirmed disabled
 
 Investigated why the daily scheduled ingest was not running automatically. Confirmed via `Get-ScheduledTask` that no Windows Task Scheduler task existed — all prior bat runs were manual. A Cowork scheduled task ("burnrate-daily-ingest") was running daily at ~08:00 instead, but it runs inside the sandbox (no Store app JSONL access, no PowerShell) so it ingested 0 new sessions every day. It also wrote sessions.json to OneDrive via the sandbox FUSE mount — almost certainly the root cause of the recurring sessions.json FUSE truncation. The Cowork task was already disabled (enabled:false) by the time this was checked. Created Windows Task Scheduler task "BurnRate daily ingest" via PowerShell: runs daily at 09:00, -StartWhenAvailable (fires on wake if laptop was asleep), -WakeToRun, RunLevel Highest. Task registered with state=Ready. Tomorrow's 09:00 run will be the first real automated bat execution.

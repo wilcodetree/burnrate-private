@@ -1,7 +1,7 @@
 # BurnRate — Token-Burn Observability for Agentic LLM Workflows
 
 > **Read this first.** Entry point for any Claude chat about BurnRate.
-> Sibling files: STATUS.md (detailed plan), SESSION_LOG.md (history).
+> Sibling files: STATUS.md (detailed plan + calibration state), SESSION_LOG.md (history).
 > Hub: `../ZeroNonsense.dev/` — BurnRate is the 5th ZeroNonsense.dev project.
 
 ## What this is
@@ -36,9 +36,8 @@ Full findings: `docs/findings.md`.
 Cowork sessions write JSONL to `~/.claude/projects/C--Users-WilcoDeTree-OneDrive---Valona-Intelligence-Claude-Cowork-Output/*.jsonl`.
 Each assistant message embeds exact `input_tokens`, `cache_creation_input_tokens`,
 `cache_read_input_tokens`, `output_tokens`. BurnRate reads these directly. Source folder is
-configurable via `config.json`. Weekly limit and reset schedule also in `config.json`.
-Automatic ingestion: daily 08:00 via Cowork scheduled task + `run_ingest.bat` for Task Scheduler.
-**30-day deletion window** is the main operational risk — ingest daily.
+configurable via `config.json`. Automatic ingestion: daily 09:00 via Windows Task Scheduler
+(`run_ingest.bat`). **30-day deletion window** is the main operational risk — ingest daily.
 
 ## Folder map
 
@@ -51,7 +50,7 @@ BurnRate/
 ├── db/         ← sessions.json, turns.json, daily_totals.json, ingest_state.json
 │                  forecast.json, meta.json, ingest_log.txt, api_usage/*.csv
 ├── dashboard/  ← dashboard.html (dark TokenFinOps-style, 7 sections)
-├── run_ingest.bat  ← Windows Task Scheduler runner (ingest + rollup + forecast)
+├── run_ingest.bat  ← Windows Task Scheduler runner (daily 09:00); v4b
 └── requirements.txt, .gitignore
 ```
 
@@ -60,7 +59,7 @@ BurnRate/
 1. Read this CLAUDE.md.
 2. Check SESSION_LOG.md for what changed recently.
 3. Read `docs/findings.md` for current measurement results and mitigations.
-4. Open STATUS.md for architecture detail.
+4. Open STATUS.md for calibration state, architecture detail, and FUSE mount rules.
 5. End of session: append one paragraph to SESSION_LOG.md.
 
 ## Things Claude should never assume
@@ -71,14 +70,11 @@ BurnRate/
   No calibration factors apply.
 - **"Token burn" ≠ "dollar cost."** Cowork is subscription-limited, not metered. Per-call dollar
   figures only meaningful in Phase 2.
-- **FUSE mount corrupts files on edit.** Always write large files via bash heredoc to /tmp, then
-  cp to mount. Never use Edit tool for ANY file in src/ or db/ — use bash cp from /tmp instead.
-- **Ingest race condition (RESOLVED).** Bat now writes all ingest files to `%LOCALAPPDATA%\BurnRate\db` (local path, not OneDrive). After render, it copies sessions/turns/daily_totals/forecast/ingest_state.json back to OneDrive db/ for sandbox reads. Sandbox never writes these files. Rule still applies: sandbox runs `snapshot`, `forecast`, `render`, `rollup` only — never `ingest`. Recovery: reset mtimes in OneDrive db/ingest_state.json from sandbox, then user runs `.\run_ingest.bat`.
+- **FUSE mount corrupts files on edit.** Never use Edit tool on `db/` or `src/` files. Always write
+  via bash heredoc to `/tmp` then `cp` to mount. Full rules: STATUS.md § FUSE mount rules.
+- **Ingest race condition (RESOLVED).** Bat writes to `%LOCALAPPDATA%\BurnRate\db` then syncs back.
+  Sandbox runs `snapshot`/`forecast`/`render`/`rollup` only — never `ingest`. Details: STATUS.md.
 - **Memory facts may be stale.** Verify file paths and function names before acting.
-
----
-
-*Last updated: 2026-05-19 (full rebuild — JSONL ingester v2, dark dashboard, findings, forecast).*
 
 ## graphify
 
