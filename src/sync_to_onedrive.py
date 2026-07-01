@@ -1,7 +1,9 @@
 """
-sync_to_onedrive.py — copy ingest-written files from local db to OneDrive db.
+sync_to_onedrive.py — copy ingest-written files from local db to the repo db
+(C:\\dev\\BurnRate\\db, read by the Cowork sandbox). Name kept for Task Scheduler
+compatibility; the OneDrive target was retired with the 2026-07-01 C:\\dev move.
 Called by run_ingest.bat after render.
-Usage: python src/sync_to_onedrive.py <local_db_path> <onedrive_db_path>
+Usage: python src/sync_to_onedrive.py <local_db_path> <repo_db_path>
 """
 import sys
 import shutil
@@ -17,7 +19,7 @@ FILES = [
 
 def main():
     if len(sys.argv) != 3:
-        print(f"Usage: {sys.argv[0]} <local_db> <onedrive_db>")
+        print(f"Usage: {sys.argv[0]} <local_db> <repo_db>")
         sys.exit(1)
 
     local  = pathlib.Path(sys.argv[1])
@@ -39,7 +41,7 @@ def main():
         else:
             print(f"[SYNC] {fname}: not found in local db, skipped")
 
-    print(f"[SYNC] Done — {ok}/{len(FILES)} files copied to OneDrive")
+    print(f"[SYNC] Done — {ok}/{len(FILES)} files copied to repo db")
 
 
 if __name__ == "__main__":

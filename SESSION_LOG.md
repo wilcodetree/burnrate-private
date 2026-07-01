@@ -4,6 +4,10 @@ Most-recent on top. One paragraph per session. Append at end of each chat.
 
 ---
 
+## 2026-07-02 — Claude Code /usage, /context, cost-tracker.log evaluated as data sources (rejected)
+
+Investigated whether Claude Code's own usage surfaces could feed BurnRate (esp. the daily task). Conclusion: none are usable, don't re-investigate. (1) /usage % bars (session/week/Fable limit windows) are computed server-side and not persisted to any local file — only rendered in the TUI. (2) /context breakdown is a live TUI snapshot; its category totals (system tools 20.5k, skills 9.2k, agents 9.1k, system prompt 8.3k on a sample session) are already reconstructable from turn-1 cache_creation_input_tokens in the JSONL — only the category *labels* are Claude-Code-internal and not on disk. (3) ~/.claude/cost-tracker.log is a red herring: despite the name it's a Bash-command audit log ([ts] tool=Bash command=...), zero token/cost/limit data. Checked all root .claude JSONs too (policy-limits.json = policy toggles, not usage). Net: BurnRate's JSONL ingest remains the only reliable exact source and already covers the token side. Actionable finding from /context: ~47k tokens of fixed prefix tax re-read as cache every turn, ~18k of it from 483 loaded skills + 80 agents — candidate mitigation + goal-#3 insight ("standing context tax"). MCP tools shown loading on-demand at 0 tokens = the good deferred-loading pattern.
+
 ## 2026-06-30 — compact-claudemd pass (Claude)
 
 Restructured CLAUDE.md: compacted to 82 lines (from 92). "Data source" paragraph updated: Task Scheduler now at 09:00 (was 08:00, per 2026-06-24 session), Cowork task reference removed (it was the broken one). "Things never assume" bullets 4 and 5 (FUSE mount rules and ingest race condition) condensed from 7 total lines to 4, with pointer to STATUS.md for full detail — content already in STATUS.md § FUSE mount rules. No content dropped. STATUS.md unchanged.

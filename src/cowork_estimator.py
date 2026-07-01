@@ -830,7 +830,7 @@ def main():
     p.add_argument("--note", type=str, default=None, help="Optional note, e.g. 'start of day'")
     p.add_argument("--db-dir", type=str, default=None,
                    help="Override db/ directory (absolute path). Bat uses this to write to a local "
-                        "path and avoid the OneDrive/FUSE write-collision race condition.")
+                        "path and avoid the FUSE-mount write-collision race condition.")
     args = p.parse_args()
 
     cfg = load_config()

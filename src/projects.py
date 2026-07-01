@@ -37,8 +37,13 @@ CWD_PROJECT_MAP = {
     "work":                    "work",
 }
 
-# Root Cowork Output paths -> hub (cwd ENDS with these, case-insensitive, no trailing slash)
+# Work-tree root paths -> hub (cwd ENDS with these, case-insensitive, no trailing slash).
+# Tree moved from OneDrive "Claude Cowork Output" to C:\dev on 2026-07-01;
+# legacy suffixes kept so pre-move sessions still tag correctly on re-ingest.
 HUB_ROOT_SUFFIXES = [
+    "c:\\dev",
+    "c:/dev",
+    "/mnt/c/dev",
     "claude cowork output",
     "claude cowork output\\zerononsense.dev",
     "claude cowork output/zerononsense.dev",
@@ -99,8 +104,9 @@ if __name__ == "__main__":
         ("ZeroNonsense.dev project", "", "", "hub"),
         ("Write work anniversary book message", "", "", "other"),
         ("Internal UI architecture", "", "design a CIPHER UI...", "cipher"),
-        ("hub session", "C:\\Users\\WilcoDeTree\\OneDrive - Valona Intelligence\\Claude Cowork Output", "", "hub"),
-        ("anything", "C:\\Users\\WilcoDeTree\\OneDrive - Valona Intelligence\\Claude Cowork Output\\CIPHER", "", "cipher"),
+        ("hub session", "C:\\dev", "", "hub"),
+        ("anything", "C:\\dev\\CIPHER", "", "cipher"),
+        ("hub session (legacy path)", "C:\\Users\\WilcoDeTree\\OneDrive - Valona Intelligence\\Claude Cowork Output", "", "hub"),
     ]
     for title, cwd, msg, expected in cases:
         slug, conf = tag_session(title=title, cwd=cwd, first_user_msg=msg)

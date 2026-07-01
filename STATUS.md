@@ -17,14 +17,14 @@ Cowork sessions (Store app)
   → bat step 1b mirrors *.jsonl to BurnRate\_jsonl_mirror\
 
 Claude Code CLI sessions
-  → %USERPROFILE%\.claude\projects\C--...-Cowork-Output*\*.jsonl
+  → %USERPROFILE%\.claude\projects\C--dev*\*.jsonl
   → bat step 1a mirrors to BurnRate\_jsonl_mirror\
 
 _jsonl_mirror\ → ingest (cowork_estimator.py)
-  → %LOCALAPPDATA%\BurnRate\db\  (local write, no OneDrive FUSE race)
-  → sync_to_onedrive.py copies back → BurnRate\db\  (OneDrive, for sandbox reads)
+  → %LOCALAPPDATA%\BurnRate\db\  (local write, no FUSE-mount write race)
+  → sync_to_onedrive.py copies back → C:\dev\BurnRate\db\  (repo db, for sandbox reads)
 
-Sandbox (claude.ai Cowork) reads from BurnRate\db\ (OneDrive)
+Sandbox (claude.ai Cowork) reads from C:\dev\BurnRate\db\ (via the Cowork mount)
 Sandbox writes ONLY claude_ai_tracking.json (snapshot command)
 ```
 
@@ -97,7 +97,11 @@ during ingest; survive re-ingest. Currently overrides 2 sessions (Jun 12 diagnos
 
 ## FUSE mount rules (do not break)
 
-- **Never use Edit tool on db/ or src/ files.** OneDrive FUSE mount truncates large JSON on write.
+> Written for the OneDrive era. The tree moved to `C:\dev` on 2026-07-01, which removes the
+> OneDrive corruption vector; the Cowork sandbox still reads via a FUSE mount, so keep the
+> write discipline until a large-write test proves it safe.
+
+- **Never use Edit tool on db/ or src/ files.** FUSE mounts have truncated large JSON on write (OneDrive-era; unverified on C:\dev).
 - **Always write via bash:** `cat > /tmp/file.json << 'EOF'` ... `EOF`, then `cp /tmp/file.json /mnt/path/`.
 - **Sandbox writes only:** `claude_ai_tracking.json` (snapshot command only).
 - **Sandbox never runs:** `ingest` or writes `sessions.json` / `ingest_state.json`.

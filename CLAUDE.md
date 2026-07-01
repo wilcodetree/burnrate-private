@@ -33,7 +33,7 @@ Full findings: `docs/findings.md`.
 
 ## Data source (Phase 1)
 
-Cowork sessions write JSONL to `~/.claude/projects/C--Users-WilcoDeTree-OneDrive---Valona-Intelligence-Claude-Cowork-Output/*.jsonl`.
+Cowork sessions write JSONL to `~/.claude/projects/C--dev*/*.jsonl` (work tree moved to `C:\dev` on 2026-07-01).
 Each assistant message embeds exact `input_tokens`, `cache_creation_input_tokens`,
 `cache_read_input_tokens`, `output_tokens`. BurnRate reads these directly. Source folder is
 configurable via `config.json`. Automatic ingestion: daily 09:00 via Windows Task Scheduler

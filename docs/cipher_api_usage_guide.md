@@ -49,7 +49,7 @@ BurnRate\db\api_usage\
 
 Full path:
 ```
-C:\Users\WilcoDeTree\OneDrive - Valona Intelligence\Claude Cowork Output\BurnRate\db\api_usage\api_usage_cipher_2026-05.csv
+C:\dev\BurnRate\db\api_usage\api_usage_cipher_2026-05.csv
 ```
 
 The importer reads **all** `.csv` files in that folder and deduplicates by
@@ -63,7 +63,7 @@ on the same CSV twice produces the same output.
 Open a terminal, `cd` into the BurnRate folder, and run:
 
 ```powershell
-cd "C:\Users\WilcoDeTree\OneDrive - Valona Intelligence\Claude Cowork Output\BurnRate"
+cd "C:\dev\BurnRate"
 python src\api_import.py
 ```
 
@@ -175,7 +175,7 @@ row in the model list. No action needed.
 
 ```powershell
 # Full monthly refresh — one-liner
-cd "C:\Users\WilcoDeTree\OneDrive - Valona Intelligence\Claude Cowork Output\BurnRate"
+cd "C:\dev\BurnRate"
 python src\api_import.py && python src\cowork_estimator.py render
 ```
 

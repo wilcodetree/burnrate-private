@@ -1,4 +1,4 @@
-﻿@echo off
+@echo off
 :: BurnRate automatic JSONL ingestion runner
 :: Drop into Windows Task Scheduler for daily / weekly runs.
 ::
@@ -9,12 +9,12 @@
 ::   Trigger:   Daily at 08:00
 ::
 :: db/ write strategy:
-::   Ingest writes to LOCAL_DB (%LOCALAPPDATA%\BurnRate\db) â€” no OneDrive/FUSE race.
-::   After render, sync_to_onedrive.py copies key files to OneDrive db/ for sandbox reads.
+::   Ingest writes to LOCAL_DB (%LOCALAPPDATA%\BurnRate\db) â€” no FUSE-mount write race.
+::   After render, sync_to_onedrive.py copies key files to the repo db (C:\dev\BurnRate\db) for sandbox reads.
 ::   Sandbox never writes sessions.json or ingest_state.json.
 ::   Sandbox writes claude_ai_tracking.json (snapshot only).
 ::
-:: Log -> BurnRate\db\ingest_log.txt (last 500 lines kept, stays on OneDrive)
+:: Log -> BurnRate\db\ingest_log.txt (last 500 lines kept, stays in the repo db)
 
 setlocal
 
@@ -41,7 +41,7 @@ echo ============================================================ >> "%LOG%"
 :: Step 0a â€” ensure local db dir exists
 if not exist "%LOCAL_DB%" mkdir "%LOCAL_DB%"
 
-:: Step 0b â€” sync read-side files OneDrive -> local before ingest
+:: Step 0b â€” sync read-side files repo db -> local before ingest
 :: ingest_state.json: picks up any mtime resets done by sandbox (recovery)
 if exist "%BURNRATE_DIR%\db\ingest_state.json" copy /Y "%BURNRATE_DIR%\db\ingest_state.json" "%LOCAL_DB%\ingest_state.json" > nul
 :: claude_ai_tracking.json: owned by sandbox; render reads it
@@ -49,7 +49,7 @@ if exist "%BURNRATE_DIR%\db\claude_ai_tracking.json" copy /Y "%BURNRATE_DIR%\db\
 :: api files: render reads these
 if exist "%BURNRATE_DIR%\db\api_daily.json" copy /Y "%BURNRATE_DIR%\db\api_daily.json" "%LOCAL_DB%\api_daily.json" > nul
 if exist "%BURNRATE_DIR%\db\api_summary.json" copy /Y "%BURNRATE_DIR%\db\api_summary.json" "%LOCAL_DB%\api_summary.json" > nul
-echo [%TIMESTAMP%] OneDrive to local sync done >> "%LOG%"
+echo [%TIMESTAMP%] Repo db to local sync done >> "%LOG%"
 
 :: Step 1 â€” mirror JSONL files
 :: 1a: Claude Code CLI sessions â€” writes to %USERPROFILE%\.claude\projects\
@@ -76,8 +76,8 @@ if %ERRORLEVEL% neq 0 ( echo [%TIMESTAMP%] ERROR: forecast failed >> "%LOG%" & e
 "%PYTHON%" src\cowork_estimator.py --db-dir "%LOCAL_DB%" render >> "%LOG%" 2>&1
 if %ERRORLEVEL% neq 0 ( echo [%TIMESTAMP%] ERROR: render failed >> "%LOG%" & exit /b %ERRORLEVEL% )
 
-:: Step 6 â€” Python copies local db -> OneDrive (handles paths with spaces reliably)
-echo [%TIMESTAMP%] Syncing local db to OneDrive... >> "%LOG%"
+:: Step 6 â€” Python copies local db -> repo db (C:\dev\BurnRate\db)
+echo [%TIMESTAMP%] Syncing local db to repo db... >> "%LOG%"
 "%PYTHON%" src\sync_to_onedrive.py "%LOCAL_DB%" "%BURNRATE_DIR%\db" >> "%LOG%" 2>&1
 if %ERRORLEVEL% neq 0 ( echo [%TIMESTAMP%] ERROR: sync failed >> "%LOG%" & exit /b %ERRORLEVEL% )
 

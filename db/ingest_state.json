@@ -665,9 +665,9 @@
     "turn_count": 8
   },
   "5bc4dde8-976d-4ab6-8405-e453808c99ba": {
-    "last_mtime": 1782831377.0172734,
-    "last_ingest_ts": "2026-07-01T11:37:45.899319+00:00",
-    "turn_count": 135
+    "last_mtime": 1782908802.926775,
+    "last_ingest_ts": "2026-07-01T18:42:53.829356+00:00",
+    "turn_count": 151
   },
   "7244bff5-2e3d-45d4-b4cf-abb800cad8a1": {
     "last_mtime": 1782824097.175934,
@@ -715,13 +715,28 @@
     "turn_count": 179
   },
   "b2bc4d4e-facb-446a-ab92-0bd4cdaf7c12": {
-    "last_mtime": 1782822398.7076879,
-    "last_ingest_ts": "2026-07-01T11:37:53.746134+00:00",
-    "turn_count": 2
+    "last_mtime": 1782909851.2386034,
+    "last_ingest_ts": "2026-07-01T18:42:53.956804+00:00",
+    "turn_count": 67
   },
   "b2f0c371-7938-481e-b505-e1dbee6f67b9": {
     "last_mtime": 1782828097.9873817,
     "last_ingest_ts": "2026-07-01T11:37:53.769900+00:00",
     "turn_count": 16
+  },
+  "75a73600-ada6-4922-b337-d398bcceb77e": {
+    "last_mtime": 1782930831.3355231,
+    "last_ingest_ts": "2026-07-01T18:42:53.877505+00:00",
+    "turn_count": 123
+  },
+  "7dc38c69-e64a-4729-abb9-0e24e05b420f": {
+    "last_mtime": 1782930785.635942,
+    "last_ingest_ts": "2026-07-01T18:42:53.911587+00:00",
+    "turn_count": 34
+  },
+  "fa027bc3-7f5f-4188-92db-633e7d357723": {
+    "last_mtime": 1782913871.7832255,
+    "last_ingest_ts": "2026-07-01T18:42:54.638621+00:00",
+    "turn_count": 121
   }
 }
