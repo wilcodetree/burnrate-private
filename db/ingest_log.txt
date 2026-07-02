@@ -1,52 +1,3 @@
-     Open: C:\Users\WilcoDeTree\OneDrive - Valona Intelligence\Claude Cowork Output\BurnRate\dashboard\dashboard.html
-[Fri 06/12/2026  0:09:55.33] Syncing local db to OneDrive... 
-[SYNC] sessions.json: 71,506 bytes -> OK
-[SYNC] turns.json: 5,044,750 bytes -> OK
-[SYNC] daily_totals.json: 14,858 bytes -> OK
-[SYNC] forecast.json: 362 bytes -> OK
-[SYNC] ingest_state.json: 11,402 bytes -> OK
-[SYNC] Done — 5/5 files copied to OneDrive
-[Fri 06/12/2026  0:09:55.33] BurnRate ingest completed successfully 
- 
-============================================================ 
-[Fri 06/12/2026 20:16:35.99] BurnRate ingest started 
-[Fri 06/12/2026 20:16:35.99] LOCAL_DB=C:\Users\WilcoDeTree\AppData\Local\BurnRate\db 
-============================================================ 
-[Fri 06/12/2026 20:16:35.99] OneDrive to local sync done 
-[Fri 06/12/2026 20:16:35.99] JSONL mirror sync done 
-[OK]   073ade8a-4554-4b69-9f8d-246ad59fa49d  project=hub       turns=  63  output=  18,971  eff_input=   4,533,117  cache= 92.2%
-[OK]   14b8c90b-44b2-4329-9eeb-d17f77fd6cc2  project=burnrate  turns=  12  output=   2,100  eff_input=     985,820  cache= 87.7%
-[OK]   27a77bed-5e69-4a61-a24f-180c00524395  project=burnrate  turns= 814  output= 818,509  eff_input= 104,277,796  cache= 93.9%
-[OK]   d44237dc-bb30-4a04-9a93-0515ca3c454a  project=cipher    turns=  37  output=  30,921  eff_input=   3,176,210  cache= 80.2%
-[OK]   f9b52e03-4093-43b8-9d62-e859aca136dd  project=hub       turns=  44  output=  46,994  eff_input=   2,535,774  cache= 83.4%
-
-Ingested 5 session(s), skipped 66 unchanged.
-[OK] daily_totals.json rebuilt.
-[FORECAST]  Week burn :    384,927,204 / 194,251,018  (100.0%)
-            Avg daily :     55,997,922 (7-day, 7 days with data)
-            Limit in  : 0.0 days at current rate
-            Resets in : 1.2 days  (status: over)
-[OK] forecast.json written.
-[OK] dashboard.html rendered with 70 sessions, 42 daily rows, forecast status=over
-     Open: C:\Users\WilcoDeTree\OneDrive - Valona Intelligence\Claude Cowork Output\BurnRate\dashboard\dashboard.html
-[Fri 06/12/2026 20:16:35.99] Syncing local db to OneDrive... 
-[SYNC] sessions.json: 74,627 bytes -> OK
-[SYNC] turns.json: 5,140,069 bytes -> OK
-[SYNC] daily_totals.json: 15,592 bytes -> OK
-[SYNC] forecast.json: 363 bytes -> OK
-[SYNC] ingest_state.json: 11,909 bytes -> OK
-[SYNC] Done — 5/5 files copied to OneDrive
-[Fri 06/12/2026 20:16:35.99] BurnRate ingest completed successfully 
- 
-============================================================ 
-[Fri 06/12/2026 23:36:34.57] BurnRate ingest started 
-[Fri 06/12/2026 23:36:34.57] LOCAL_DB=C:\Users\WilcoDeTree\AppData\Local\BurnRate\db 
-============================================================ 
-[Fri 06/12/2026 23:36:34.57] OneDrive to local sync done 
-[Fri 06/12/2026 23:36:34.57] JSONL mirror sync done 
-[OK]   3c19a648-3926-4334-9bce-b6d8dfd51223  project=hub       turns= 232  output= 365,929  eff_input=  50,643,462  cache= 87.7%
-[OK]   597315f9-c097-40c7-98bc-e7d11efbd0a5  project=cipher    turns=  96  output=  62,471  eff_input=   9,291,487  cache= 97.4%
-[OK]   7e3ab7bb-d91a-453c-a404-4e5b9b3d7c34  project=other     turns= 158  output= 191,215  eff_input=  22,322,747  cache= 91.1%
 [OK]   8ab9665c-1773-4795-90de-c380ac934399  project=hub       turns=  50  output=  52,113  eff_input=   2,928,004  cache= 90.1%
 [OK]   9d7219ec-6242-4e78-bd57-41e7d711fcdf  project=jarvis    turns= 278  output= 234,938  eff_input=  34,038,753  cache= 91.1%
 [OK]   f1af5231-759a-403d-899b-57a64f124ecb  project=hub       turns= 397  output= 416,451  eff_input= 108,719,020  cache= 94.8%
@@ -498,3 +449,52 @@ Ingested 5 session(s), skipped 104 unchanged.
 [SYNC] ingest_state.json: 25,001 bytes -> OK
 [SYNC] Done — 5/5 files copied to OneDrive
 [Wed 07/01/2026 20:42:47.24] BurnRate ingest completed successfully 
+ 
+============================================================ 
+[Thu 07/02/2026  1:59:31.88] BurnRate ingest started 
+[Thu 07/02/2026  1:59:31.88] LOCAL_DB=C:\Users\WilcoDeTree\AppData\Local\BurnRate\db 
+============================================================ 
+[Thu 07/02/2026  1:59:31.88] Repo db to local sync done 
+[Thu 07/02/2026  1:59:31.88] JSONL mirror sync done 
+[OK]   19044575-01a9-411e-96cb-ea8620c30b89  project=jarvis    turns=   3  output=   3,930  eff_input=     598,440  cache= 14.4%
+[OK]   2c27b926-2fd0-4765-8d20-ff0ef714001e  project=hub       turns=  11  output=  16,956  eff_input=     507,396  cache= 89.3%
+[OK]   2df8d94b-fa2f-4d12-9231-0b14afed83f9  project=burnrate  turns=   9  output=   5,563  eff_input=   1,142,222  cache= 82.8%
+[OK]   3883ef42-c16d-4842-956c-71acf4d38b97  project=hub       turns=   9  output=   4,894  eff_input=     361,407  cache= 75.4%
+[OK]   3bc7b724-8009-46fa-b31d-9c5454ea2c22  project=burnrate  turns=  33  output=  25,039  eff_input=   3,850,367  cache= 84.0%
+[OK]   3c379942-c72b-4063-9aa3-7628a12cb5e4  project=other     turns=  10  output=   2,547  eff_input=   1,009,214  cache= 74.6%
+[OK]   43dc9f61-c51a-4115-ba50-87824b2feeaa  project=hub       turns= 260  output= 274,121  eff_input=  57,274,481  cache= 96.1%
+[OK]   4e25e550-bac8-4dec-a7b8-585ec17b488c  project=other     turns=   0  output=       0  eff_input=           0  cache=  0.0%
+[OK]   6387384e-e2db-4990-ac9e-2af5918f14c0  project=jarvis    turns=  74  output=  32,455  eff_input=   9,107,460  cache= 95.9%
+[OK]   6ebef96f-dad5-49cc-b1d7-eb2769b99f1c  project=dsi       turns=   7  output=   1,619  eff_input=     235,340  cache= 96.0%
+[OK]   75a73600-ada6-4922-b337-d398bcceb77e  project=jarvis    turns= 135  output= 326,232  eff_input=  24,857,275  cache= 88.4%
+[OK]   78520df3-5fdb-42e7-b168-0ed4d340cc34  project=other     turns=   0  output=       0  eff_input=           0  cache=  0.0%
+[OK]   7dc38c69-e64a-4729-abb9-0e24e05b420f  project=hub       turns= 105  output=  91,657  eff_input=  16,347,545  cache= 90.7%
+[OK]   7eb46157-f911-4422-b48d-997455676bf9  project=hub       turns=  49  output=  25,680  eff_input=   6,838,295  cache= 93.9%
+[OK]   98226d15-c9dc-4c5c-be75-d1a4a68ad535  project=jarvis    turns= 139  output= 335,990  eff_input=  25,981,819  cache= 88.9%
+[OK]   99396758-5ac7-46ac-814f-ed9416d86b2c  project=hub       turns= 118  output=  90,062  eff_input=  18,410,219  cache= 95.4%
+[OK]   9f34cf3c-dbd6-42b3-b0ed-53d56e1e2496  project=other     turns=   4  output=   5,472  eff_input=     851,773  cache= 24.9%
+[OK]   a1818362-a008-41e0-bafd-71c6ae5b4c71  project=burnrate  turns=   9  output=  10,846  eff_input=   1,146,305  cache= 98.6%
+[OK]   a7cf9866-3f25-4602-a016-fd37b12399f1  project=hub       turns=  78  output=  49,912  eff_input=  10,955,675  cache= 93.6%
+[OK]   b0e6bbca-d9d5-4a01-a461-e23af6977465  project=hub       turns=  65  output=  85,801  eff_input=   5,438,755  cache= 82.4%
+[OK]   e36351a1-f7d0-4531-a592-3d04aacadcf9  project=other     turns=  22  output=   9,915  eff_input=   2,715,704  cache= 86.2%
+[OK]   f7eafbed-9d67-480d-b15c-10fab738beb1  project=hub       turns= 128  output=  86,127  eff_input=  13,254,135  cache= 86.9%
+[OK]   fd8b4a26-50aa-4ef6-a51c-338171c8bf62  project=jarvis    turns=   3  output=   5,943  eff_input=     611,529  cache= 14.1%
+[OK]   fddbb146-8a24-4d5c-96d4-2f1a18633069  project=jarvis    turns=   5  output=   1,104  eff_input=     164,103  cache= 93.7%
+
+Ingested 24 session(s), skipped 107 unchanged.
+[OK] daily_totals.json rebuilt.
+[FORECAST]  Week burn :    692,992,776 / 324,617,958  (100.0%)
+            Avg daily :    102,150,334 (7-day, 7 days with data)
+            Limit in  : 0.0 days at current rate
+            Resets in : 3.0 days  (status: over)
+[OK] forecast.json written.
+[OK] dashboard.html rendered with 166 sessions, 99 daily rows, forecast status=over
+     Open: C:\dev\BurnRate\dashboard\dashboard.html
+[Thu 07/02/2026  1:59:31.88] Syncing local db to repo db... 
+[SYNC] sessions.json: 177,164 bytes -> OK
+[SYNC] turns.json: 11,024,857 bytes -> OK
+[SYNC] daily_totals.json: 36,743 bytes -> OK
+[SYNC] forecast.json: 364 bytes -> OK
+[SYNC] ingest_state.json: 28,756 bytes -> OK
+[SYNC] Done — 5/5 files copied to repo db
+[Thu 07/02/2026  1:59:31.88] BurnRate ingest completed successfully 

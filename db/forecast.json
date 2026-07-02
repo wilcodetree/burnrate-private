@@ -1,13 +1,13 @@
 {
-  "computed_ts": "2026-07-01T18:42:55.292120+00:00",
+  "computed_ts": "2026-07-01T23:59:42.641913+00:00",
   "weekly_limit": 324617958,
   "week_start_iso": "2026-06-28T01:00:00",
-  "this_week_eff_input": 516850098,
-  "this_week_sessions": 33,
+  "this_week_eff_input": 692992776,
+  "this_week_sessions": 55,
   "week_pct": 100.0,
-  "avg_daily_7d": 102857057,
+  "avg_daily_7d": 102150334,
   "days_to_limit": 0.0,
-  "days_to_reset": 3.2,
+  "days_to_reset": 3.0,
   "next_reset_iso": "2026-07-05T01:00:00",
   "status": "over"
 }
